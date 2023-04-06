@@ -14,3 +14,8 @@ Depends:
 LazyData: true
 URL: https://github.com/whkygl/easynem
 BugReports: https://github.com/whkygl/easynem/issues
+Imports: 
+    DT,
+    shiny,
+    shinydashboard,
+    utils

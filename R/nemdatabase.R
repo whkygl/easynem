@@ -1,10 +1,16 @@
+#' Nematode database query
+#' @param filter_data Intermediate variable
+#' @param df Intermediate variable
+#' @param keywords Intermediate variable
+#' .nemdatabase
+
+
+
+
 ## app.R ##
 # library(shiny)
 # library(shinydashboard)
 # library(DT)
-
-
-
 filter_data <- function(df, keywords){
   positions <- c()
   key <- paste0(keywords, collapse = "|")
@@ -185,7 +191,7 @@ ui <- shinydashboard::dashboardPage(
 )
 
 server <- function(input, output) {
-  values <- reactiveValues(
+  values <- shiny::reactiveValues(
                            # basis = read.csv("basis.csv"),
                            # family = read.csv("family.csv"),
                            # feeding = read.csv("Feeding.csv"),
@@ -203,73 +209,73 @@ server <- function(input, output) {
   )
 
 
-  observeEvent(input$file1, {
+  shiny::observeEvent(input$file1, {
     df <- read.csv(input$file1$datapath, header = F)
     keywords <- df$V1
     values$basis <- filter_data(values$basis, keywords)
   })
 
-  observeEvent(input$file2, {
+  shiny::observeEvent(input$file2, {
     df <- read.csv(input$file2$datapath, header = F)
     keywords <- df$V1
     values$family <- filter_data(values$family, keywords)
   })
 
-  observeEvent(input$file3, {
+  shiny::observeEvent(input$file3, {
     df <- read.csv(input$file3$datapath, header = F)
     keywords <- df$V1
     values$genus <- filter_data(values$genus, keywords)
   })
 
-  observeEvent(input$file4, {
+  shiny::observeEvent(input$file4, {
     df <- read.csv(input$file4$datapath, header = F)
     keywords <- df$V1
     values$species <- filter_data(values$species, keywords)
   })
 
-  observeEvent(input$file5, {
+  shiny::observeEvent(input$file5, {
     df <- read.csv(input$file5$datapath, header = F)
     keywords <- df$V1
     values$feeding <- filter_data(values$feeding, keywords)
   })
 
-  observeEvent(input$file6, {
+  shiny::observeEvent(input$file6, {
     df <- read.csv(input$file6$datapath, header = F)
     keywords <- df$V1
     values$structure <- filter_data(values$structure, keywords)
   })
 
-  observeEvent(input$file7, {
+  shiny::observeEvent(input$file7, {
     df <- read.csv(input$file7$datapath, header = F)
     keywords <- df$V1
     values$df_function <- filter_data(values$df_function, keywords)
   })
 
-  observeEvent(input$resetBasis, {
+  shiny::observeEvent(input$resetBasis, {
     values$basis <- read.csv("basis.csv")
   })
 
-  observeEvent(input$resetFamily, {
+  shiny::observeEvent(input$resetFamily, {
     values$family <- read.csv("family.csv")
   })
 
-  observeEvent(input$resetGenus, {
+  shiny::observeEvent(input$resetGenus, {
     values$genus <- read.csv("genus.csv")
   })
 
-  observeEvent(input$resetSpecies, {
+  shiny::observeEvent(input$resetSpecies, {
     values$species <- read.csv("species.csv")
   })
 
-  observeEvent(input$resetFeeding, {
+  shiny::observeEvent(input$resetFeeding, {
     values$feeding <- read.csv("Feeding.csv")
   })
 
-  observeEvent(input$resetStructure, {
+  shiny::observeEvent(input$resetStructure, {
     values$structure <- read.csv("structure.csv")
   })
 
-  observeEvent(input$resetFunction, {
+  shiny::observeEvent(input$resetFunction, {
     values$df_function <- read.csv("function.csv")
   })
 
@@ -367,5 +373,5 @@ server <- function(input, output) {
     }
   )
 }
-
+#' @export
 .nemdatabase = shiny::shinyApp(ui, server)
