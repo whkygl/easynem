@@ -4,9 +4,9 @@
 \name{easynem-package}
 \alias{easynem}
 \alias{easynem-package}
-\title{easynem: What the Package Does (One Line, Title Case)}
+\title{easynem: An R package for joint analysis of nematode community indices}
 \description{
-What the package does (one paragraph).
+This R package currently only supports analysis and calculation related to nematode community ecological indices, but will introduce microbial community analysis and various biological community analysis functions as well as soil biological interaction analysis functions in the future. This R package will be maintained and updated continuously.
 }
 \seealso{
 Useful links:

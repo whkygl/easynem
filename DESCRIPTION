@@ -1,10 +1,10 @@
 Package: easynem
-Title: What the Package Does (One Line, Title Case)
+Title: An R package for joint analysis of nematode community indices
 Version: 0.0.0.9000
 Authors@R: 
     person("Wang", "Kunguang", , "whkygl@163.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7384-5002"))
-Description: What the package does (one paragraph).
+Description: This R package currently only supports analysis and calculation related to nematode community ecological indices, but will introduce microbial community analysis and various biological community analysis functions as well as soil biological interaction analysis functions in the future. This R package will be maintained and updated continuously.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
