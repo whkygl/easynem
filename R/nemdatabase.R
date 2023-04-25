@@ -1,12 +1,3 @@
-#' Nematode database query
-#' @param filter_data Intermediate variable
-#' @param df Intermediate variable
-#' @param keywords Intermediate variable
-#' .nemdatabase
-
-
-
-
 ## app.R ##
 # library(shiny)
 # library(shinydashboard)
@@ -373,5 +364,6 @@ server <- function(input, output) {
     }
   )
 }
+#' Nematode database query
 #' @export
 .nemdatabase = shiny::shinyApp(ui, server)
