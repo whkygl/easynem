@@ -8,7 +8,13 @@
 A data frame with 717 rows and 8 variables:
 \describe{
 \item{OTUID}{Operational Taxonomic Units code}
-\item{Kingdom}{The Kingdom level classification of different microbial OTUs. Other columns are interpreted similarly.}
+\item{Kingdom}{The Kingdom level classification of different microbial OTUs.}
+\item{Phylum}{The Phylum level classification of different microbial OTUs.}
+\item{Class}{The Class level classification of different microbial OTUs.}
+\item{Order}{The Order level classification of different microbial OTUs.}
+\item{Family}{The Family level classification of different microbial OTUs.}
+\item{Genus}{The Genus level classification of different microbial OTUs.}
+\item{Species}{The Species level classification of different microbial OTUs.}
 }
 }
 \source{
