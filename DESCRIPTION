@@ -1,0 +1,23 @@
+Package: easynem
+Title: An R package for nematode community analysis
+Version: 0.0.0.9000
+Authors@R: 
+    person("Wang", "Kunguang", , "whkygl@163.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-7384-5002"))
+Description: This R package has a built-in Nemaplex database for nematodes, 
+    which can be used to search for various nematodes. At the same time, 
+    this R package supports various nematode communities and functional 
+    analyses such as nematode diversity, maturity index, metabolic footprint, 
+    and functional guild. This R package promises to be continuously updated, 
+    hoping to help relevant practitioners in a small way.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    DT,
+    shiny,
+    shinydashboard,
+    utils
+Depends: 
+    R (>= 2.10)
