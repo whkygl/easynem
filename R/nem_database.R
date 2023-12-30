@@ -1,10 +1,7 @@
-## app.R ##
-# library(shinydashboard)
-# library(DT)
-# library(shiny)
 #' nem_database
 #' @description nem_database is a function generated based on the shiny package for nematode retrieval.
 #' @return A web interface
+#' @usage nem_database()
 #' @export
 nem_database <- function(){
 filter_data <- function(df, keywords){
