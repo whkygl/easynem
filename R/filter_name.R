@@ -15,7 +15,7 @@ filter_name <- function(data, target, ...){
     result2 = data@tab
     result3 = result2[,-1][,colnames(result2[,-1]) %in% result[[colname]]]
     result2 = cbind(result2[,1], result3)
-    data@tab = result2
+    data@tab = tibble::as_tibble(result2)
   } else if(target == 'tax'){
     result = data@tax
     colname = colnames(result)[1]
@@ -24,12 +24,12 @@ filter_name <- function(data, target, ...){
     result2 = data@tab
     colname2 = colnames(result2)[1]
     result2 = result2[result2[[colname2]] %in% result[[colname]], ]
-    data@tab = result2
+    data@tab = tibble::as_tibble(result2)
   } else if(target == 'tab'){
     result = data@tab
     colname = colnames(result)[1]
     result = dplyr::filter(result, ...)
-    data@tab = result
+    data@tab = tibble::as_tibble(result)
     result2 = data@tax
     colname2 = colnames(result2)[1]
     result3 = data@meta
