@@ -1,4 +1,47 @@
 rm(list = ls())
+trans_norm <- function(data, method, MARGIN = 2, ...){
+  method = deparse(substitute(method))
+  data@tab[,-1] = vegan::decostand(data@tab[,-1], method = method, MARGIN = MARGIN, ...)
+  return(data)
+}
+# hehe2 = trans_norm(data = hehe, method = total)
+trans_rare <- function(data, sample = 0, ...){
+  # data = hehe
+  # sample = 0
+  resulttab = data@tab
+  resulttax = data@tax
+  resultmeta = data@meta
+  nametab = colnames(data@tab)[1]
+  nametax = colnames(data@tax)[1]
+  namemeta = colnames(data@meta)[1]
+  data@tab = as.data.frame(data@tab)
+  rownames(data@tab) <- data@tab[[1]]
+  if (sample == 0) {
+    sample = min(colSums(data@tab[,-1]))
+    data@tab = tibble::as_tibble(tibble::rownames_to_column(as.data.frame(t(vegan::rrarefy(t(data@tab[ ,-1]), sample))), var = nametab))
+  } else if (sample > 0){
+    suppressWarnings(result <- as.data.frame(t(vegan::rrarefy(t(data@tab[ ,-1]), sample))))
+    warning("All samples with less than ", sample, " species will be deleted\n")
+    data@tab <- tibble::as_tibble(tibble::rownames_to_column(result[ , colSums(result) >= sample], var = nametab))
+  } else {
+    stop("sample should be a positive number")
+  }
+  resulttax = resulttax[resulttax[[nametax]] %in% data@tab[[nametab]], ]
+  data@tax = resulttax
+  resultmeta = resultmeta[resultmeta[[namemeta]] %in% colnames(data@tab[,-1]), ]
+  data@meta = resultmeta
+  return(data)
+}
+# hehe3 <- trans_rare(hehe, 20000)
+# hehe4 <- trans_rare(hehe, 0)
+trans_formula <- function(data, var, formu, ...){
+  var = deparse(substitute(var))
+  resultmeta = data@meta
+  suppressWarnings(resultmeta[[var]] <-  eval(formu[[2]], list(x = data@meta[[var]]),environment(formu)))
+  data@meta = resultmeta
+  return(data)
+}
+# hehe2 <- trans_formula(hehe,pH,~1/x)
 #' Title
 #'
 #' @param data 
