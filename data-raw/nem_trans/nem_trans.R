@@ -42,6 +42,37 @@ trans_formula <- function(data, var, formu, ...){
   return(data)
 }
 # hehe2 <- trans_formula(hehe,pH,~1/x)
+trans_name <- function(data, taxonomy, ...){
+  nametax = deparse(substitute(taxonomy))
+  tax = data@tax
+  tab = data@tab
+  # 对tax表和tab表的第一列取交集
+  intersect1 = intersect(tax[[1]], tab[[1]])
+  # tax表与tab表分别只保留第一列的交集所在的行
+  tax = tax[tax[[1]] %in% intersect1, ]
+  tab = tab[tab[[1]] %in% intersect1, ]
+  if(nametax %in% colnames(data@tax)){
+    if(nametax == colnames(data@tax)[1]){
+      # 将tax表按tab表的第一列的名称进行排序
+      tax = tax[match(tab[[1]], tax[[1]]), ]
+    } else {
+      # 按tab的第一列和tax的第一列合并tab表和tax表
+      tax = tax[match(tab[[1]], tax[[1]]), ]
+      # 将tab的第一列改为tax的nametax列
+      tab[[1]] = tax[[nametax]]
+      colnames(tab)[1] = nametax
+      # 对tab表的数值列按第一列用group_by进行分组求和
+      tab = tab |> dplyr::group_by(!!rlang::sym(nametax)) |> dplyr::summarise_all(sum)
+    }
+  } else {
+    stop("Please check that the taxonomy name are correct")
+  }
+  data@tax = tax
+  data@tab = tab
+  return(data)
+}
+# hehe2 <- trans_name(hehe, Family)
+# hehe2 <- trans_name(hehe, Kingdom)
 #' Title
 #'
 #' @param data 

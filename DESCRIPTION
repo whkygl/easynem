@@ -19,6 +19,7 @@ Imports:
     DT,
     methods,
     readr,
+    rlang,
     shiny,
     shinydashboard,
     tibble,
