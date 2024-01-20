@@ -18,10 +18,13 @@ Imports:
     dplyr,
     DT,
     methods,
+    pairwiseAdonis,
     readr,
+    remotes,
     rlang,
     shiny,
     shinydashboard,
+    stats,
     tibble,
     utils,
     vegan
