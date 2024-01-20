@@ -1,3 +1,7 @@
+#' An S4 class to store beta diversity results.
+#' @slot meta A data frame of meta data.
+#' @slot result A data frame of pairwise comparison results.
+#' @slot temp A character vector of the difference comparison.
 methods::setClass("beta",
                   slots = list(
                     meta = "data.frame",
@@ -47,12 +51,11 @@ calc_beta <- function(data, type, .group, method, ...){
       pcoa_result = cbind(meta, pcoa_points)
       x=paste("PCoA 1 (", eig_percent[1], "%)", sep="")
       y=paste("PCoA 2 (", eig_percent[2], "%)", sep="")
-      z=paste("PCoA 3 (", eig_percent[3], "%)", sep="")
       formula_str = paste("otu2~", .group)
       formula_obj = stats::as.formula(formula_str)
       div = vegan::adonis2(formula_obj, data = meta, permutations = 999, ...)
       adonis = paste0("adonis: R2=",round(div$R2,3), "; p=",div$`Pr(>F)`)
-      temp = c(x,y,z,adonis)
+      temp = c(x,y,adonis)
       .beta@temp = temp
       .beta@meta = tibble::as_tibble(pcoa_result)
     } else if (type == 'nmds'){
@@ -79,9 +82,9 @@ calc_beta <- function(data, type, .group, method, ...){
       pca_points = pca_points[inter,]
       pca_result = cbind(meta, pca_points)
       summ1 = summary(pca)
-      x = paste0("PC1(",round(summ1$importance[2,1]*100,2),"%)")
-      y = paste0("PC2(",round(summ1$importance[2,2]*100,2),"%)")
-      temp = c(x, y , adonis)
+      x = paste0("PCA1(",round(summ1$importance[2,1]*100,2),"%)")
+      y = paste0("PCA2(",round(summ1$importance[2,2]*100,2),"%)")
+      temp = c(x, y, adonis)
       .beta@temp = temp
       .beta@meta = tibble::as_tibble(pca_result)
     } else{

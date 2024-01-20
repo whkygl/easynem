@@ -49,12 +49,11 @@ calc_beta <- function(data, type, .group, method, ...){
       pcoa_result = cbind(meta, pcoa_points)
       x=paste("PCoA 1 (", eig_percent[1], "%)", sep="")
       y=paste("PCoA 2 (", eig_percent[2], "%)", sep="")
-      z=paste("PCoA 3 (", eig_percent[3], "%)", sep="")
       formula_str = paste("otu2~", .group)
       formula_obj = as.formula(formula_str)
       div = vegan::adonis2(formula_obj, data = meta, permutations = 999, ...)
       adonis = paste0("adonis: R2=",round(div$R2,3), "; p=",div$`Pr(>F)`)
-      temp = c(x,y,z,adonis)
+      temp = c(x,y,adonis)
       .beta@temp = temp
       .beta@meta = tibble::as_tibble(pcoa_result)
     } else if (type == 'nmds'){
