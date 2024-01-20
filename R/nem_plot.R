@@ -50,10 +50,10 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
       stop("Invalid level value.")
     }
   } else {
-    if (colnames(PCoA1)=="PCoA1"){
         PCoA1 = meta[,3]
         PCoA2 = meta[,4]
         group = meta[,2]
+    if (colnames(PCoA1)=="PCoA1"){
         p = ggplot2::ggplot(meta,ggplot2::aes(x=PCoA1,y=PCoA2,color=!!dplyr::sym(colnames(group))))
     } else {
         PC1 = meta[,3]
