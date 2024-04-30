@@ -371,7 +371,7 @@ on using easynem see <a href="https://github.com/whkygl/easynem" class="uri">htt
 <h2>Package installation and data reading</h2>
 <pre class="r"><code>devtools::install_github(&quot;whkygl/easynem&quot;)</code></pre>
 <pre><code>## Using GitHub PAT from the git credential store.</code></pre>
-<pre><code>## Skipping install of &#39;easynem&#39; from a github remote, the SHA1 (800351ae) has not changed since last install.
+<pre><code>## Skipping install of &#39;easynem&#39; from a github remote, the SHA1 (a4012fb3) has not changed since last install.
 ##   Use `force = TRUE` to force installation</code></pre>
 <pre class="r"><code>library(easynem)</code></pre>
 <pre><code>## Registered S3 methods overwritten by &#39;ggalt&#39;:
@@ -382,16 +382,14 @@ on using easynem see <a href="https://github.com/whkygl/easynem" class="uri">htt
 ##   grobX.absoluteGrob      ggplot2
 ##   grobY.absoluteGrob      ggplot2</code></pre>
 <pre class="r"><code>bac &lt;- read_nem(tab = easynem_example(&quot;bacotu.csv&quot;), tax = easynem_example(&quot;bactax.csv&quot;))</code></pre>
-<pre><code>## Warning in read_nem(tab = easynem_example(&quot;bacotu.csv&quot;), tax =
-## easynem_example(&quot;bactax.csv&quot;)): Metadata has not been imported yet</code></pre>
+<pre><code>## Warning in read_nem(tab = easynem_example(&quot;bacotu.csv&quot;), tax = easynem_example(&quot;bactax.csv&quot;)): Metadata has not been imported yet</code></pre>
 <pre class="r"><code>meta &lt;- read_nem(meta = easynem_example(&quot;meta.csv&quot;))</code></pre>
-<pre><code>## Warning in read_nem(meta = easynem_example(&quot;meta.csv&quot;)): Otutab has not been
-## imported yet</code></pre>
-<pre><code>## Warning in read_nem(meta = easynem_example(&quot;meta.csv&quot;)): Taxonomy has not been
-## imported yet</code></pre>
+<pre><code>## Warning in read_nem(meta = easynem_example(&quot;meta.csv&quot;)): Otutab has not been imported yet</code></pre>
+<pre><code>## Warning in read_nem(meta = easynem_example(&quot;meta.csv&quot;)): Taxonomy has not been imported yet</code></pre>
 </div>
-<div id="section" class="section level2">
-<h2></h2>
+<div id="database-search" class="section level2">
+<h2>Database search</h2>
+<pre class="r"><code># nem_database()</code></pre>
 </div>
 
 

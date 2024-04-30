@@ -22,4 +22,19 @@ bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bact
 meta <- read_nem(meta = easynem_example("meta.csv"))
 ```
 
-## 
+## Database search
+
+```{r}
+# nem_database()
+```
+
+## trans_formula
+
+The calculation of the meta was only applied to a single variable.
+
+```{r}
+hehe2 <- trans_formula(meta,pH,~1/x)
+```
+
+
+
