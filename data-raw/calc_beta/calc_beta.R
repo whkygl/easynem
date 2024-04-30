@@ -28,6 +28,7 @@ calc_beta <- function(data, type, .group, method, ...){
     }
     type = deparse(substitute(type))
     .group = deparse(substitute(.group))
+    method = deparse(substitute(method))
     .beta = methods::new("beta")
     otu = as.data.frame(data@tab)
     row.names(otu) = otu[,1]

@@ -28,8 +28,10 @@ calc_beta <- function(data, type, .group, method, ...){
     if (!requireNamespace(p)) {
       remotes::install_github(p)
     }
+  }
     type = deparse(substitute(type))
     .group = deparse(substitute(.group))
+    method = deparse(substitute(method))
     .beta = methods::new("beta")
     otu = as.data.frame(data@tab)
     row.names(otu) = otu[,1]
@@ -90,7 +92,6 @@ calc_beta <- function(data, type, .group, method, ...){
     } else{
       stop("type should be one of 'pcoa', 'nmds' and 'pca'")
     }
-  }
   pair_adonis = pairwiseAdonis::pairwise.adonis(x=otu2, factors = meta[[.group]], sim.function = "vegdist",
                                                 sim.method = method, p.adjust = "BH", reduce = NULL, perm = 999)
   .beta@result = tibble::as_tibble(pair_adonis)

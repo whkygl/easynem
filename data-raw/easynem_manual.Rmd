@@ -1,0 +1,25 @@
+---
+title: "easynem_manual"
+author: "Wang Kunguang"
+date: "2024-04-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## easynem introduction
+
+This R package has a built-in Nemaplex database for nematodes, which can be used to search for various nematodes. At the same time, this R package supports various nematode communities and functional analyses such as nematode diversity, maturity index, metabolic footprint, and functional guild. This R package promises to be continuously updated, hoping to help relevant practitioners in a small way. For more details on using easynem see <https://github.com/whkygl/easynem>.
+
+## Package installation and data reading
+
+```{r}
+devtools::install_github("whkygl/easynem")
+library(easynem)
+bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bactax.csv"))
+meta <- read_nem(meta = easynem_example("meta.csv"))
+```
+
+## 
