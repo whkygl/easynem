@@ -9,7 +9,7 @@
 trans_norm <- function(data, method, MARGIN = 2, ...){
   method = deparse(substitute(method))
   if (method == "percent") {
-    data@tab[,-1] = vegan::decostand(data@tab[,-1], method = method, MARGIN = MARGIN, ...) * 100
+    data@tab[,-1] = vegan::decostand(data@tab[,-1], method = "total", MARGIN = MARGIN, ...) * 100
   } else {
     data@tab[,-1] = vegan::decostand(data@tab[,-1], method = method, MARGIN = MARGIN, ...)
   }

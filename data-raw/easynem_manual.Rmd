@@ -56,3 +56,9 @@ bac1 <- trans_name(bac, Class)
 ## trans_norm
 
 
+```{r}
+hehe2 = trans_norm(data = bac, method = total)
+ 
+
+```
+
