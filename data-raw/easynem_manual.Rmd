@@ -36,5 +36,23 @@ The calculation of the meta was only applied to a single variable.
 hehe2 <- trans_formula(meta,pH,~1/x)
 ```
 
+## trans_formula_v
+
+The calculation of the meta was applied to vector.
+
+```{r}
+hehe3 <- trans_formula_v(meta,c("P", "K", "Ca"),~1/x)
+```
+
+## trans_name
+
+Reaggregate tab by tax
+
+```{r}
+bac1 <- trans_name(bac, Class)
+```
+
+
+## trans_norm
 
 
