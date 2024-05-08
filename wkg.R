@@ -48,4 +48,10 @@ use_package("ggalt")
 use_r("calc_lsd")
 use_r("trans_formula_v")
 use_r("calc_beta2")
-
+bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bactax.csv"), meta = easynem_example("meta.csv"))
+pcoa = calc_beta2(bac, pcoa, con_crop, season, method = bray)
+hehe=nem_plot(pcoa, level = 0.9, type =2)
+hehe
+nmds = calc_beta2(bac, nmds, con_crop, season,method = bray)
+hehe=nem_plot(nmds, type = 2)
+hehe

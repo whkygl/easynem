@@ -123,3 +123,13 @@ p = nem_plot(nmds,level = 0.6,type = 1)
 p = nem_plot(nmds,level = 0.6,type = 2)
 ```
 
+## calc_beta2
+
+```{r}
+nmds = calc_beta2(bac, nmds, con_crop, season, method = bray)
+```
+
+```{r}
+pcoa = calc_beta2(bac, pcoa, con_crop, season, method = bray)
+```
+
