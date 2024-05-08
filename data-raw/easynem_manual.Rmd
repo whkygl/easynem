@@ -18,7 +18,7 @@ This R package has a built-in Nemaplex database for nematodes, which can be used
 ```{r}
 devtools::install_github("whkygl/easynem")
 library(easynem)
-bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bactax.csv"))
+bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bactax.csv"), meta = easynem_example("meta.csv"))
 meta <- read_nem(meta = easynem_example("meta.csv"))
 ```
 
@@ -52,13 +52,74 @@ Reaggregate tab by tax
 bac1 <- trans_name(bac, Class)
 ```
 
-
 ## trans_norm
 
+Standardized tab
 
 ```{r}
 hehe2 = trans_norm(data = bac, method = total)
- 
+colSums(hehe2@tab[,-1])
+hehe2 = trans_norm(data = bac, method = percent)
+colSums(hehe2@tab[,-1])
+```
 
+## trans_rare
+
+The tab was randomly sampled
+
+```{r}
+hehe2 <- trans_rare(bac, 20000)
+colSums(hehe2@tab[,-1])
+hehe2 <- trans_rare(bac, 0)
+colSums(hehe2@tab[,-1])
+```
+
+## filter_name
+
+Filter meta, tax and tab
+
+```{r}
+hehe <- filter_name(bac, target = meta, season == "Spring")
+
+```
+
+```{r}
+hehe <- filter_name(bac, target = tax, Phylum == "Actinobacteria")
+```
+
+```{r}
+hehe <- filter_name(bac, target = tab, OTUID == "ASV_6941")
+```
+
+## filter_num
+
+```{r}
+hehe2 <- filter_num(bac, num = 100)
+```
+
+```{r}
+hehe2 <- filter_num(bac, num = 0.9)
+```
+
+## calc_beta
+
+```{r}
+nmds = calc_beta(bac, nmds, con_crop, method = bray)
+```
+
+```{r}
+p = nem_plot(nmds)
+```
+
+```{r}
+p = nem_plot(nmds,level = 1)
+```
+
+```{r}
+p = nem_plot(nmds,level = 0.6,type = 1)
+```
+
+```{r}
+p = nem_plot(nmds,level = 0.6,type = 2)
 ```
 

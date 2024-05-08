@@ -2,27 +2,28 @@
 #' @slot meta A data frame of meta data.
 #' @slot result A data frame of pairwise comparison results.
 #' @slot temp A character vector of the difference comparison.
-methods::setClass("beta",
+methods::setClass("beta2",
                   slots = list(
                     meta = "data.frame",
                     result = "data.frame",
                     temp = "character"
                   ))
-methods::setMethod("show", "beta", function(object){
-  cat("This is an beta object\n")
+methods::setMethod("show", "beta2", function(object){
+  cat("This is an beta2 object\n")
   cat("The difference comparison is:\n")
   print(object@result)
 })
-#' calc_beta
+#' calc_beta2
 #' @description Calculate beata diversity and generate results for multiple comparisons between treatments.
 #' @param data easynem type data.
 #' @param type pca, pcoa or nmds.
-#' @param .group The group variable.
+#' @param .group1 The group variable.
+#' @param .group2 The group variable.
 #' @param method The method of calculating the distance matrix.
 #' @param ... Other parameters for cmdscale and vegdist functions.
-#' @return An beta object.
+#' @return An beta2 object.
 #' @export
-calc_beta <- function(data, type, .group, method, ...){
+calc_beta2 <- function(data, type, .group1, .group2, method, ...){
   p_list = c("pairwiseAdonis")
   for (p in p_list) {
     if (!requireNamespace(p)) {
@@ -30,15 +31,17 @@ calc_beta <- function(data, type, .group, method, ...){
     }
   }
     type = deparse(substitute(type))
-    .group = deparse(substitute(.group))
+    .group1 = deparse(substitute(.group1))
+    .group2 = deparse(substitute(.group2))
     method = deparse(substitute(method))
-    .beta = methods::new("beta")
+    .beta = methods::new("beta2")
     otu = as.data.frame(data@tab)
     row.names(otu) = otu[,1]
     otu = otu[,-1]
     otu2 = t(otu)
     meta = as.data.frame(data@meta)
-    meta = meta[,c(1, which(names(meta) == .group))]
+    meta = meta[,c(1, which(names(meta) %in% c(.group1, .group2)))]
+    meta = dplyr::mutate(meta, `.group_all` = paste(meta[[2]], meta[[3]], sep = "_"))
     row.names(meta) = meta[,1]
     dist = vegan::vegdist(t(otu), binary = FALSE, scale= TRUE,center = TRUE, ...)
     if (type == 'pcoa'){
@@ -53,7 +56,7 @@ calc_beta <- function(data, type, .group, method, ...){
       pcoa_result = cbind(meta, pcoa_points)
       x=paste("PCoA 1 (", eig_percent[1], "%)", sep="")
       y=paste("PCoA 2 (", eig_percent[2], "%)", sep="")
-      formula_str = paste("otu2~", .group)
+      formula_str = paste("otu2~", ".group_all")
       formula_obj = stats::as.formula(formula_str)
       div = vegan::adonis2(formula_obj, data = meta, permutations = 999, ...)
       adonis = paste0("Adonis: R=",round(div$R2,3), "; p=",div$`Pr(>F)`)
@@ -74,7 +77,7 @@ calc_beta <- function(data, type, .group, method, ...){
       .beta@meta = tibble::as_tibble(nmds_result)
     } else if (type == 'pca'){
       pca = stats::prcomp(otu2, ...)
-      formula_str = paste("otu2~", .group)
+      formula_str = paste("otu2~", ".group_all")
       formula_obj = stats::as.formula(formula_str)
       div = vegan::adonis2(formula_obj, data = meta, permutations = 999, ...)
       adonis = paste0("Adonis: R=",round(div$R2,3), "; p=",div$`Pr(>F)`)
@@ -92,7 +95,7 @@ calc_beta <- function(data, type, .group, method, ...){
     } else{
       stop("type should be one of 'pcoa', 'nmds' and 'pca'")
     }
-  pair_adonis = pairwiseAdonis::pairwise.adonis(x=otu2, factors = meta[[.group]], sim.function = "vegdist",
+  pair_adonis = pairwiseAdonis::pairwise.adonis(x=otu2, factors = meta[[".group_all"]], sim.function = "vegdist",
                                                 sim.method = method, p.adjust = "BH", reduce = NULL, perm = 999)
   sig = tibble::as_tibble(pair_adonis)
   sig = dplyr::mutate(sig, sig = dplyr::case_when(

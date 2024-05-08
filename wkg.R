@@ -47,3 +47,5 @@ use_package("ggplot2")
 use_package("ggalt")
 use_r("calc_lsd")
 use_r("trans_formula_v")
+use_r("calc_beta2")
+
