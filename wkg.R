@@ -48,10 +48,15 @@ use_package("ggalt")
 use_r("calc_lsd")
 use_r("trans_formula_v")
 use_r("calc_beta2")
+use_r("TTest")
 bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bactax.csv"), meta = easynem_example("meta.csv"))
 pcoa = calc_beta2(bac, pcoa, con_crop, season, method = bray)
-hehe=nem_plot(pcoa, level = 0.9, type =2)
+hehe=nem_plot(pcoa, level = 0.9, type =1) + ylab("hehe") + scale_colour_discrete(limits = c("Y2","Y5","Y8","Y11"))
 hehe
 nmds = calc_beta2(bac, nmds, con_crop, season,method = bray)
 hehe=nem_plot(nmds, type = 2)
+hehe
+hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = TTest)
+hehe
+hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = TTest, alternative = "less")
 hehe

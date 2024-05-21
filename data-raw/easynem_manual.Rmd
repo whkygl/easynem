@@ -133,3 +133,13 @@ nmds = calc_beta2(bac, nmds, con_crop, season, method = bray)
 pcoa = calc_beta2(bac, pcoa, con_crop, season, method = bray)
 ```
 
+```{r}
+p = nem_plot(pcoa, type = 1)
+p
+```
+
+```{r}
+p = nem_plot(pcoa, type = 2)
+p
+```
+
