@@ -161,3 +161,43 @@ setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1
   }
   p = p + ggplot2::geom_vline(xintercept = 0, linetype = "dashed") + ggplot2::geom_hline(yintercept = 0, linetype = "dashed")
 })
+#' nem_plot
+#' @description For visualization of nematode community data.
+#' @param object easynem or other types data.
+#' @param type Drawing style, bar or box.
+#' @param ... Other parameters for nem_plot functions.
+#' @return An ggplot object.
+#' @rdname compare
+#' @name compare
+#' @aliases nem_plot,compare-method
+#' @import ggplot2
+#' @import ggalt
+#' @import ggpubr
+#' @export
+setMethod("nem_plot", signature("compare"), function(object, type = 1, ...){
+  meta = object@meta
+  temp = object@temp
+  if (temp == "TTest") {
+    value = meta[,3]
+    group = meta[,2]
+    if(type == 1){
+      p = ggplot2::ggplot(meta, ggplot2::aes(x = group, y = value)) + 
+        ggplot2::geom_boxplot(aes(fill = group), width = 0.5) +
+        ggplot2::geom_jitter(aes(fill = group), shape = 21, width = 0.1) +
+        ggplot2::scale_fill_discrete(guide = "none") +
+        ggplot2::theme_test() +
+        ggplot2::xlab(NULL) +
+        ggplot2::ylab(colnames(meta)[3])
+      compar = list(unique(meta[,2]))
+      p = p + ggpubr::stat_compare_means(comparisons = compar, method = "t.test", label = "p.signif")
+    } else if (type == 2){
+      compar = list(unique(meta[,2]))
+      p = ggpubr::ggbarplot(meta, x = colnames(meta)[2], y = colnames(meta)[3], fill = colnames(meta)[2], width = 0.5, add = "mean_se") +
+        ggpubr::stat_compare_means(comparisons = compar, method = "t.test", label = "p.signif") + ggplot2::xlab(NULL)+
+        ggplot2::theme_test() +
+        ggplot2::geom_jitter(aes(fill = group), shape = 21, width = 0.1) +
+        ggplot2::scale_fill_discrete(guide = "none")
+    } 
+  }
+p  
+})

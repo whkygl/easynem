@@ -19,6 +19,7 @@ Imports:
     DT,
     ggalt,
     ggplot2,
+    ggpubr,
     methods,
     pairwiseAdonis,
     readr,
