@@ -5,12 +5,14 @@
 \alias{nem_plot,compare-method}
 \title{nem_plot}
 \usage{
-\S4method{nem_plot}{compare}(object, type = 1, ...)
+\S4method{nem_plot}{compare}(object, type = 1, add = "mean_se", ...)
 }
 \arguments{
 \item{object}{easynem or other types data.}
 
 \item{type}{Drawing style, bar or box.}
+
+\item{add}{Add the standard error or standard deviation.}
 
 \item{...}{Other parameters for nem_plot functions.}
 }

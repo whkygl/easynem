@@ -1,5 +1,5 @@
 rm(list = ls())
-devtools::install_github("whkygl/easynem")
+devtools::install_github("whkygl/easynem", force = TRUE)
 library(devtools)
 create_package(getwd())
 use_r("nem_database")
@@ -31,7 +31,7 @@ use_package("dplyr")
 use_r("nem_trans")
 use_package("tibble")
 use_package("vegan")
-use_r("trans_norm")
+use_r("trans_norm")   
 use_r("trans_rare")
 use_r("trans_formula")
 use_r("trans_name")
@@ -50,6 +50,7 @@ use_r("trans_formula_v")
 use_r("calc_beta2")
 use_package("ggpubr")
 use_r("TTest")
+library(ggplot2)
 bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bactax.csv"), meta = easynem_example("meta.csv"))
 pcoa = calc_beta2(bac, pcoa, con_crop, season, method = bray)
 hehe=nem_plot(pcoa, level = 0.9, type =1) + ylab("hehe") + scale_colour_discrete(limits = c("Y2","Y5","Y8","Y11"))
@@ -64,4 +65,10 @@ hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.gr
 hehe
 hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = TTest, alternative = "less") |> 
   nem_plot(type =2) + scale_x_discrete(limits = c("Y11", "Y2"))
+hehe
+hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = WilcoxTest)|> 
+  nem_plot(type =2) + scale_x_discrete(limits = c("Y11", "Y2"))
+hehe
+hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = WilcoxTest)|> 
+  nem_plot() + scale_x_discrete(limits = c("Y11", "Y2"))
 hehe
