@@ -81,3 +81,8 @@ hehe
 hehe = bac |> calc_compare(.group = con_crop, y = pH, method = KruskalTest) |> 
   nem_plot() + scale_x_discrete(limits = c("Y2", "Y5", "Y8", "Y11"))
 hehe
+use_r("trans_combine")
+load_all()
+bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bactax.csv"), meta = easynem_example("meta.csv"))
+result = trans_combine(bac, c("pH","NH4"))
+result@meta$pH_NH4
