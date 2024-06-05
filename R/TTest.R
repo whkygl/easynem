@@ -9,7 +9,7 @@ methods::setClass("compare",
                     temp = "character"
                   ))
 methods::setMethod("show", "compare", function(object){
-  cat("This is an beta object\n")
+  cat("This is an compare object\n")
   cat("The difference comparison is:\n")
   print(object@result)
 })
