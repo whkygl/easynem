@@ -51,7 +51,7 @@ calc_beta <- function(data, type, .group, method, ...){
       x=paste("PCoA 1 (", eig_percent[1], "%)", sep="")
       y=paste("PCoA 2 (", eig_percent[2], "%)", sep="")
       formula_str = paste("otu2~", .group)
-      formula_obj = as.formula(formula_str)
+      formula_obj = stats::as.formula(formula_str)
       div = vegan::adonis2(formula_obj, data = meta, permutations = 999, ...)
       adonis = paste0("adonis: R2=",round(div$R2,3), "; p=",div$`Pr(>F)`)
       temp = c(x,y,adonis)
@@ -72,7 +72,7 @@ calc_beta <- function(data, type, .group, method, ...){
     } else if (type == 'pca'){
       pca = prcomp(otu2, ...)
       formula_str = paste("otu2~", .group)
-      formula_obj = as.formula(formula_str)
+      formula_obj = stats::as.formula(formula_str)
       div = vegan::adonis2(formula_obj, data = meta, permutations = 999, ...)
       adonis = paste0("adonis: R2=",round(div$R2,3), "; p=",div$`Pr(>F)`)
       pca_points = as.data.frame(pca$x)
