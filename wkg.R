@@ -93,3 +93,10 @@ hehe <- filter_name(bac, target = tax, Phylum == "Actinobacteria")
 hehe <- filter_name(bac, target = meta, season == "Spring")
 bac1 <- trans_name(bac, Class)
 use_r("LSD")
+use_r("HSD")
+hehe <- bac |> calc_compare(con_crop, pH, method = HSD) |> nem_plot()
+hehe
+hehe <- bac |> calc_compare(con_crop, pH, method = HSD) |> nem_plot(type = 2, add = "mean_se")
+hehe
+hehe <- bac |> calc_compare(con_crop, pH, method = HSD) |> nem_plot(type = 2, add = "mean_sd")
+hehe
