@@ -100,3 +100,11 @@ hehe <- bac |> calc_compare(con_crop, pH, method = HSD) |> nem_plot(type = 2, ad
 hehe
 hehe <- bac |> calc_compare(con_crop, pH, method = HSD) |> nem_plot(type = 2, add = "mean_sd")
 hehe
+use_r("read_nem2")
+bacotu <- read.csv("C:/Users/whkyg/Desktop/BaiduSyncdisk/easynem/data-raw/read_nem2/bacotu.csv")
+bactax <- read.csv("C:/Users/whkyg/Desktop/BaiduSyncdisk/easynem/data-raw/read_nem2/bactax.csv")
+design <- read.csv("C:/Users/whkyg/Desktop/BaiduSyncdisk/easynem/data-raw/read_nem2/design.csv")
+bac <- read_nem2(tab = bacotu, tax = bactax, meta = design)
+bac
+bac <- read_nem2(tab = bacotu, tax = bactax)
+bac
