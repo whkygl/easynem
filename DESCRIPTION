@@ -16,6 +16,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: 
     agricolae,
+    broom,
     dplyr,
     DT,
     ggalt,
@@ -30,6 +31,7 @@ Imports:
     shinydashboard,
     stats,
     tibble,
+    tidyr,
     utils,
     vegan
 Remotes:

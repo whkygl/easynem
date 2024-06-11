@@ -38,7 +38,7 @@ use_r("trans_name")
 use_package("rlang")
 use_r("nem_calc")
 use_r("calc_beta")
-use_package("remotes")
+use_package("tidyr")
 use_package("pairwiseAdonis")
 use_package("agricolae")
 use_package("stats")
@@ -108,3 +108,4 @@ bac <- read_nem2(tab = bacotu, tax = bactax, meta = design)
 bac
 bac <- read_nem2(tab = bacotu, tax = bactax)
 bac
+use_r("calc_compare2")
