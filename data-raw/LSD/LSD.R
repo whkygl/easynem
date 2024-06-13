@@ -3,7 +3,7 @@ bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bact
 LSD <- function(data, .group, y, ...){
   .compare = methods::new("compare")
   meta = as.data.frame(data@meta)
-  meta = meta[,c(1, which(names(meta) %in% c(.group, y)))]
+  meta = meta[,c(names(meta)[1], .group, y)]
   row.names(meta) = meta[,1]
   formula_str <- paste(y, "~", .group)
   formula <- stats::as.formula(formula_str)

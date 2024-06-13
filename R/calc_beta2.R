@@ -40,7 +40,7 @@ calc_beta2 <- function(data, type, .group1, .group2, method, ...){
     otu = otu[,-1]
     otu2 = t(otu)
     meta = as.data.frame(data@meta)
-    meta = meta[,c(1, which(names(meta) %in% c(.group1, .group2)))]
+    meta = meta[,c(names(meta)[1], .group1, .group2)]
     meta = dplyr::mutate(meta, `.group_all` = paste(meta[[2]], meta[[3]], sep = "_"))
     row.names(meta) = meta[,1]
     dist = vegan::vegdist(t(otu), binary = FALSE, scale= TRUE,center = TRUE, ...)

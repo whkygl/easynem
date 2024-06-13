@@ -15,7 +15,7 @@ KruskalTest <- function(data, .group, y, exact=FALSE, sort=TRUE,
   .compare = methods::new("compare")
   y2 = y
   meta = as.data.frame(data@meta)
-  meta = meta[,c(1, which(names(meta) %in% c(.group, y)))]
+  meta = meta[,c(names(meta)[1], .group, y)]
   row.names(meta) = meta[,1]
   method <- match.arg(.method)
   df = meta

@@ -24,7 +24,7 @@ methods::setMethod("show", "compare", function(object){
 TTest <- function(data, .group, y, ...){
     .compare = methods::new("compare")
     meta = as.data.frame(data@meta)
-    meta = meta[,c(1, which(names(meta) %in% c(.group, y)))]
+    meta = meta[,c(names(meta)[1], .group, y)]
     row.names(meta) = meta[,1]
     y1 = meta[meta[,2] == unique(meta[,2])[1],3]        
     y2 = meta[meta[,2] == unique(meta[,2])[2],3]  

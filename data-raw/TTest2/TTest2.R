@@ -23,7 +23,7 @@ methods::setMethod("show", "compare2", function(object){
 TTest2 <- function(data, .group1, .group2, y, ...){
   .compare2 = methods::new("compare2")
   meta = as.data.frame(data@meta)
-  meta = meta[,c(1, which(names(meta) %in% c(.group1, .group2, y)))]
+  meta = meta[,c(names(meta)[1], .group1, .group2, y)]
   name1 = unique(meta[,2])[1]
   name2 = unique(meta[,2])[2]
   .compare2@meta = meta
