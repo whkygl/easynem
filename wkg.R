@@ -109,3 +109,10 @@ bac
 bac <- read_nem2(tab = bacotu, tax = bactax)
 bac
 use_r("calc_compare2")
+bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bactax.csv"), meta = easynem_example("meta.csv"))
+hehe <- bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = TTest2)
+hehe
+p = hehe |> nem_plot()
+p
+p = hehe |> nem_plot(type1 = 2, type2 = 2, add = "mean_se")
+p
