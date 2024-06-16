@@ -27,6 +27,6 @@ WilcoxTest2 <- function(data, .group1, .group2, y, ...){
       dplyr::do(broom::tidy(stats::wilcox.test(as.vector(.[,2])[[1]], as.vector(.[,3])[[1]], ...)))
     result$group = paste0(name1, "-", name2)
     .compare2@result = result
-  .compare2@temp = c("TTest2")
+  .compare2@temp = c("WilcoxTest2")
   return(.compare2)
 }
