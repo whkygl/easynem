@@ -116,3 +116,5 @@ p = hehe |> nem_plot()
 p
 p = hehe |> nem_plot(type1 = 2, type2 = 2, add = "mean_se")
 p
+document()
+check()
