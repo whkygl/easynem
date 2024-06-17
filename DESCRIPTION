@@ -27,6 +27,7 @@ Imports:
     readr,
     remotes,
     rlang,
+    rstatix,
     shiny,
     shinydashboard,
     stats,
