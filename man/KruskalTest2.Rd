@@ -4,7 +4,7 @@
 \alias{KruskalTest2}
 \title{KruskalTest2}
 \usage{
-KruskalTest2(data, .group1, .group2, y, method2 = "none", ...)
+KruskalTest2(data, .group1, .group2, y, p.adj = "none", ...)
 }
 \arguments{
 \item{data}{easynem type data.}
@@ -15,7 +15,7 @@ KruskalTest2(data, .group1, .group2, y, method2 = "none", ...)
 
 \item{y}{Dependent variable.}
 
-\item{method2}{The method for adjust p value.}
+\item{p.adj}{The method for adjust p value.}
 
 \item{...}{Other parameters for KruskalTest2.}
 }

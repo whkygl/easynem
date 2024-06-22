@@ -4,11 +4,11 @@
 #' @param .group1 The group variable.
 #' @param .group2 The group variable.
 #' @param y Dependent variable.
-#' @param method2 The method for adjust p value.
+#' @param p.adj The method for adjust p value.
 #' @param ... Other parameters for KruskalTest2.
 #' @return An compare2 object.
 #' @export
-KruskalTest2 <- function(data, .group1, .group2, y, method2 = "none", ...){
+KruskalTest2 <- function(data, .group1, .group2, y, p.adj = "none", ...){
   .compare2 = methods::new("compare2")
   meta = as.data.frame(data@meta)
   meta = meta[,c(names(meta)[1], .group1, .group2, y)]
@@ -31,7 +31,7 @@ KruskalTest2 <- function(data, .group1, .group2, y, method2 = "none", ...){
   results2 <- meta_long |>
     dplyr::group_by(!!rlang::sym(names(meta_long)[2])) |> 
     rstatix::wilcox_test(formu, ...) |>
-    rstatix::adjust_pvalue(method = method2) |>
+    rstatix::adjust_pvalue(method = p.adj) |>
     rstatix::add_significance("p")
 results2$p.adj.signif <- ifelse(results2$p.adj > 0.1, "ns",
                          ifelse(results2$p.adj > 0.05 & results2$p.adj <= 0.1, ".",
