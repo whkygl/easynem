@@ -3,7 +3,7 @@ library(easynem)
 bac <- read_nem(tab = easynem_example("bacotu.csv"), 
                 tax = easynem_example("bactax.csv"), 
                 meta = easynem_example("meta.csv"))
-hehe <- bac |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = LSD2)
+hehe <- bac |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = HSD2)
 hehe
 setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 = 1, add, ...){
   # object = hehe
@@ -402,20 +402,86 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
   } else if (temp == "HSD2"){
     if (type1 == 1){
       if (type2 == 1){
-        
+        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
+                                               y = !!rlang::sym(names(meta)[4]), 
+                                               fill = !!rlang::sym(names(meta)[3]))) +
+          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) + 
+          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])), 
+                               shape = 21, position = ggplot2::position_jitterdodge(0.8/nrow(meta2)))+
+          ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(result)[2]), 
+                                                         y = !!rlang::sym("Max"), 
+                                                         label = !!rlang::sym("label"),
+                                                         vjust = -0.5), 
+                             position = ggplot2::position_dodge(0.8)) +
+          ggplot2::theme_test() +
+          ggplot2::xlab(NULL)
       } else if (type2 == 2){
-        
+        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                               y = !!rlang::sym(names(meta)[4]))) +
+          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3]))) +
+          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])), shape = 21, width = 1/nrow(meta2)/2) +
+          ggplot2::scale_fill_discrete(guide = "none")+
+          ggplot2::theme_test() +
+          ggplot2::xlab(NULL)
+        compar = list(unique(meta[,2]))
+        formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
+        p = p + ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]), 
+                                                               y = !!rlang::sym("Max"), 
+                                                               label = !!rlang::sym("label"),
+                                                               vjust = -0.5)) + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
       }
     } else if (type1 == 2){
       if (type2 == 1){
-        
+        names(result)[11] = "mean"
+        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]), 
+                                                  y = !!rlang::sym("mean"), 
+                                                  fill = !!rlang::sym(names(result)[1]))) +
+          ggplot2::geom_bar(stat = "identity",position = ggplot2::position_dodge(0.8), color = "black", width = 0.75) +
+          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
+                                                         y = !!rlang::sym(names(meta)[4]) , 
+                                                         fill = !!rlang::sym(names(meta)[3])), 
+                               shape = 21, 
+                               position = ggplot2::position_jitterdodge(0.8/nrow(result)))+
+          ggplot2::ylab(names(meta)[4]) +
+          ggplot2::xlab(NULL) +
+          ggplot2::theme_test()
+        if (add == "mean_se"){
+          p = p + ggplot2::geom_errorbar(ggplot2::aes(ymin = mean - se, ymax = mean+se), position = ggplot2::position_dodge(.8), width = 0.75/4) +
+            ggplot2::geom_text(ggplot2::aes(y = mean + se,label = label),vjust = -0.5,position = ggplot2::position_dodge(0.8))
+        } else if (add == "mean_sd"){
+          p = p + ggplot2::geom_errorbar(ggplot2::aes(ymin = mean - std, ymax = mean+std), position = ggplot2::position_dodge(.8), width = 0.75/4) +
+            ggplot2::geom_text(ggplot2::aes(y = mean + std,label = label),vjust = -0.5,position = ggplot2::position_dodge(0.8))
+        }
       } else if (type2 == 2){
-        
+        names(result)[11] = "mean"
+        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]), 
+                                                  y = !!rlang::sym(names(result)[11]), 
+                                                  fill = !!rlang::sym(names(result)[1]))) +
+          ggplot2::geom_bar(stat = "identity",color = "black", width = 0.75) +
+          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
+                                                         y = !!rlang::sym(names(meta)[4]) , 
+                                                         fill = !!rlang::sym(names(meta)[3])), 
+                               shape = 21)+
+          ggplot2::ylab(names(meta)[4]) +
+          ggplot2::xlab(NULL) +
+          ggplot2::theme_test()
+        if (add == "mean_se"){
+          p = p + ggplot2::geom_errorbar(ggplot2::aes(ymin = mean - se, ymax = mean+se), width = 0.75/4) +
+            ggplot2::geom_text(ggplot2::aes(y = mean + se,label = label),vjust = -0.5)
+          formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
+          p = p + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
+          
+        } else if (add == "mean_sd"){
+          p = p + ggplot2::geom_errorbar(ggplot2::aes(ymin = mean - std, ymax = mean+std), width = 0.75/4) +
+            ggplot2::geom_text(ggplot2::aes(y = mean + std,label = label),vjust = -0.5)
+          formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
+          p = p + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
+        }
       }
     }
   } 
 })
 p = hehe |> nem_plot()
 p
-p = bac |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = LSD2) |> nem_plot(type1 = 2, type2 = 2, add = "mean_sd")
+p = bac |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = HSD2) |> nem_plot(type1 = 2, type2 = 2, add = "mean_se")
 p
