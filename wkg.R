@@ -116,6 +116,16 @@ p = hehe |> nem_plot()
 p
 p = hehe |> nem_plot(type1 = 2, type2 = 2, add = "mean_se")
 p
+library(devtools)
 document()
 check()
 load_all()
+bac <- read_nem(tab = easynem_example("bacotu.csv"), 
+                tax = easynem_example("bactax.csv"), 
+                meta = easynem_example("meta.csv"))
+hehe <- calc_compare2(bac, con_crop, season, pH, method = LSD2)
+hehe
+hehe <- calc_compare2(bac, con_crop, season, pH, method = LSD2, method2 = "BH")
+hehe
+hehe <- calc_compare2(bac, season, con_crop, pH, method = LSD2)
+hehe
