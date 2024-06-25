@@ -136,3 +136,6 @@ hehe <- calc_compare2(bac, con_crop, season, pH, method = HSD2)
 hehe
 p = bac |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = HSD2) |> nem_plot(type1 = 2, type2 = 2, add = "mean_se")
 p
+use_r("calc_alpha")
+use_package("vegan")
+hehe <- bac |> calc_alpha()

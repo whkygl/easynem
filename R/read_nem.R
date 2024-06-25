@@ -1,3 +1,12 @@
+#' easynem Class
+#'
+#' The \code{easynem} class represents a base class that includes two slots, \code{slot1} and \code{slot2}.
+#' This class can be extended by other classes to provide additional functionality.
+#'
+#' @slot tab A numeric value representing the first slot. Provide a detailed description of what this slot is used for.
+#' @slot tax A character string representing the second slot. Provide a detailed description of what this slot is used for.
+#' @slot meta Storage experiment design and result.
+#' @export
 methods::setClass("easynem",
     slots = list(
         tab = "data.frame",
