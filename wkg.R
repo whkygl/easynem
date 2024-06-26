@@ -120,8 +120,8 @@ library(devtools)
 document()
 check()
 load_all()
-bac <- read_nem(tab = easynem_example("bacotu.csv"), 
-                tax = easynem_example("bactax.csv"), 
+bac <- read_nem(tab = easynem_example("nemotu.csv"), 
+                tax = easynem_example("nemtax.csv"), 
                 meta = easynem_example("meta.csv"))
 hehe <- calc_compare2(bac, con_crop, season, pH, method = LSD2)
 hehe
@@ -139,3 +139,4 @@ p
 use_r("calc_alpha")
 use_package("vegan")
 hehe <- bac |> calc_alpha()
+
