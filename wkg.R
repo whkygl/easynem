@@ -139,4 +139,8 @@ p
 use_r("calc_alpha")
 use_package("vegan")
 hehe <- bac |> calc_alpha()
-
+use_r("calc_nemindex")
+bac <- read_nem(tab = easynem_example("nemotu.csv"), 
+                tax = easynem_example("nemtax.csv"), 
+                meta = easynem_example("meta.csv"))
+hehe <- calc_nemindex(bac)
