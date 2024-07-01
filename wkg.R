@@ -144,3 +144,5 @@ bac <- read_nem(tab = easynem_example("nemotu.csv"),
                 tax = easynem_example("nemtax.csv"), 
                 meta = easynem_example("meta.csv"))
 hehe <- calc_nemindex(bac) |> calc_funguild(con_crop) |> nem_plot()
+hehe <- calc_nemindex(bac) |> calc_funguild2(con_crop, season) |> nem_plot()
+hehe
