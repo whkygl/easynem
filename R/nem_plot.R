@@ -856,3 +856,27 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
   } 
   p
 })
+
+#' nem_plot
+#' @description For visualization of nematode community data.
+#' @param object funguild or other types data.
+#' @param ... Other parameters for ggplot2 functions.
+#' @return An ggplot object.
+#' @rdname funguild
+#' @name funguild
+#' @aliases nem_plot,funguild-method
+#' @import ggplot2
+#' @import ggalt
+#' @export
+setMethod("nem_plot", signature("funguild"), function(object, ...){
+  # object = hehe2
+  meta = object@result
+  meta2 = stats::na.omit(meta)
+  p = ggplot2::ggplot(meta2, ggplot2::aes(x = !!rlang::sym("SI"), y = !!rlang::sym("EI"), color = !!rlang::sym(names(meta2)[2]))) +
+    ggplot2::geom_hline(yintercept = 50) +
+    ggplot2::geom_vline(xintercept = 50) +
+    ggplot2::geom_point() + ggplot2::theme_test() +
+    ggplot2::ylab("Enrichment Index") +
+    ggplot2::xlab("Structure Index")
+  p
+})
