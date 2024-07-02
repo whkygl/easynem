@@ -1,0 +1,85 @@
+devtools::install_github("whkygl/easynem")
+library(easynem)
+bac <- read_nem(tab = easynem_example("nemotu.csv"), 
+                tax = easynem_example("nemtax.csv"), 
+                meta = easynem_example("meta.csv"))
+hehe <- calc_nemindex(bac)
+#' An S4 class to store Metabolic footprints results.
+#' @slot result A data frame of Metabolic footprints results.
+methods::setClass("mf",
+                  slots = list(
+                    result = "data.frame"
+                  ))
+methods::setMethod("show", "mf", function(object){
+  cat("This is an beta object\n")
+  cat("The difference comparison is:\n")
+  print(object@result)
+})
+#' calc_mf
+#' @description Calculate Metabolic footprints between treatments.
+#' @param data nemindex type data.
+#' @param .group The group variable.
+#' @return An mf object.
+#' @export
+calc_mf <- function(data, .group){
+  # data = hehe
+  # .group = "con_crop"
+  .mf = methods::new("mf")
+  mf = data@result
+  .group = deparse(substitute(.group))
+  mf = mf[,c(names(mf)[1], .group,"EI", "SI", "EnrichmentFootprint", "StructureFootprint")]
+  .mf@result = mf
+  return(.mf)
+}
+hehe2 <- calc_mf(hehe, con_crop)
+#' nem_plot
+#' @description For visualization of nematode community data.
+#' @param object mf or other types data.
+#' @param ... Other parameters for ggplot2 functions.
+#' @return An ggplot object.
+#' @rdname mf
+#' @name mf
+#' @aliases nem_plot,mf-method
+#' @import ggplot2
+#' @import ggalt
+#' @export
+setMethod("nem_plot", signature("mf"), function(object, kei, ksi, ...){
+  # object = hehe2
+  # kei = 3
+  # ksi = 3
+  meta = object@result
+  meta2 = stats::na.omit(meta)
+  output = meta2 |> dplyr::group_by(!!rlang::sym(names(meta2)[2])) |> 
+    dplyr::summarise(meanei = mean(EI), meansi = mean(SI), meanefp = mean(EnrichmentFootprint), meansfp = mean(StructureFootprint))
+  output$meanfufp = (output$meanefp * output$meansfp) / 2
+  output$meanfufp_ = (output$meanfufp/sum(output$meanfufp))*100
+  output$meanei0.5p = output$meanei + 0.5 * output$meanefp/kei
+  output$meanei0.5n = output$meanei - 0.5 * output$meanefp/kei
+  output$meansi0.5p = output$meansi + 0.5 * output$meansfp/ksi
+  output$meansi0.5n = output$meansi - 0.5 * output$meansfp/ksi
+  output1 = output[ , c(names(output)[1], "meanei", "meansi")]
+  output2 = output[ , c(names(output)[1], "meanei", "meansi0.5p")]
+  colnames(output2) = colnames(output1)
+  output3 = output[ , c(names(output)[1], "meanei", "meansi0.5n")]
+  colnames(output3) = colnames(output1)
+  output4 = output[ , c(names(output)[1], "meanei0.5p", "meansi")]
+  colnames(output4) = colnames(output1)
+  output5 = output[ , c(names(output)[1],"meanei0.5n", "meansi")]
+  colnames(output5) = colnames(output1)
+  zoutput = rbind(output1, output5, output3, output4, output2)
+  output6 = output[ , c(names(output)[1], "meanfufp_")]
+  output6$meanfufp_ = round(output6$meanfufp_, 2)
+  output6$meanfufp_ = as.character(output6$meanfufp_)
+  output6$meanfufp_ = paste0(output6$meanfufp_,"%")
+  zoutput = merge(zoutput, output6, by = names(zoutput)[1])
+  zoutput[[names(zoutput)[1]]] = paste(zoutput[[names(zoutput)[1]]], zoutput$meanfufp, sep = "_")
+  zoutputsub = zoutput |> dplyr::group_by(zoutput[[names(zoutput)[1]]]) |> dplyr::slice(-1)
+  # return(zoutputsub)
+  p <- ggplot2::ggplot(zoutput, ggplot2::aes(x = meansi, y = meanei, color = !!rlang::sym(names(zoutput)[1]))) + ggplot2::geom_point(size = 3) + 
+    ggplot2::xlab("Structure index") + ggplot2::ylab("Enrichment index") + ggplot2::scale_x_continuous(expand = c(0, 0), breaks = c(0, 50, 100)) +
+    ggplot2::scale_y_continuous(expand = c(0, 0), breaks = c(0, 50, 100)) + ggplot2::theme_test() +
+    ggplot2::geom_hline(yintercept = c(0, 50, 100)) + ggplot2::geom_vline(xintercept = c(0, 50, 100)) + ggplot2::geom_polygon(data = zoutputsub, ggplot2::aes(x = meansi, y = meanei, fill = !!rlang::sym(names(zoutput)[1])), alpha = 0.2)
+  p
+})
+hehe3 = nem_plot(hehe2,70, 15)
+hehe3

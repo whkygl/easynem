@@ -1,3 +1,4 @@
 # R/globals.R
 utils::globalVariables(c("Group.1", "Group.2", "er", "everything", "label", "groups", "se", "std", "id", ".", "Genus",
-"GenavgEFP", "GenavgMFP", "GenavgSFP", "GenavgHFP", "GenavgFFP", "GenavgBFP", "GenavgPFP", "CP", "Feeding", "FunctionalGuild"))
+"GenavgEFP", "GenavgMFP", "GenavgSFP", "GenavgHFP", "GenavgFFP", "GenavgBFP", "GenavgPFP", "CP", "Feeding", "FunctionalGuild",
+"EI", "EnrichmentFootprint", "SI", "StructureFootprint", "meanei", "meansi"))
