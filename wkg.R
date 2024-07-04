@@ -152,3 +152,5 @@ hehe <- calc_nemindex(bac) |> calc_mf(season) |> nem_plot()
 hehe
 hehe <- calc_nemindex(bac) |> calc_mf2(season, con_crop) |> nem_plot()
 hehe
+hehe <- bac |> calc_nemindex() |> calc_ef(con_crop)
+hehe
