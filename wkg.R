@@ -154,3 +154,7 @@ hehe <- calc_nemindex(bac) |> calc_mf2(season, con_crop) |> nem_plot()
 hehe
 hehe <- bac |> calc_nemindex() |> calc_ef(con_crop)
 hehe
+bac <- read_nem(tab = easynem_example("nemotu.csv"), 
+                tax = easynem_example("nemtax.csv"), 
+                meta = easynem_example("meta.csv"))
+hehe <- bac |> calc_nemindex() |> calc_ef2(con_crop, season)
