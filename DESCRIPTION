@@ -22,6 +22,8 @@ Imports:
     ggalt,
     ggplot2,
     ggpubr,
+    ggraph,
+    igraph,
     methods,
     pairwiseAdonis,
     readr,

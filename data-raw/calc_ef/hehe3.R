@@ -1,40 +1,34 @@
+# 安装和加载igraph包
+install.packages("igraph")
 library(igraph)
+
+# 示例数据：点矩阵和边矩阵
+nodes <- data.frame(
+  id = c(1, 2, 3, 4, 5, 6),
+  group = c("A", "A", "B", "B", "C", "C")
+)
+
+edges <- data.frame(
+  from = c(1, 2, 3, 4, 5),
+  to = c(2, 3, 4, 5, 6)
+)
+
+# 创建图对象
+g <- graph_from_data_frame(d = edges, vertices = nodes, directed = FALSE)
+
+# 绘制基本图
+plot(g, vertex.color = V(g)$group)
+
+# 安装并加载ggplot2和ggplot2的扩展包ggraph
+install.packages("ggplot2")
+install.packages("ggraph")
 library(ggplot2)
 library(ggraph)
-# 创建示例网络图数据
-set.seed(123) # 为了重复性设置随机种子
-graph1 <- erdos.renyi.game(10, p=0.3, directed=FALSE)
-graph2 <- erdos.renyi.game(10, p=0.3, directed=FALSE)
-graph3 <- erdos.renyi.game(10, p=0.3, directed=FALSE)
-graph4 <- erdos.renyi.game(10, p=0.3, directed=FALSE)
 
-# 将网络图转为数据框格式
-graph1_df <- as_data_frame(graph1, what = "edges")
-graph2_df <- as_data_frame(graph2, what = "edges")
-graph3_df <- as_data_frame(graph3, what = "edges")
-graph4_df <- as_data_frame(graph4, what = "edges")
-
-# 添加分面标签
-graph1_df$Row <- "Row 1"
-graph1_df$Column <- "Column 1"
-
-graph2_df$Row <- "Row 1"
-graph2_df$Column <- "Column 2"
-
-graph3_df$Row <- "Row 2"
-graph3_df$Column <- "Column 1"
-
-graph4_df$Row <- "Row 2"
-graph4_df$Column <- "Column 2"
-
-# 合并数据
-combined_df <- rbind(graph1_df, graph2_df, graph3_df, graph4_df)
-# 使用ggraph包绘制分面图
-plot <- ggraph(graph_from_data_frame(combined_df, directed = FALSE)) + 
-  geom_edge_link(aes(color = Row), show.legend = FALSE) +
-  geom_node_point() +
-  facet_grid(Row ~ Column) +
-  theme_void()
-
-# 显示图
-print(plot)
+# 创建分面网络图
+ggraph(g, layout = 'fr') + 
+  geom_edge_link(aes(edge_alpha = 0.8)) +
+  geom_node_point(aes(color = group), size = 5) +
+  facet_nodes(~group) +
+  theme_void() +
+  theme(legend.position = "none")

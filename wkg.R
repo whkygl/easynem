@@ -27,7 +27,7 @@ use_r("easynem_example")
 use_package("methods")
 use_r("filter_num")
 use_r("filter_name")
-use_package("dplyr")
+use_package("igraph")
 use_r("nem_trans")
 use_package("tibble")
 use_package("vegan")
@@ -158,3 +158,5 @@ bac <- read_nem(tab = easynem_example("nemotu.csv"),
                 tax = easynem_example("nemtax.csv"), 
                 meta = easynem_example("meta.csv"))
 hehe <- bac |> calc_nemindex() |> calc_ef2(con_crop, season)
+hehe <- bac |> calc_nemindex() |> calc_ef(con_crop) |> nem_plot()
+hehe
