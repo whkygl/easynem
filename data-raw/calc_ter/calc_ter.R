@@ -1,0 +1,108 @@
+devtools::install_github("whkygl/easynem")
+library(easynem)
+bac <- read_nem(tab = easynem_example("nemotu.csv"), 
+                tax = easynem_example("nemtax.csv"), 
+                meta = easynem_example("meta.csv"))
+#' An S4 class to store the ternary analysis results.
+#' @slot result A data frame of the ternary analysis results.
+methods::setClass("ter",
+                  slots = list(
+                    result = "data.frame"
+                  ))
+methods::setMethod("show", "ter", function(object){
+  cat("This is an ter object\n")
+  cat("The ternary analysis results is:\n")
+  print(object@result)
+})
+#' calc_ter
+#' @description Calculate ternary analysis between treatments.
+#' @param data easynem type data.
+#' @param .group The group variable.
+#' @return An ter object.
+#' @export
+calc_ter <- function(data, .group){
+  # data = bac
+  # .group = "con_crop"
+  .group = deparse(substitute(.group))
+  .ter = methods::new("ter")
+  cp_tax = data@tax[,c("OTUID", "feeding", "cp_value")]
+  cp_tax2 = data@tax[,c("OTUID", "feeding", "GenavgMass")]
+  cp_tax$cp_value[cp_tax$feeding == 1] = 0
+  cp_tax = cp_tax[,-2]
+  tab = data@tab
+  meta = data@meta[,c("SampleID", .group)]
+  tab_cp = merge(tab, cp_tax, by = "OTUID")
+  tab_cp2 = merge(tab, cp_tax2, by = "OTUID")
+  tab_cp2 = subset(tab_cp2, !is.na(GenavgMass))
+  tab_cp2[,2:(ncol(tab_cp2)-2)] = tab_cp2[,2:(ncol(tab_cp2)-2)] * tab_cp2[,ncol(tab_cp2)]
+  tab_cp = tab_cp[,-1]
+  tab_cp2 = tab_cp2[,-c(1,ncol(tab_cp2))]
+  tab_cp = tab_cp |> dplyr::group_by(!!rlang::sym("cp_value")) |> dplyr::summarise(dplyr::across(dplyr::everything(), \(x) sum(x, na.rm = TRUE)))
+  tab_cp2 = tab_cp2 |> dplyr::group_by(!!rlang::sym("feeding")) |> dplyr::summarise(dplyr::across(dplyr::everything(), \(x) sum(x, na.rm = TRUE)))
+  tab_cp <- tab_cp |>
+    dplyr::mutate(dplyr::across(1, ~ paste0("cp", ., "%")))
+  tab_cp2$feeding[tab_cp2$feeding == 1] = "Herbivorous nematodes%"
+  tab_cp2$feeding[tab_cp2$feeding == 2] = "Fungus-feeding nematodes%"
+  tab_cp2$feeding[tab_cp2$feeding == 3] = "Bacteria-feeding nematodes%"
+  tab_cp[, -1] = apply(tab_cp[, -1], 2, function(x) x / sum(x))
+  tab_cp2[, -1] = apply(tab_cp2[, -1], 2, function(x) x / sum(x))
+  row_range <- 4:6
+  col_range <- 2:ncol(tab_cp)
+  sums <- apply(tab_cp[row_range, col_range], 2, sum)
+  sums = c("cp3-5% (Stability)", sums)
+  tab_cp = rbind(tab_cp, sums)
+  tab_cp[, -1] <- lapply(tab_cp[, -1], as.numeric)
+  tab_cp[2,1] = "cp1% (Enrichment)"
+  tab_cp[3,1] = "cp2% (Stress)"
+  tab_cp = as.data.frame(tab_cp)
+  tab_cp2 = as.data.frame(tab_cp2)
+  rownames(tab_cp) = tab_cp[,1]
+  rownames(tab_cp2) = tab_cp2[,1]
+  tab_cp = tab_cp[,-1]
+  tab_cp2 = tab_cp2[,-1]
+  tab_cp = as.data.frame(t(tab_cp))
+  tab_cp2 = as.data.frame(t(tab_cp2))
+  tab_cp$SampleID = rownames(tab_cp)
+  tab_cp2$SampleID = rownames(tab_cp2)
+  result = merge(meta,tab_cp,by = "SampleID")
+  result = merge(result, tab_cp2, by = "SampleID")
+  result = tibble::as_tibble(result)
+  .ter@result = result
+  return(.ter)
+}
+hehe = bac |> calc_ter(con_crop)
+#' nem_plot
+#' @description For visualization of nematode community data.
+#' @param object ter or other types data.
+#' @param type Select the ternary graph type, cp or feeding.
+#' @return An ggplot object.
+#' @rdname ter
+#' @name ter
+#' @aliases nem_plot,ter-method
+#' @import ggplot2
+#' @import ggalt
+#' @export
+setMethod("nem_plot", signature("ter"), function(object, type){
+  # object = hehe
+  type = deparse(substitute(type))
+  if (type == "cp"){
+  result = object@result
+  base = ggtern::ggtern(data=result,ggplot2::aes(x=`cp1% (Enrichment)`,y=`cp3-5% (Stability)`,z=`cp2% (Stress)`))
+  p3 = base + 
+    ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]))) + 
+    ggtern::theme_rgbw()
+  p4 = p3 + ggplot2::labs(x = "cp1%\n(Enrichment)", y = "cp3-5%\n(Stability)", z = "cp2%\n(Stress)")
+  } else if (type == "feeding") {
+    result = object@result
+    base = ggtern::ggtern(data=result,ggplot2::aes(x=`Herbivorous nematodes%`,y=`Bacteria-feeding nematodes%`,z=`Fungus-feeding nematodes%`))
+    p3 = base + 
+      ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]))) + 
+      ggtern::theme_rgbw()
+    p4 = p3 + ggplot2::labs(x = "Herbivorous%", y = "Bacteria%", z = "Fungus%")
+  }
+  p4
+})
+hehe = bac |> calc_ter(con_crop) |> nem_plot(cp)
+hehe
+hehe = bac |> calc_ter(con_crop) |> nem_plot(feeding)
+hehe

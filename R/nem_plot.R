@@ -1,5 +1,5 @@
 #' nem_plot
-#' 
+#'
 #' This is a generic function for visualization.
 #' @param object easynem or other types data.
 #' @param ... Other parameters.
@@ -32,7 +32,7 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
     NMDS2 = meta[,4]
     group = meta[,2]
     p = ggplot2::ggplot(meta,ggplot2::aes(x=NMDS1,y=NMDS2,color=!!dplyr::sym(colnames(group))))+
-      ggplot2::labs(x=colnames(NMDS1),y = colnames(NMDS2), title=temp)+ggplot2::geom_point(size=4)+ 
+      ggplot2::labs(x=colnames(NMDS1),y = colnames(NMDS2), title=temp)+ggplot2::geom_point(size=4)+
       ggplot2::scale_color_manual(values = my_color)+
       ggplot2::theme(legend.title = ggplot2::element_blank())+
       ggplot2::theme_test() + ggplot2::coord_fixed(1)
@@ -61,7 +61,7 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
         group = meta[,2]
         p = ggplot2::ggplot(meta,ggplot2::aes(x=PC1,y=PC2,color=!!dplyr::sym(colnames(group))))
     }
-    p = p+ggplot2::labs(x = temp[1], y=temp[2], title=temp[3])+ggplot2::geom_point(size=4)+ 
+    p = p+ggplot2::labs(x = temp[1], y=temp[2], title=temp[3])+ggplot2::geom_point(size=4)+
       ggplot2::scale_color_manual(values = my_color)+
       ggplot2::theme(legend.title = ggplot2::element_blank())+
       ggplot2::theme_test() + ggplot2::coord_fixed(1)
@@ -108,7 +108,7 @@ setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1
     group2 = meta[,3]
     group3 = meta[,4]
     p = ggplot2::ggplot(meta,ggplot2::aes(x=NMDS1,y=NMDS2,color=!!dplyr::sym(colnames(group1)), shape=!!dplyr::sym(colnames(group2))))+
-      ggplot2::labs(x=colnames(NMDS1),y = colnames(NMDS2), title=temp)+ggplot2::geom_point(size=4)+ 
+      ggplot2::labs(x=colnames(NMDS1),y = colnames(NMDS2), title=temp)+ggplot2::geom_point(size=4)+
       ggplot2::scale_color_manual(values = my_color)+
       ggplot2::theme(legend.title = ggplot2::element_blank())+
       ggplot2::theme_test() + ggplot2::coord_fixed(1)
@@ -141,7 +141,7 @@ setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1
         group3 = meta[,4]
         p = ggplot2::ggplot(meta,ggplot2::aes(x=PC1,y=PC2,color=!!dplyr::sym(colnames(group1)),shape=!!dplyr::sym(colnames(group2))))
     }
-    p = p+ggplot2::labs(x = temp[1], y=temp[2], title=temp[3])+ggplot2::geom_point(size=4)+ 
+    p = p+ggplot2::labs(x = temp[1], y=temp[2], title=temp[3])+ggplot2::geom_point(size=4)+
       ggplot2::scale_color_manual(values = my_color)+
       ggplot2::theme(legend.title = ggplot2::element_blank())+
       ggplot2::theme_test() + ggplot2::coord_fixed(1)
@@ -182,7 +182,7 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
     value = meta[,3]
     group = meta[,2]
     if(type == 1){
-      p = ggplot2::ggplot(meta, ggplot2::aes(x = group, y = value)) + 
+      p = ggplot2::ggplot(meta, ggplot2::aes(x = group, y = value)) +
         ggplot2::geom_boxplot(ggplot2::aes(fill = group), width = 0.5) +
         ggplot2::geom_jitter(ggplot2::aes(fill = group), shape = 21, width = 1/length(unique(meta[,2]))) +
         ggplot2::scale_fill_discrete(guide = "none") +
@@ -206,13 +206,13 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
            ggplot2::geom_jitter(ggplot2::aes(fill = group), shape = 21, width = 1/length(unique(meta[,2]))) +
            ggplot2::scale_fill_discrete(guide = "none")
       }
-     
-    } 
+
+    }
   } else if (temp == "WilcoxTest") {
     value = meta[,3]
     group = meta[,2]
     if(type == 1){
-      p = ggplot2::ggplot(meta, ggplot2::aes(x = group, y = value)) + 
+      p = ggplot2::ggplot(meta, ggplot2::aes(x = group, y = value)) +
         ggplot2::geom_boxplot(ggplot2::aes(fill = group), width = 0.5) +
         ggplot2::geom_jitter(ggplot2::aes(fill = group), shape = 21, width = 1/length(unique(meta[,2]))) +
         ggplot2::scale_fill_discrete(guide = "none") +
@@ -236,7 +236,7 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
         ggplot2::geom_jitter(ggplot2::aes(fill = group), shape = 21, width = 1/length(unique(meta[,2]))) +
         ggplot2::scale_fill_discrete(guide = "none")
       }
-    } 
+    }
   } else if (temp == "KruskalTest") {
     value = meta[,3]
     group = meta[,2]
@@ -356,7 +356,7 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
         ggplot2::theme_test() +
         ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(colnames(meta)[2])), shape = 21, width = 1/length(unique(meta[,2]))) +
         ggplot2::scale_fill_discrete(guide = "none")
-      
+
       all$mean = all[,3]
       p = p + ggplot2::geom_errorbar(data = all, ggplot2::aes(x = group, y = mean, ymin = mean-er, ymax =mean+er), width = .2) +
         ggplot2::geom_text(data = all, ggplot2::aes(x = group, y = mean + er, label = label), vjust = -0.5)
@@ -383,9 +383,9 @@ p
 #' @export
 setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 = 1, add, ...){
   meta = object@meta
-  meta2 = dplyr::group_by(meta, !!rlang::sym(colnames(meta)[2]), !!rlang::sym(colnames(meta)[3])) |> 
+  meta2 = dplyr::group_by(meta, !!rlang::sym(colnames(meta)[2]), !!rlang::sym(colnames(meta)[3])) |>
     dplyr::summarise(max = max(.data[[colnames(meta)[4]]]),
-                      mean = mean(!!rlang::sym(colnames(meta)[4])), 
+                      mean = mean(!!rlang::sym(colnames(meta)[4])),
                       se = stats::sd(!!rlang::sym(colnames(meta)[4]))/dplyr::n(),
                       sd = stats::sd(!!rlang::sym(colnames(meta)[4])))
   temp = object@temp
@@ -411,20 +411,20 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
     meta2 <- meta2[, !colnames(meta2) %in% label_cols]
     if (type1 == 1){
       if (type2 == 1){
-        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                               y = !!rlang::sym(names(meta)[4]), 
+        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                               y = !!rlang::sym(names(meta)[4]),
                                                fill = !!rlang::sym(names(meta)[3]))) +
-          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) + 
-          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])), 
+          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) +
+          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),
                                shape = 21, position = ggplot2::position_jitterdodge(0.8/nrow(meta2)))+
-          ggplot2::geom_text(data = meta2, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                        y = !!rlang::sym(names(meta2)[3]), 
+          ggplot2::geom_text(data = meta2, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]),
+                                                        y = !!rlang::sym(names(meta2)[3]),
                                                         label = !!rlang::sym(names(meta2)[7]),
-                                                        vjust = -0.5), 
+                                                        vjust = -0.5),
                              position = ggplot2::position_dodge(0.8)) +
           ggplot2::theme_test() +
           ggplot2::xlab(NULL)
-        
+
       } else if (type2 == 2){
         p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
                                                y = !!rlang::sym(names(meta)[4]))) +
@@ -439,14 +439,14 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
       }
     } else if (type1 == 2){
       if (type2 == 1){
-        p = ggplot2::ggplot(meta2, ggplot2:: aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                y = !!rlang::sym(names(meta2)[4]), 
+        p = ggplot2::ggplot(meta2, ggplot2:: aes(x = !!rlang::sym(names(meta2)[1]),
+                                                y = !!rlang::sym(names(meta2)[4]),
                                                 fill = !!rlang::sym(names(meta2)[2]))) +
           ggplot2::geom_bar(stat = "identity",position = ggplot2::position_dodge(0.8), color = "black", width = 0.75) +
-          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                                         y = !!rlang::sym(names(meta)[4]) , 
-                                                         fill = !!rlang::sym(names(meta)[3])), 
-                                                         shape = 21, 
+          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                                         y = !!rlang::sym(names(meta)[4]) ,
+                                                         fill = !!rlang::sym(names(meta)[3])),
+                                                         shape = 21,
                                position = ggplot2::position_jitterdodge(0.8/nrow(meta2)))+
           ggplot2::ylab(names(meta)[4]) +
           ggplot2::xlab(NULL) +
@@ -458,7 +458,7 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
           p = p + ggplot2::geom_errorbar(ggplot2::aes(ymin = mean - sd, ymax = mean+sd), position = ggplot2::position_dodge(.8), width = 0.75/4) +
             ggplot2::geom_text(ggplot2::aes(y = mean + sd,label = label),vjust = -0.5,position = ggplot2::position_dodge(0.8))
         }
-          
+
       } else if (type2 == 2){
         formu = stats::as.formula(paste0(names(meta)[4], "~", names(meta)[2]))
         stat.test = ggpubr::compare_means(formu, data = meta, group.by = names(meta)[3], method = "t.test", ...)
@@ -514,16 +514,16 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
     meta2 <- meta2[, !colnames(meta2) %in% label_cols]
     if (type1 == 1){
       if (type2 == 1){
-        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                               y = !!rlang::sym(names(meta)[4]), 
+        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                               y = !!rlang::sym(names(meta)[4]),
                                                fill = !!rlang::sym(names(meta)[3]))) +
-          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) + 
-          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])), 
+          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) +
+          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),
                                shape = 21, position = ggplot2::position_jitterdodge(0.8/nrow(meta2)))+
-          ggplot2::geom_text(data = meta2, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                        y = !!rlang::sym(names(meta2)[3]), 
+          ggplot2::geom_text(data = meta2, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]),
+                                                        y = !!rlang::sym(names(meta2)[3]),
                                                         label = !!rlang::sym(names(meta2)[7]),
-                                                        vjust = -0.5), 
+                                                        vjust = -0.5),
                              position = ggplot2::position_dodge(0.8)) +
           ggplot2::theme_test() +
           ggplot2::xlab(NULL)
@@ -538,18 +538,18 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
         compar = list(unique(meta[,2]))
         formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
         p = p + ggpubr::stat_compare_means(comparisons = compar, method = "wilcox.test", label = "p.signif", ...) + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
-      
+
       }
     } else if (type1 == 2){
       if (type2 == 1){
-        p = ggplot2::ggplot(meta2, ggplot2:: aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                   y = !!rlang::sym(names(meta2)[4]), 
+        p = ggplot2::ggplot(meta2, ggplot2:: aes(x = !!rlang::sym(names(meta2)[1]),
+                                                   y = !!rlang::sym(names(meta2)[4]),
                                                    fill = !!rlang::sym(names(meta2)[2]))) +
             ggplot2::geom_bar(stat = "identity",position = ggplot2::position_dodge(0.8), color = "black", width = 0.75) +
-            ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                                           y = !!rlang::sym(names(meta)[4]) , 
-                                                           fill = !!rlang::sym(names(meta)[3])), 
-                                 shape = 21, 
+            ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                                           y = !!rlang::sym(names(meta)[4]) ,
+                                                           fill = !!rlang::sym(names(meta)[3])),
+                                 shape = 21,
                                  position = ggplot2::position_jitterdodge(0.8/nrow(meta2)))+
             ggplot2::ylab(names(meta)[4]) +
             ggplot2::xlab(NULL) +
@@ -561,7 +561,7 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
             p = p + ggplot2::geom_errorbar(ggplot2::aes(ymin = mean - sd, ymax = mean+sd), position = ggplot2::position_dodge(.8), width = 0.75/4) +
               ggplot2::geom_text(ggplot2::aes(y = mean + sd,label = label),vjust = -0.5,position = ggplot2::position_dodge(0.8))
           }
-      
+
       } else if (type2 == 2){
         formu = stats::as.formula(paste0(names(meta)[4], "~", names(meta)[2]))
         stat.test = ggpubr::compare_means(formu, data = meta, group.by = names(meta)[3], method = "wilcox.test", ...)
@@ -580,7 +580,7 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
             ggplot2::xlab(NULL)
           formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
           p = p + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
-        
+
           } else if (add == "mean_sd"){
           p = ggplot2::ggplot(meta2, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]), y = !!rlang::sym(names(meta2)[4]), fill = names(meta[2]))) +
             ggplot2::geom_bar(stat = "identity",ggplot2::aes(fill = !!rlang::sym(names(meta2)[2])), color = "black",width = 0.75) +
@@ -618,16 +618,16 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
     meta2 <- dplyr::left_join(meta2, results_combined, by = c(colnames(meta)[2], colnames(meta)[3]))
     if (type1 == 1){
       if (type2 == 1){
-        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                               y = !!rlang::sym(names(meta)[4]), 
+        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                               y = !!rlang::sym(names(meta)[4]),
                                                fill = !!rlang::sym(names(meta)[3]))) +
-          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) + 
-          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])), 
+          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) +
+          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),
                                shape = 21, position = ggplot2::position_jitterdodge(0.8/nrow(meta2)))+
-          ggplot2::geom_text(data = meta2, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                        y = !!rlang::sym(names(meta2)[3]), 
+          ggplot2::geom_text(data = meta2, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]),
+                                                        y = !!rlang::sym(names(meta2)[3]),
                                                         label = !!rlang::sym(names(meta2)[7]),
-                                                        vjust = -0.5), 
+                                                        vjust = -0.5),
                              position = ggplot2::position_dodge(0.8)) +
           ggplot2::theme_test() +
           ggplot2::xlab(NULL)
@@ -641,21 +641,21 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
           ggplot2::xlab(NULL)
         compar = list(unique(meta[,2]))
         formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
-        p = p + ggplot2::geom_text(data = meta2, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                              y = !!rlang::sym(names(meta2)[3]), 
+        p = p + ggplot2::geom_text(data = meta2, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]),
+                                                              y = !!rlang::sym(names(meta2)[3]),
                                                               label = !!rlang::sym(names(meta2)[7]),
                                                               vjust = -0.5)) + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
       }
     } else if (type1 == 2){
       if (type2 == 1){
-        p = ggplot2::ggplot(meta2, ggplot2:: aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                 y = !!rlang::sym(names(meta2)[4]), 
+        p = ggplot2::ggplot(meta2, ggplot2:: aes(x = !!rlang::sym(names(meta2)[1]),
+                                                 y = !!rlang::sym(names(meta2)[4]),
                                                  fill = !!rlang::sym(names(meta2)[2]))) +
           ggplot2::geom_bar(stat = "identity",position = ggplot2::position_dodge(0.8), color = "black", width = 0.75) +
-          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                                         y = !!rlang::sym(names(meta)[4]) , 
-                                                         fill = !!rlang::sym(names(meta)[3])), 
-                               shape = 21, 
+          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                                         y = !!rlang::sym(names(meta)[4]) ,
+                                                         fill = !!rlang::sym(names(meta)[3])),
+                               shape = 21,
                                position = ggplot2::position_jitterdodge(0.8/nrow(meta2)))+
           ggplot2::ylab(names(meta)[4]) +
           ggplot2::xlab(NULL) +
@@ -668,13 +668,13 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
             ggplot2::geom_text(ggplot2::aes(y = mean + sd,label = label),vjust = -0.5,position = ggplot2::position_dodge(0.8))
         }
       } else if (type2 == 2){
-        p = ggplot2::ggplot(meta2, ggplot2:: aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                 y = !!rlang::sym(names(meta2)[4]), 
+        p = ggplot2::ggplot(meta2, ggplot2:: aes(x = !!rlang::sym(names(meta2)[1]),
+                                                 y = !!rlang::sym(names(meta2)[4]),
                                                  fill = !!rlang::sym(names(meta2)[2]))) +
           ggplot2::geom_bar(stat = "identity",color = "black", width = 0.75) +
-          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                                         y = !!rlang::sym(names(meta)[4]) , 
-                                                         fill = !!rlang::sym(names(meta)[3])), 
+          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                                         y = !!rlang::sym(names(meta)[4]) ,
+                                                         fill = !!rlang::sym(names(meta)[3])),
                                shape = 21)+
           ggplot2::ylab(names(meta)[4]) +
           ggplot2::xlab(NULL) +
@@ -684,7 +684,7 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
             ggplot2::geom_text(ggplot2::aes(y = mean + se,label = label),vjust = -0.5)
           formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
           p = p + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
-          
+
         } else if (add == "mean_sd"){
           p = p + ggplot2::geom_errorbar(ggplot2::aes(ymin = mean - sd, ymax = mean+sd), width = 0.75/4) +
             ggplot2::geom_text(ggplot2::aes(y = mean + sd,label = label),vjust = -0.5)
@@ -696,16 +696,16 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
   } else if (temp == "LSD2"){
     if (type1 == 1){
       if (type2 == 1){
-        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                               y = !!rlang::sym(names(meta)[4]), 
+        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                               y = !!rlang::sym(names(meta)[4]),
                                                fill = !!rlang::sym(names(meta)[3]))) +
-          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) + 
-          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])), 
+          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) +
+          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),
                                shape = 21, position = ggplot2::position_jitterdodge(0.8/nrow(meta2)))+
-          ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(result)[2]), 
-                                                        y = !!rlang::sym("Max"), 
+          ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(result)[2]),
+                                                        y = !!rlang::sym("Max"),
                                                         label = !!rlang::sym("label"),
-                                                        vjust = -0.5), 
+                                                        vjust = -0.5),
                              position = ggplot2::position_dodge(0.8)) +
           ggplot2::theme_test() +
           ggplot2::xlab(NULL)
@@ -719,22 +719,22 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
           ggplot2::xlab(NULL)
         compar = list(unique(meta[,2]))
         formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
-        p = p + ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                              y = !!rlang::sym("Max"), 
+        p = p + ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]),
+                                                              y = !!rlang::sym("Max"),
                                                               label = !!rlang::sym("label"),
                                                               vjust = -0.5)) + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
       }
     } else if (type1 == 2){
       if (type2 == 1){
         names(result)[13] = "mean"
-        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]), 
-                                                 y = !!rlang::sym("mean"), 
+        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]),
+                                                 y = !!rlang::sym("mean"),
                                                  fill = !!rlang::sym(names(result)[1]))) +
           ggplot2::geom_bar(stat = "identity",position = ggplot2::position_dodge(0.8), color = "black", width = 0.75) +
-          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                                         y = !!rlang::sym(names(meta)[4]) , 
-                                                         fill = !!rlang::sym(names(meta)[3])), 
-                               shape = 21, 
+          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                                         y = !!rlang::sym(names(meta)[4]) ,
+                                                         fill = !!rlang::sym(names(meta)[3])),
+                               shape = 21,
                                position = ggplot2::position_jitterdodge(0.8/nrow(result)))+
           ggplot2::ylab(names(meta)[4]) +
           ggplot2::xlab(NULL) +
@@ -748,13 +748,13 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
         }
       } else if (type2 == 2){
         names(result)[13] = "mean"
-        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]), 
-                                                  y = !!rlang::sym(names(result)[13]), 
+        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]),
+                                                  y = !!rlang::sym(names(result)[13]),
                                                   fill = !!rlang::sym(names(result)[1]))) +
           ggplot2::geom_bar(stat = "identity",color = "black", width = 0.75) +
-          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                                         y = !!rlang::sym(names(meta)[4]) , 
-                                                         fill = !!rlang::sym(names(meta)[3])), 
+          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                                         y = !!rlang::sym(names(meta)[4]) ,
+                                                         fill = !!rlang::sym(names(meta)[3])),
                                shape = 21)+
           ggplot2::ylab(names(meta)[4]) +
           ggplot2::xlab(NULL) +
@@ -764,7 +764,7 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
             ggplot2::geom_text(ggplot2::aes(y = mean + se,label = label),vjust = -0.5)
           formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
           p = p + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
-          
+
         } else if (add == "mean_sd"){
           p = p + ggplot2::geom_errorbar(ggplot2::aes(ymin = mean - std, ymax = mean+std), width = 0.75/4) +
             ggplot2::geom_text(ggplot2::aes(y = mean + std,label = label),vjust = -0.5)
@@ -776,16 +776,16 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
   } else if (temp == "HSD2"){
     if (type1 == 1){
       if (type2 == 1){
-        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                               y = !!rlang::sym(names(meta)[4]), 
+        p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                               y = !!rlang::sym(names(meta)[4]),
                                                fill = !!rlang::sym(names(meta)[3]))) +
-          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) + 
-          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])), 
+          ggplot2::geom_boxplot(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),position = ggplot2::position_dodge(0.8)) +
+          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(names(meta)[3])),
                                shape = 21, position = ggplot2::position_jitterdodge(0.8/nrow(meta2)))+
-          ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(result)[2]), 
-                                                         y = !!rlang::sym("Max"), 
+          ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(result)[2]),
+                                                         y = !!rlang::sym("Max"),
                                                          label = !!rlang::sym("label"),
-                                                         vjust = -0.5), 
+                                                         vjust = -0.5),
                              position = ggplot2::position_dodge(0.8)) +
           ggplot2::theme_test() +
           ggplot2::xlab(NULL)
@@ -799,22 +799,22 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
           ggplot2::xlab(NULL)
         compar = list(unique(meta[,2]))
         formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
-        p = p + ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]), 
-                                                               y = !!rlang::sym("Max"), 
+        p = p + ggplot2::geom_text(data = result, ggplot2::aes(x = !!rlang::sym(names(meta2)[1]),
+                                                               y = !!rlang::sym("Max"),
                                                                label = !!rlang::sym("label"),
                                                                vjust = -0.5)) + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
       }
     } else if (type1 == 2){
       if (type2 == 1){
         names(result)[11] = "mean"
-        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]), 
-                                                  y = !!rlang::sym("mean"), 
+        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]),
+                                                  y = !!rlang::sym("mean"),
                                                   fill = !!rlang::sym(names(result)[1]))) +
           ggplot2::geom_bar(stat = "identity",position = ggplot2::position_dodge(0.8), color = "black", width = 0.75) +
-          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                                         y = !!rlang::sym(names(meta)[4]) , 
-                                                         fill = !!rlang::sym(names(meta)[3])), 
-                               shape = 21, 
+          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                                         y = !!rlang::sym(names(meta)[4]) ,
+                                                         fill = !!rlang::sym(names(meta)[3])),
+                               shape = 21,
                                position = ggplot2::position_jitterdodge(0.8/nrow(result)))+
           ggplot2::ylab(names(meta)[4]) +
           ggplot2::xlab(NULL) +
@@ -828,13 +828,13 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
         }
       } else if (type2 == 2){
         names(result)[11] = "mean"
-        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]), 
-                                                  y = !!rlang::sym(names(result)[11]), 
+        p = ggplot2::ggplot(result, ggplot2:: aes(x = !!rlang::sym(names(result)[2]),
+                                                  y = !!rlang::sym(names(result)[11]),
                                                   fill = !!rlang::sym(names(result)[1]))) +
           ggplot2::geom_bar(stat = "identity",color = "black", width = 0.75) +
-          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]), 
-                                                         y = !!rlang::sym(names(meta)[4]) , 
-                                                         fill = !!rlang::sym(names(meta)[3])), 
+          ggplot2::geom_jitter(data = meta, ggplot2::aes(x = !!rlang::sym(names(meta)[2]),
+                                                         y = !!rlang::sym(names(meta)[4]) ,
+                                                         fill = !!rlang::sym(names(meta)[3])),
                                shape = 21)+
           ggplot2::ylab(names(meta)[4]) +
           ggplot2::xlab(NULL) +
@@ -844,7 +844,7 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
             ggplot2::geom_text(ggplot2::aes(y = mean + se,label = label),vjust = -0.5)
           formu = stats::as.formula(paste0(".", "~", names(meta)[3]))
           p = p + ggplot2::facet_wrap(formu, scales = "free_y", nrow = 1)
-          
+
         } else if (add == "mean_sd"){
           p = p + ggplot2::geom_errorbar(ggplot2::aes(ymin = mean - std, ymax = mean+std), width = 0.75/4) +
             ggplot2::geom_text(ggplot2::aes(y = mean + std,label = label),vjust = -0.5)
@@ -853,7 +853,7 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
         }
       }
     }
-  } 
+  }
   p
 })
 
@@ -922,7 +922,7 @@ setMethod("nem_plot", signature("mf"), function(object, kei = 1, ksi = 1, ...){
   # ksi = 3
   meta = object@result
   meta2 = stats::na.omit(meta)
-  output = meta2 |> dplyr::group_by(!!rlang::sym(names(meta2)[2])) |> 
+  output = meta2 |> dplyr::group_by(!!rlang::sym(names(meta2)[2])) |>
     dplyr::summarise(meanei = mean(EI), meansi = mean(SI), meanefp = mean(EnrichmentFootprint), meansfp = mean(StructureFootprint))
   output$meanfufp = (output$meanefp * output$meansfp) / 2
   output$meanfufp_ = (output$meanfufp/sum(output$meanfufp))*100
@@ -948,7 +948,7 @@ setMethod("nem_plot", signature("mf"), function(object, kei = 1, ksi = 1, ...){
   zoutput[[names(zoutput)[1]]] = paste(zoutput[[names(zoutput)[1]]], zoutput$meanfufp, sep = "_")
   zoutputsub = zoutput |> dplyr::group_by(zoutput[[names(zoutput)[1]]]) |> dplyr::slice(-1)
   # return(zoutputsub)
-  p <- ggplot2::ggplot(zoutput, ggplot2::aes(x = meansi, y = meanei, color = !!rlang::sym(names(zoutput)[1]))) + ggplot2::geom_point(size = 3) + 
+  p <- ggplot2::ggplot(zoutput, ggplot2::aes(x = meansi, y = meanei, color = !!rlang::sym(names(zoutput)[1]))) + ggplot2::geom_point(size = 3) +
     ggplot2::xlab("Structure index") + ggplot2::ylab("Enrichment index") + ggplot2::scale_x_continuous(expand = c(0, 0), breaks = c(0, 50, 100)) +
     ggplot2::scale_y_continuous(expand = c(0, 0), breaks = c(0, 50, 100)) + ggplot2::theme_test() +
     ggplot2::geom_hline(yintercept = c(0, 50, 100)) + ggplot2::geom_vline(xintercept = c(0, 50, 100)) + ggplot2::geom_polygon(data = zoutputsub, ggplot2::aes(x = meansi, y = meanei, fill = !!rlang::sym(names(zoutput)[1])), alpha = 0.2)
@@ -973,7 +973,7 @@ setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
   # ksi = 3
   meta = object@result
   meta2 = stats::na.omit(meta)
-  output = meta2 |> dplyr::group_by(!!rlang::sym(names(meta2)[2])) |> 
+  output = meta2 |> dplyr::group_by(!!rlang::sym(names(meta2)[2])) |>
     dplyr::summarise(meanei = mean(EI), meansi = mean(SI), meanefp = mean(EnrichmentFootprint), meansfp = mean(StructureFootprint))
   output$meanfufp = (output$meanefp * output$meansfp) / 2
   output$meanfufp_ = (output$meanfufp/sum(output$meanfufp))*100
@@ -982,7 +982,7 @@ setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
   output$meanfufp_ = paste0(output$meanfufp_,"%")
   output1 = output$meanfufp_
   names(output1) = output[[1]]
-  output = meta2 |> dplyr::group_by(!!rlang::sym(names(meta2)[3])) |> 
+  output = meta2 |> dplyr::group_by(!!rlang::sym(names(meta2)[3])) |>
     dplyr::summarise(meanei = mean(EI), meansi = mean(SI), meanefp = mean(EnrichmentFootprint), meansfp = mean(StructureFootprint))
   output$meanfufp = (output$meanefp * output$meansfp) / 2
   output$meanfufp_ = (output$meanfufp/sum(output$meanfufp))*100
@@ -991,7 +991,7 @@ setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
   output$meanfufp_ = paste0(output$meanfufp_,"%")
   output2 = output$meanfufp_
   names(output2) = output[[1]]
-  output = meta2 |> dplyr::group_by(!!rlang::sym(names(meta2)[2]), !!rlang::sym(names(meta2)[3])) |> 
+  output = meta2 |> dplyr::group_by(!!rlang::sym(names(meta2)[2]), !!rlang::sym(names(meta2)[3])) |>
     dplyr::summarise(meanei = mean(EI), meansi = mean(SI), meanefp = mean(EnrichmentFootprint), meansfp = mean(StructureFootprint))
   output[[1]] <- sapply(output[[1]], function(x) {
     if (x %in% names(output1)) {
@@ -1023,7 +1023,7 @@ setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
   zoutput = rbind(output1, output5, output3, output4, output2)
   zoutputsub = zoutput |> dplyr::group_by(zoutput[[names(zoutput)[1]]], zoutput[[names(zoutput)[2]]]) |> dplyr::slice(-1)
   # return(zoutputsub)
-  p <- ggplot2::ggplot(zoutput, ggplot2::aes(x = meansi, y = meanei, color = !!rlang::sym(names(zoutput)[1]), shape = !!rlang::sym(names(zoutput)[2]))) + ggplot2::geom_point(size = 3) + 
+  p <- ggplot2::ggplot(zoutput, ggplot2::aes(x = meansi, y = meanei, color = !!rlang::sym(names(zoutput)[1]), shape = !!rlang::sym(names(zoutput)[2]))) + ggplot2::geom_point(size = 3) +
     ggplot2::xlab("Structure index") + ggplot2::ylab("Enrichment index") + ggplot2::scale_x_continuous(expand = c(0, 0), breaks = c(0, 50, 100)) +
     ggplot2::scale_y_continuous(expand = c(0, 0), breaks = c(0, 50, 100)) + ggplot2::theme_test() +
     ggplot2::geom_hline(yintercept = c(0, 50, 100)) + ggplot2::geom_vline(xintercept = c(0, 50, 100)) + ggplot2::geom_polygon(data = zoutputsub, ggplot2::aes(x = meansi, y = meanei, fill = !!rlang::sym(names(zoutput)[1])), alpha = 0.2)
@@ -1121,23 +1121,23 @@ setMethod("nem_plot", signature("ef"), function(object){
   edges = result4_edges_long
   edges$Energy_flow = round(edges$Energy_flow, 2)
   graph = tidygraph::tbl_graph(nodes = nodes, edges = edges, directed = TRUE, node_key = "id")
-  
+
   # graph <- igraph::graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
   layout_matrix <- matrix(c(
-    0, 3,   
+    0, 3,
     3, 0,
     1.5, 1.5,
-    3, 3, 
-    0, 0 
+    3, 3,
+    0, 0
   ), ncol = 2, byrow = TRUE)
   formu = stats::as.formula(paste0("~", names(result4)[1]))
-  p3 = ggraph::ggraph(graph, layout = layout_matrix) + 
+  p3 = ggraph::ggraph(graph, layout = layout_matrix) +
     ggraph::geom_edge_fan(ggplot2::aes(colour = to1, width = Energy_flow, label = Energy_flow), family = NA, show.legend = FALSE) +
-    ggraph::scale_edge_width(range=c(0.5, 4)) + 
+    ggraph::scale_edge_width(range=c(0.5, 4)) +
     ggplot2::geom_text(ggplot2::aes(x = 2, y = 0.5, label = U),family = NA, data = nodes)+
     ggraph::geom_node_point(ggplot2::aes(colour = Feeding, size = Fresh_biomass)) +
     ggraph::geom_node_text(aes(label = label), repel = TRUE) +
-    ggraph::theme_graph(foreground = 'steelblue', fg_text_colour = 'white', base_family = NA) + 
+    ggraph::theme_graph(foreground = 'steelblue', fg_text_colour = 'white', base_family = NA) +
     ggplot2::scale_size(range = c(5,13)) +
     ggplot2::facet_wrap(formu, scales = "free")
   p3
@@ -1233,21 +1233,83 @@ setMethod("nem_plot", signature("ef2"), function(object){
   graph = tidygraph::tbl_graph(nodes = nodes, edges = edges, directed = TRUE, node_key = "id")
   # graph <- igraph::graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
   layout_matrix <- matrix(c(
-    0, 3,   
+    0, 3,
     3, 0,
     1.5, 1.5,
-    3, 3, 
-    0, 0 
+    3, 3,
+    0, 0
   ), ncol = 2, byrow = TRUE)
   formu = stats::as.formula(paste0(names(result4)[2], "~", names(result4)[1]))
-  p3 = ggraph::ggraph(graph, layout = layout_matrix) + 
+  p3 = ggraph::ggraph(graph, layout = layout_matrix) +
     ggraph::geom_edge_fan(ggplot2::aes(colour = to1, width = Energy_flow, label = Energy_flow), family = NA, show.legend = FALSE) +
-    ggraph::scale_edge_width(range=c(0.5, 4)) + 
+    ggraph::scale_edge_width(range=c(0.5, 4)) +
     ggplot2::geom_text(ggplot2::aes(x = 2, y = 0.5, label = U),family = NA, data = nodes)+
     ggraph::geom_node_point(ggplot2::aes(colour = Feeding, size = Fresh_biomass)) +
     ggraph::geom_node_text(ggplot2::aes(label = label), repel = TRUE) +
-    ggraph::theme_graph(foreground = 'steelblue', fg_text_colour = 'white', base_family = NA) + 
+    ggraph::theme_graph(foreground = 'steelblue', fg_text_colour = 'white', base_family = NA) +
     ggplot2::scale_size(range = c(5,13)) +
     ggplot2::facet_grid(formu, scales = "free")
   p3
+})
+#' nem_plot
+#' @description For visualization of nematode community data.
+#' @param object ter or other types data.
+#' @param type Select the ternary graph type, cp or feeding.
+#' @return An ggplot object.
+#' @rdname ter
+#' @name ter
+#' @aliases nem_plot,ter-method
+#' @import ggplot2
+#' @import ggalt
+#' @export
+setMethod("nem_plot", signature("ter"), function(object, type){
+  # object = hehe
+  type = deparse(substitute(type))
+  if (type == "cp"){
+  result = object@result
+  base = ggtern::ggtern(data=result,ggplot2::aes(x=`cp1% (Enrichment)`,y=`cp3-5% (Stability)`,z=`cp2% (Stress)`))
+  p3 = base +
+    ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]))) +
+    ggtern::theme_rgbw()
+  p4 = p3 + ggplot2::labs(x = "cp1%\n(Enrichment)", y = "cp3-5%\n(Stability)", z = "cp2%\n(Stress)")
+  } else if (type == "feeding") {
+    result = object@result
+    base = ggtern::ggtern(data=result,ggplot2::aes(x=`Herbivorous nematodes%`,y=`Bacteria-feeding nematodes%`,z=`Fungus-feeding nematodes%`))
+    p3 = base +
+      ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]))) +
+      ggtern::theme_rgbw()
+    p4 = p3 + ggplot2::labs(x = "Herbivorous%", y = "Bacteria%", z = "Fungus%")
+  }
+  p4
+})
+#' nem_plot
+#' @description For visualization of nematode community data.
+#' @param object ter2 or other types data.
+#' @param type Select the ternary graph type, cp or feeding.
+#' @return An ggplot object.
+#' @rdname ter2
+#' @name ter2
+#' @aliases nem_plot,ter2-method
+#' @import ggplot2
+#' @import ggalt
+#' @export
+setMethod("nem_plot", signature("ter2"), function(object, type){
+  # object = hehe
+  type = deparse(substitute(type))
+  if (type == "cp"){
+  result = object@result
+  base = ggtern::ggtern(data=result,ggplot2::aes(x=`cp1% (Enrichment)`,y=`cp3-5% (Stability)`,z=`cp2% (Stress)`))
+  p3 = base +
+    ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]), shape = !!rlang::sym(names(result)[3]))) +
+    ggtern::theme_rgbw()
+  p4 = p3 + ggplot2::labs(x = "cp1%\n(Enrichment)", y = "cp3-5%\n(Stability)", z = "cp2%\n(Stress)")
+  } else if (type == "feeding") {
+    result = object@result
+    base = ggtern::ggtern(data=result,ggplot2::aes(x=`Herbivorous nematodes%`,y=`Bacteria-feeding nematodes%`,z=`Fungus-feeding nematodes%`))
+    p3 = base +
+      ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]), shape = !!rlang::sym(names(result)[3]))) +
+      ggtern::theme_rgbw()
+    p4 = p3 + ggplot2::labs(x = "Herbivorous%", y = "Bacteria%", z = "Fungus%")
+  }
+  p4
 })

@@ -98,3 +98,4 @@ bac <- read_nem(tab = easynem_example("nemotu.csv"),
                 tax = easynem_example("nemtax.csv"), 
                 meta = easynem_example("meta.csv"))
 hehe <- bac |> calc_nemindex() |> calc_ef2(con_crop, season)
+hehe
