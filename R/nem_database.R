@@ -1,5 +1,7 @@
-#' nem_database
-#' @description nem_database is a function generated based on the shiny package for nematode retrieval.
+#' Nematode database search
+#'
+#' This function provides a visual interface for retrieving basic data of nematodes. 
+#' The database used is from <http://nemaplex.ucdavis.edu/Ecology/EcophysiologyParms/EcoParameterMenu.html>
 #' @return A web interface
 #' @usage nem_database()
 #' @export

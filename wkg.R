@@ -137,7 +137,7 @@ hehe
 p = bac |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = HSD2) |> nem_plot(type1 = 2, type2 = 2, add = "mean_se")
 p
 use_r("calc_ter")
-use_package("ggtern")
+use_package("ggtern", type = "suggests")
 hehe <- bac |> calc_alpha()
 use_r("calc_nemindex")
 bac <- read_nem(tab = easynem_example("nemotu.csv"), 

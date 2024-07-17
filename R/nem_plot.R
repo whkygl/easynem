@@ -1039,6 +1039,7 @@ setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
 #' @aliases nem_plot,ef-method
 #' @import ggplot2
 #' @import ggalt
+#' @import reshape2
 #' @import igraph
 #' @import ggraph
 #' @export
@@ -1152,6 +1153,7 @@ setMethod("nem_plot", signature("ef"), function(object){
 #' @aliases nem_plot,ef2-method
 #' @import ggplot2
 #' @import ggalt
+#' @import reshape2
 #' @import igraph
 #' @import ggraph
 #' @export

@@ -2,7 +2,7 @@
 % Please edit documentation in R/nem_database.R
 \name{nem_database}
 \alias{nem_database}
-\title{nem_database}
+\title{Nematode database search}
 \usage{
 nem_database()
 }
@@ -10,5 +10,6 @@ nem_database()
 A web interface
 }
 \description{
-nem_database is a function generated based on the shiny package for nematode retrieval.
+This function provides a visual interface for retrieving basic data of nematodes.
+The database used is from \url{http://nemaplex.ucdavis.edu/Ecology/EcophysiologyParms/EcoParameterMenu.html}
 }
