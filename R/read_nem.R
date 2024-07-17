@@ -1,27 +1,3 @@
-#' easynem Class
-#'
-#' The \code{easynem} class represents a base class that includes two slots, \code{slot1} and \code{slot2}.
-#' This class can be extended by other classes to provide additional functionality.
-#'
-#' @slot tab A numeric value representing the first slot. Provide a detailed description of what this slot is used for.
-#' @slot tax A character string representing the second slot. Provide a detailed description of what this slot is used for.
-#' @slot meta Storage experiment design and result.
-#' @export
-methods::setClass("easynem",
-    slots = list(
-        tab = "data.frame",
-        tax = "data.frame",
-        meta = "data.frame"
-    ))
-methods::setMethod("show", "easynem", function(object){
-  cat("This is an easynem object\n")
-  cat("The otutab is:\n")
-  print(object@tab)
-  cat("The taxonomy is:\n")
-  print(object@tax)
-  cat("The metadata is:\n")
-  print(object@meta)
-})
 #' read_nem
 #' @description Used for reading Otutab, Taxonomy, and Metadata tables.
 #' Currently, this function only supports text documents in csv format.
