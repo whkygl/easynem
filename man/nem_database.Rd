@@ -13,3 +13,6 @@ A web interface
 This function provides a visual interface for retrieving basic data of nematodes.
 The database used is from \url{http://nemaplex.ucdavis.edu/Ecology/EcophysiologyParms/EcoParameterMenu.html}
 }
+\references{
+\url{http://nemaplex.ucdavis.edu/Ecology/EcophysiologyParms/EcoParameterMenu.html}
+}

@@ -1,0 +1,19 @@
+#' Experimental Design of Kiwifruit Cover Crops
+#'
+#' Experimental design table of "Responses of soil nematode abundance and food
+#' web to cover crops in a kiwifruit orchard". The variables are as follows:
+#' @usage nemmeta
+#' @format A tibble with 12 rows and 2 variables:
+#' \describe{
+#'   \item{SampleID}{IDs of different observations, corresponding to the column names of nemtab}
+#'   \item{Treatments}{Diversity of cover crops in different observations: CK has no cover crops,
+#'   C2 has two cover crops, C4 has four cover crops, and C8 has eight cover crops}
+#' }
+#' @references This dataset referenced from "Li Q-m, Qi X-X, Zhang H-f, Zhang Y-j,
+#' Liu H-m, Zhao J-n, Yang D and Wang H (2023) Responses of soil nematode abundance
+#' and food web to cover crops in a kiwifruit orchard. Front. Plant Sci. 14:1173157.
+#' doi: 10.3389/fpls.2023.1173157"
+#' @examples
+#' data(nemmeta)
+#' head(nemmeta)
+"nemmeta"
