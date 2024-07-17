@@ -2,27 +2,37 @@
 % Please edit documentation in R/read_nem.R
 \name{read_nem}
 \alias{read_nem}
-\title{read_nem}
+\title{Build easynem-class objects from their components}
 \usage{
 read_nem(tab = 0, tax = 0, meta = 0, ...)
 }
 \arguments{
-\item{tab}{Otutab table.}
+\item{tab}{Nematode abundance table.}
 
-\item{tax}{Taxonomy table.}
+\item{tax}{Nematode abundance table.}
 
-\item{meta}{Metadata table.}
+\item{meta}{Experimental design table.}
 
-\item{...}{Other default parameters for read_csv function.}
+\item{...}{Other default parameters for \code{\link[readr]{read_csv}} function.}
 }
 \value{
-An easynem object.
+An easynem object. The components in the class are interconnected to
+facilitate the subsequent screening and management of nematode data. When this
+class is generated, it will automatically check whether there is nematode
+information in the species classification table. If not, it will not be
+associated with the nematode database.
 }
 \description{
-Used for reading Otutab, Taxonomy, and Metadata tables.
-Currently, this function only supports text documents in csv format.
+\code{read_nem()} is a constructor method. This is the main method suggested
+for constructing an experiment-level (\code{\link{easynem-class}}) object
+from its component data (component data: \code{tab}, \code{tax}, \code{meta}).
 }
 \examples{
-bac <- read_nem(tab = easynem_example("bacotu.csv"), tax = easynem_example("bactax.csv"))
-show(bac)
+easynem <- read_nem(tab = easynem_example("nemtab.csv"),
+                    tax = easynem_example("nemtax.csv"),
+                    meta = easynem_example("nemmeta.csv"))
+show(easynem)
+}
+\seealso{
+\code{\link{read_nem2}}
 }
