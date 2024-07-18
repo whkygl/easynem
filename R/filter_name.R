@@ -11,7 +11,7 @@
 #' [`|>`] to connect functions:
 #'
 #' ```
-#' nem_filter <- nem %>% filter_name(target = meta, season == "Summer")
+#' nem_filter <- nem |> filter_name(target = meta, season == "Summer")
 #' ```
 #'
 #' @usage filter_name(data, target, ...)
@@ -85,8 +85,8 @@ filter_name <- function(data, target, ...){
   meta = data@meta
   colnames(meta)[1] = "SampleID"
   if(any(names(tab[,-1]) %in% names(meta[,-1]))){
-    dif = dplyr::setdiff(names(meta), names(tab))
-    meta = meta[,c("SampleID", dif)]
+    char_columns <- sapply(meta, is.character)
+    meta = meta[,char_columns]
     meta = merge(meta, tab, by = "SampleID")
   } else {
     meta = merge(meta, tab, by = "SampleID")

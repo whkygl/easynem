@@ -33,7 +33,7 @@ retained, the row must produce a value of \code{TRUE} for all conditions.
 To facilitate code interpretation, it is recommended to use the pipe symbol
 \code{\link{|>}} to connect functions:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_filter <- nem \%>\% filter_name(target = meta, season == "Summer")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_filter <- nem |> filter_name(target = meta, season == "Summer")
 }\if{html}{\out{</div>}}
 }
 \examples{
