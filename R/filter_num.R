@@ -1,4 +1,4 @@
-#' Filter easynem tab by discovery rate or abundance
+#' Filter easynem's tab by discovery rate or abundance
 #'
 #' The \code{filter_num()} is used to filter the rows of the easynem \code{tab}
 #' by abundance or discovery rate. If \code{num>1}, filter by abundance, \code{num}

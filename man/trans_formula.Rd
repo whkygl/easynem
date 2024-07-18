@@ -2,22 +2,44 @@
 % Please edit documentation in R/trans_formula.R
 \name{trans_formula}
 \alias{trans_formula}
-\title{trans_formula}
+\title{Formula conversion for easynem's meta}
 \usage{
-trans_formula(data, var, formu, ...)
+trans_formula(data, var, formu)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
 \item{var}{Variable name to be converted.}
 
-\item{formu}{Formula parameters for data conversion.}
-
-\item{...}{Other parameters of the vegan package decostand function.}
+\item{formu}{Formula parameters for data conversion. Such as \code{~log(x+1)}.}
 }
 \value{
-An easynem object.
+An \code{\link{easynem-class}} data that stores the result of formula
+conversion.
+
+#' @seealso
+Other functions in this package for filtering and transforming data sets:
+\code{\link{filter_name}}, \code{\link{filter_num}}, \code{\link{trans_formula_v}},
+\code{\link{trans_name}}, \code{\link{trans_norm}}, \code{\link{trans_rare}},
+\code{\link{trans_combine}}
 }
 \description{
-Convert data according to a formula.
+The \code{trans_formula()} is used to convert the formula of easynem meta.
+Formula transformation is sometimes necessary in nematode community analysis.
+For example, to ensure that the data is normally distributed, it is often
+necessary to perform \code{ln(x+1)} transformation or other forms of formula
+transformation on nematode abundance. This function only works on a single
+variable. For a vectorized variant of this function, see \code{\link{trans_formula_v}}.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_trans <- nem |> trans_formula(Mesorhabditis, ~log(x+1))
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_trans <- nem |> trans_formula(Mesorhabditis, ~log(x+1))
+show(nem_trans)
 }

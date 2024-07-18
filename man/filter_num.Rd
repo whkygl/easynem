@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter_num.R
 \name{filter_num}
 \alias{filter_num}
-\title{Filter easynem tab by discovery rate or abundance}
+\title{Filter easynem's tab by discovery rate or abundance}
 \usage{
 filter_num(data, num)
 }
