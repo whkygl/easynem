@@ -2,20 +2,48 @@
 % Please edit documentation in R/filter_num.R
 \name{filter_num}
 \alias{filter_num}
-\title{filter_num}
+\title{Filter easynem tab by discovery rate or abundance}
 \usage{
-filter_num(data, num, ...)
+filter_num(data, num)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{num}{Filter threshold value.}
-
-\item{...}{Other parameters.}
+\item{num}{Filter threshold value. If \code{num>1}, filter by abundance, \code{num}
+is the lowest abundance of the \code{tab}; if \code{num<1}, filter by discovery
+rate, \code{num} is the lowest discovery rate of the \code{tab}.}
 }
 \value{
-An easynem object.
+An \code{\link{easynem-class}} data.The results of \code{tab}, \code{tax},
+and \code{meta} are the retention values after filtering the \code{tab} by abundance
+or discovery rate.
 }
 \description{
-Used to filter species whose quantity or discovery rate is higher than num. If num is greater than 1, filter by quantity; if num is less than 1, filter by discovery rate.
+The \code{filter_num()} is used to filter the rows of the easynem \code{tab}
+by abundance or discovery rate. If \code{num>1}, filter by abundance, \code{num}
+is the lowest abundance of the \code{tab}; if \code{num<1}, filter by discovery
+rate, \code{num} is the lowest discovery rate of the \code{tab}.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_filter <- nem |> filter_num(target = meta, num = 0.85)
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_filter <- nem |> filter_num(target = meta, num = 500)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_filter <- nem |> filter_num(num = 0.9)
+show(nem_filter)
+nem_filter <- nem |> filter_num(num = 1000)
+show(nem_filter)
+}
+\seealso{
+Other functions in this package for filtering and transforming data sets:
+\code{\link{filter_name}}, \code{\link{trans_formula}}, \code{\link{trans_formula_v}},
+\code{\link{trans_name}}, \code{\link{trans_norm}}, \code{\link{trans_rare}},
+\code{\link{trans_combine}}
 }
