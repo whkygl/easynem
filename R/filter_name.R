@@ -84,7 +84,7 @@ filter_name <- function(data, target, ...){
   colnames(tab)[1] = "SampleID"
   meta = data@meta
   colnames(meta)[1] = "SampleID"
-  if(any(names(tab[,-1]) %in% names(meta[,-1]))){
+  if(any(names(tab)[-1] %in% names(meta)[-1])){
     char_columns <- sapply(meta, is.character)
     meta = meta[,char_columns]
     meta = merge(meta, tab, by = "SampleID")
