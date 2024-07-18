@@ -2,20 +2,48 @@
 % Please edit documentation in R/filter_name.R
 \name{filter_name}
 \alias{filter_name}
-\title{filter_name}
+\title{Filter easynem by column name and keep rows that match a condition}
 \usage{
 filter_name(data, target, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{target}{tab, tax or meta, where tab represents the species abundance table, tax represents the species classification table, and meta represents the metadata table.}
+\item{target}{\code{tab}, \code{tax} or \code{meta}, where \code{tab} represents
+the species abundance table, \code{tax} represents the species classification
+table, and \code{meta} represents the experimental design table.}
 
-\item{...}{Other parameters of the filter function of the dplyr package.}
+\item{...}{Other parameters of the \code{\link[dplyr]{filter}} function of the
+dplyr package.}
 }
 \value{
-An easynem object.
+An \code{\link{easynem-class}} data. The rows of each component are a
+subset of the input, but appear in the same order and the columns of each
+component are not modified.
 }
 \description{
-Used to filter easynem type data by name.
+The \code{filter_name()} is the extension of the \code{\link[dplyr]{filter}}
+function for easynem type data, used to subset an easynem object, retaining
+all rows that satisfy your conditions. This function selects one of \code{tab},
+\code{tax} or \code{meta} in easynem for filtering. When any of the three
+components changes, the related components will also change accordingly. To be
+retained, the row must produce a value of \code{TRUE} for all conditions.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_filter <- nem \%>\% filter_name(target = meta, season == "Summer")
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_filter <- nem |> filter_name(target = meta, Treatments == "C4")
+show(nem_filter)
+}
+\seealso{
+Other functions in this package for filtering and transforming data sets:
+\code{\link{filter_num}}, \code{\link{trans_formula}}, \code{\link{trans_formula_v}},
+\code{\link{trans_name}}, \code{\link{trans_norm}}, \code{\link{trans_rare}},
+\code{\link{trans_combine}}
 }

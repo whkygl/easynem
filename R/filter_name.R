@@ -1,10 +1,43 @@
-#' filter_name
-#' @description Used to filter easynem type data by name.
-#' @param data easynem type data.
-#' @param target tab, tax or meta, where tab represents the species abundance table, tax represents the species classification table, and meta represents the metadata table.
-#' @param ... Other parameters of the filter function of the dplyr package.
-#' @return An easynem object.
+#' Filter easynem by column name and keep rows that match a condition
+#'
+#' The \code{filter_name()} is the extension of the \code{\link[dplyr]{filter}}
+#' function for easynem type data, used to subset an easynem object, retaining
+#' all rows that satisfy your conditions. This function selects one of \code{tab},
+#' \code{tax} or \code{meta} in easynem for filtering. When any of the three
+#' components changes, the related components will also change accordingly. To be
+#' retained, the row must produce a value of \code{TRUE} for all conditions.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_filter <- nem %>% filter_name(target = meta, season == "Summer")
+#' ```
+#'
+#' @usage filter_name(data, target, ...)
+#'
+#' @param data An \code{\link{easynem-class}} data.
+#' @param target \code{tab}, \code{tax} or \code{meta}, where \code{tab} represents
+#' the species abundance table, \code{tax} represents the species classification
+#' table, and \code{meta} represents the experimental design table.
+#' @param ... Other parameters of the \code{\link[dplyr]{filter}} function of the
+#' dplyr package.
+#'
+#' @return An \code{\link{easynem-class}} data. The rows of each component are a
+#' subset of the input, but appear in the same order and the columns of each
+#' component are not modified.
+#'
+#' @seealso
+#' Other functions in this package for filtering and transforming data sets:
+#' \code{\link{filter_num}}, \code{\link{trans_formula}}, \code{\link{trans_formula_v}},
+#' \code{\link{trans_name}}, \code{\link{trans_norm}}, \code{\link{trans_rare}},
+#' \code{\link{trans_combine}}
+#'
 #' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_filter <- nem |> filter_name(target = meta, Treatments == "C4")
+#' show(nem_filter)
 filter_name <- function(data, target, ...){
   target = deparse(substitute(target))
   if(target == 'meta'){
