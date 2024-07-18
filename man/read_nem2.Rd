@@ -2,23 +2,35 @@
 % Please edit documentation in R/read_nem2.R
 \name{read_nem2}
 \alias{read_nem2}
-\title{read_nem2}
+\title{Build easynem-class objects from their tibble type object}
 \usage{
 read_nem2(tab = 0, tax = 0, meta = 0, ...)
 }
 \arguments{
-\item{tab}{Otutab table.}
+\item{tab}{Nematode abundance table.}
 
-\item{tax}{Taxonomy table.}
+\item{tax}{Nematode abundance table.}
 
-\item{meta}{Metadata table.}
+\item{meta}{Experimental design table.}
 
-\item{...}{Other default parameters for read_nem2 function.}
+\item{...}{Other default parameters for \code{\link[readr]{read_csv}} function.}
 }
 \value{
-An easynem object.
+An easynem object. The components in the class are interconnected to
+facilitate the subsequent screening and management of nematode data. When this
+class is generated, it will automatically check whether there is nematode
+information in the species classification table. If not, it will not be
+associated with the nematode database.
 }
 \description{
-Used for reading Otutab, Taxonomy, and Metadata tables.
-Currently, this function only supports text documents in dataframe format.
+\code{read_nem2()} is a constructor method. This is the main method suggested
+for constructing an experiment-level (\code{\link{easynem-class}}) object
+from its tibble type object (component data: \code{tab}, \code{tax}, \code{meta}).
+}
+\examples{
+easynem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+show(easynem)
+}
+\seealso{
+\code{\link{read_nem}}
 }

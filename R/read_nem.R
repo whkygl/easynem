@@ -1,4 +1,4 @@
-#' Build easynem-class objects from their components
+#' Build easynem-class objects from their csv file
 #'
 #' \code{read_nem()} is a constructor method. This is the main method suggested
 #' for constructing an experiment-level (\code{\link{easynem-class}}) object
@@ -58,9 +58,9 @@ read_nem <- function(tab=0, tax=0, meta=0, ...){
       genus = rbind(genus1, basis_)
       genus = dplyr::distinct(genus)
       hehe = dplyr::left_join(.easynem@tax,genus,by = "Genus")
-      na_rows = apply(hehe[, (length(names(tax))+1):(length(names(tax))+26)], 1, function(row) all(is.na(row)))
+      na_rows = apply(hehe[, (length(tax)+1):(length(tax)+26)], 1, function(row) all(is.na(row)))
       hehe_na_rows = hehe[na_rows, ]
-      hehe_na_rows = hehe_na_rows[,1:length(names(tax))]
+      hehe_na_rows = hehe_na_rows[,1:length(tax)]
       hehe2 = dplyr::left_join(hehe_na_rows,family1,by = "Family")
       hehe2 = hehe2[,-c(length(tax)+3, length(tax)+4)]
       hehe = hehe[!na_rows,]

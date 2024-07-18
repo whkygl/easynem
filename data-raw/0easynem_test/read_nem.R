@@ -1,0 +1,33 @@
+devtools::install_github("whkygl/easynem")
+library(easynem)
+?read_nem
+easynem <- read_nem(tab = easynem_example("nemtab.csv"),
+                    tax = easynem_example("nemtax.csv"),
+                    meta = easynem_example("nemmeta.csv"))
+easynem <- read_nem(tab = easynem_example("nemtab.csv"))
+head(easynem@tab)
+easynem <- read_nem(tax = easynem_example("nemtax.csv"))
+head(easynem@tax)
+easynem <- read_nem(meta = easynem_example("nemmeta.csv"))
+head(easynem@meta)
+easynem <- read_nem(tab = easynem_example("nemtab.csv"),
+                    tax = easynem_example("nemtax.csv"))
+head(easynem@tab)
+head(easynem@tax)
+easynem <- read_nem(tab = easynem_example("nemtab.csv"),
+                    meta = easynem_example("nemmeta.csv"))
+head(easynem@tab)
+head(easynem@meta)
+easynem <- read_nem(tax = easynem_example("nemtax.csv"),
+                    meta = easynem_example("nemmeta.csv"))
+head(easynem@tax)
+head(easynem@meta)
+easynem <- read_nem(tab = easynem_example("nemtab1.csv"),
+                    tax = easynem_example("nemtax1.csv"),
+                    meta = easynem_example("nemmeta1.csv"))
+bac <- read_nem(tab = easynem_example("bacotu.csv"),
+                    tax = easynem_example("bactax.csv"),
+                    meta = easynem_example("nemmeta1.csv"))
+head(bac@tax)
+head(bac@meta)
+head(bac@tab)

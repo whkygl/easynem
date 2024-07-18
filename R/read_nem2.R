@@ -1,12 +1,27 @@
-#' read_nem2
-#' @description Used for reading Otutab, Taxonomy, and Metadata tables.
-#' Currently, this function only supports text documents in dataframe format.
-#' @param tab Otutab table.
-#' @param tax Taxonomy table.
-#' @param meta Metadata table.
-#' @param ... Other default parameters for read_nem2 function.
-#' @return An easynem object.
+#' Build easynem-class objects from their tibble type object
+#'
+#' \code{read_nem2()} is a constructor method. This is the main method suggested
+#' for constructing an experiment-level (\code{\link{easynem-class}}) object
+#' from its tibble type object (component data: \code{tab}, \code{tax}, \code{meta}).
+#'
+#' @usage read_nem2(tab = 0, tax = 0, meta = 0, ...)
+#'
+#' @param tab Nematode abundance table.
+#' @param tax Nematode abundance table.
+#' @param meta Experimental design table.
+#' @param ... Other default parameters for \code{\link[readr]{read_csv}} function.
+#'
+#' @return An easynem object. The components in the class are interconnected to
+#' facilitate the subsequent screening and management of nematode data. When this
+#' class is generated, it will automatically check whether there is nematode
+#' information in the species classification table. If not, it will not be
+#' associated with the nematode database.
+#'
+#' @seealso \code{\link{read_nem}}
 #' @export
+#' @examples
+#' easynem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' show(easynem)
 read_nem2 <- function(tab=0, tax=0, meta=0, ...){
   .easynem = methods::new("easynem")
   if(!is.numeric(tab)){
@@ -43,11 +58,11 @@ read_nem2 <- function(tab=0, tax=0, meta=0, ...){
       genus = rbind(genus1, basis_)
       genus = dplyr::distinct(genus)
       hehe = dplyr::left_join(.easynem@tax,genus,by = "Genus")
-      na_rows = apply(hehe[, 9:34], 1, function(row) all(is.na(row)))
+      na_rows = apply(hehe[, (length(tax)+1):(length(tax)+26)], 1, function(row) all(is.na(row)))
       hehe_na_rows = hehe[na_rows, ]
-      hehe_na_rows = hehe_na_rows[,1:8]
+      hehe_na_rows = hehe_na_rows[,1:length(tax)]
       hehe2 = dplyr::left_join(hehe_na_rows,family1,by = "Family")
-      hehe2 = hehe2[,-c(11,12)]
+      hehe2 = hehe2[,-c(length(tax)+3, length(tax)+4)]
       hehe = hehe[!na_rows,]
       names(hehe2) = names(hehe)
       hehe_all = rbind(hehe,hehe2)

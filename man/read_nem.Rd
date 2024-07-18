@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_nem.R
 \name{read_nem}
 \alias{read_nem}
-\title{Build easynem-class objects from their components}
+\title{Build easynem-class objects from their csv file}
 \usage{
 read_nem(tab = 0, tax = 0, meta = 0, ...)
 }
