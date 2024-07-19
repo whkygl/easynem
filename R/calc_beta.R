@@ -1,18 +1,3 @@
-#' An S4 class to store beta diversity results.
-#' @slot meta A data frame of meta data.
-#' @slot result A data frame of pairwise comparison results.
-#' @slot temp A character vector of the difference comparison.
-methods::setClass("beta",
-                  slots = list(
-                    meta = "data.frame",
-                    result = "data.frame",
-                    temp = "character"
-                  ))
-methods::setMethod("show", "beta", function(object){
-  cat("This is an beta object\n")
-  cat("The difference comparison is:\n")
-  print(object@result)
-})
 #' calc_beta
 #' @description Calculate beata diversity and generate results for multiple comparisons between treatments.
 #' @param data easynem type data.

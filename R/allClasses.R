@@ -36,3 +36,35 @@ methods::setMethod("show", "easynem", function(object){
   cat("The metadata is:\n")
   print(object@meta)
 })
+################################################################################
+#' An class to store beta diversity results (Single Factor).
+#'
+#' \code{beta-class} is used to store the results of beta diversity analysis,
+#' including results for drawing and comparing differences between groups.
+#'
+#' Users can construct a \code{beta-class} through \code{\link{calc_beta}},
+#' which can then be connected to \code{\link{nem_plot}} to visualize the results.
+#'
+#' @slot meta A data frame storing basic elements for visualization.
+#' @slot result A data frame of pairwise comparison results.
+#' @slot temp A character vector of the difference comparison.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_beta}}; Class for storing two-factor beta
+#' diversity analysis, \code{\link{beta2-class}}; Visualization function,
+#' \code{\link{nem_plot}}.
+#'
+#' @name beta-class
+#' @rdname beta-class
+#' @exportClass beta
+methods::setClass("beta",
+                  slots = list(
+                    meta = "data.frame",
+                    result = "data.frame",
+                    temp = "character"
+                  ))
+methods::setMethod("show", "beta", function(object){
+  cat("This is an beta object\n")
+  cat("The difference comparison is:\n")
+  print(object@result)
+})
