@@ -2,20 +2,45 @@
 % Please edit documentation in R/trans_formula_v.R
 \name{trans_formula_v}
 \alias{trans_formula_v}
-\title{trans_formula_v}
+\title{Formula conversion for easynem's meta (Vectorization)}
 \usage{
 trans_formula_v(data, var, formu)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{var}{Variable name to be converted.}
+\item{var}{Vectorized variable names for formula conversion.}
 
-\item{formu}{Formula parameters for data conversion.}
+\item{formu}{Formula parameters for data conversion. Such as \code{~log(x+1)}.}
 }
 \value{
-An easynem object.
+An \code{\link{easynem-class}} data that stores the result of formula
+conversion.
 }
 \description{
-Convert data according to a formula.
+The \code{trans_formula_v()} is used to convert the formula of easynem meta.
+Formula transformation is sometimes necessary in nematode community analysis.
+For example, to ensure that the data is normally distributed, it is often
+necessary to perform \code{ln(x+1)} transformation or other forms of formula
+transformation on nematode abundance. This function can transfer vectors to
+achieve multi-variable formula conversion. For a univariate simplified version
+of this function, see \code{\link{trans_formula}}.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_trans <- nem |> trans_formula_v(colnames(resultmeta)[5:10], ~log(x+1))
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_trans <- nem |> trans_formula_v(nem@tab$OTUID, ~log(x+1))
+show(nem_trans)
+}
+\seealso{
+Other functions in this package for filtering and transforming data sets:
+\code{\link{filter_name}}, \code{\link{filter_num}}, \code{\link{trans_formula}},
+\code{\link{trans_name}}, \code{\link{trans_norm}}, \code{\link{trans_rare}},
+\code{\link{trans_combine}}
 }
