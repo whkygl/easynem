@@ -1,10 +1,41 @@
-#' trans_rare
-#' @description Used to rare the species abundance table according to the number of occurrences in the sample. The default is to rare according to the minimum value.
-#' @param data easynem type data.
-#' @param sample The number of occurrences in the sample. If sample = 0, the minimum value is used by default.
-#' @param ... Other parameters of the vegan package rrarefy function.
-#' @return An easynem object.
+#' Randomly rarefied OTU or ASV tables of nematodes for amplicon sequencing data
+#'
+#' The \code{trans_rare()} is an extension of the \code{\link[vegan]{rrarefy}}
+#' function of the vegan package for \code{\link{easynem-class}} data, which is
+#' used to randomly rarefied OTU or ASV tables of nematodes for amplicon sequencing
+#' data. The default is to rare according to the minimum abundance of nematode
+#' in each treatment.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_trans <- nem |> trans_rare(1500)
+#' ```
+#'
+#' @usage trans_rare(data, sample = 0, ...)
+#'
+#' @param data An \code{\link{easynem-class}} data.
+#' @param sample Subsample size for rarefying community. The default \code{sample = 0},
+#' the minimum abundance is used for rarefied OTU or ASV tables of nematodes.
+#' @param ... Other parameters of the \code{\link[vegan]{rrarefy}} function of
+#' the vegan package.
+#'
+#' @return A rarefied \code{\link{easynem-class}} data.
+#'
+#' @seealso
+#' Other functions in this package for filtering and transforming data sets:
+#' \code{\link{filter_name}}, \code{\link{trans_formula}}, \code{\link{trans_formula_v}},
+#' \code{\link{trans_name}}, \code{\link{filter_num}}, \code{\link{trans_norm}},
+#' \code{\link{trans_combine}}
+#'
 #' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_trans <- nem |> trans_rare()
+#' colSums(nem_trans@tab[,-1])
+#' nem_trans <- nem |> trans_rare(1500)
+#' colSums(nem_trans@tab[,-1])
 trans_rare <- function(data, sample = 0, ...){
   # data = hehe
   # sample = 0
@@ -40,9 +71,9 @@ trans_rare <- function(data, sample = 0, ...){
   colnames(tab)[1] = "SampleID"
   meta = data@meta
   colnames(meta)[1] = "SampleID"
-  if(any(names(tab[,-1]) %in% names(meta[,-1]))){
-    dif = dplyr::setdiff(names(meta), names(tab))
-    meta = meta[,c("SampleID", dif)]
+  if(any(names(tab)[-1] %in% names(meta)[-1])){
+    char_columns <- sapply(meta, is.character)
+    meta = meta[,char_columns]
     meta = merge(meta, tab, by = "SampleID")
   } else {
     meta = merge(meta, tab, by = "SampleID")

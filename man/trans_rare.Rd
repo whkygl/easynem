@@ -2,20 +2,46 @@
 % Please edit documentation in R/trans_rare.R
 \name{trans_rare}
 \alias{trans_rare}
-\title{trans_rare}
+\title{Randomly rarefied OTU or ASV tables of nematodes for amplicon sequencing data}
 \usage{
 trans_rare(data, sample = 0, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{sample}{The number of occurrences in the sample. If sample = 0, the minimum value is used by default.}
+\item{sample}{Subsample size for rarefying community. The default \code{sample = 0},
+the minimum abundance is used for rarefied OTU or ASV tables of nematodes.}
 
-\item{...}{Other parameters of the vegan package rrarefy function.}
+\item{...}{Other parameters of the \code{\link[vegan]{rrarefy}} function of
+the vegan package.}
 }
 \value{
-An easynem object.
+A rarefied \code{\link{easynem-class}} data.
 }
 \description{
-Used to rare the species abundance table according to the number of occurrences in the sample. The default is to rare according to the minimum value.
+The \code{trans_rare()} is an extension of the \code{\link[vegan]{rrarefy}}
+function of the vegan package for \code{\link{easynem-class}} data, which is
+used to randomly rarefied OTU or ASV tables of nematodes for amplicon sequencing
+data. The default is to rare according to the minimum abundance of nematode
+in each treatment.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_trans <- nem |> trans_rare(1500)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_trans <- nem |> trans_rare()
+colSums(nem_trans@tab[,-1])
+nem_trans <- nem |> trans_rare(1500)
+colSums(nem_trans@tab[,-1])
+}
+\seealso{
+Other functions in this package for filtering and transforming data sets:
+\code{\link{filter_name}}, \code{\link{trans_formula}}, \code{\link{trans_formula_v}},
+\code{\link{trans_name}}, \code{\link{filter_num}}, \code{\link{trans_norm}},
+\code{\link{trans_combine}}
 }

@@ -1,0 +1,10 @@
+devtools::install_github("whkygl/easynem")
+library(easynem)
+?trans_norm
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_trans <- nem |> trans_norm(method = percent)
+show(nem_trans)
+colSums(nem_trans@tab[,-1])
+nem_trans <- nem |> trans_norm(method = total)
+show(nem_trans)
+colSums(nem_trans@tab[,-1])
