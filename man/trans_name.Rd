@@ -2,20 +2,60 @@
 % Please edit documentation in R/trans_name.R
 \name{trans_name}
 \alias{trans_name}
-\title{trans_name}
+\title{Reorganize the easynem's tab by taxonomic name}
 \usage{
-trans_name(data, taxonomy, ...)
+trans_name(data, taxonomy)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{taxonomy}{Species classification name.}
-
-\item{...}{Other parameters.}
+\item{taxonomy}{Nematode taxonomic name or other nematode attributes.}
 }
 \value{
-An easynem object.
+A reclassified and aggregated \code{\link{easynem-class}}.
 }
 \description{
-Used to sum species abundance tables grouped by taxonomy table.
+The \code{trans_name()} is used to re-summarize the nematode abundance table
+by nematode taxonomy table.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_trans <- nem |> trans_name(Family)
+}\if{html}{\out{</div>}}
+}
+\section{Feedings}{
+
+
+Since the nematode taxonomy table is automatically associated with the nematode
+database (\code{\link{nem_database}}) including \code{feeding} and \code{cp_value}
+when reading data through \code{\link{read_nem}} or \code{\link{read_nem2}},
+\code{feeding} can also be passed as a parameter to \code{trans_name()}. The
+corresponding relationship between the feeding value and the actual nematode
+feeding habits is as follows:
+\itemize{
+\item \code{feeding = 1}, plant feeding
+\item \code{feeding = 2}, fungal hyphal feeding
+\item \code{feeding = 3}, bacterial feeding
+\item \code{feeding = 4}, substrate ingestion
+\item \code{feeding = 5}, predation (including specialist predators of nematodes)
+\item \code{feeding = 6}, eucaryote feeding
+\item \code{feeding = 7}, dispersal stages or animal parasites
+\item \code{feeding = 8}, omnivory (including general predators of nematodes)
+}
+}
+
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_trans <- nem |> trans_name(Family)
+show(nem_trans)
+nem_trans <- nem |> trans_name(feeding)
+show(nem_trans)
+}
+\seealso{
+Other functions in this package for filtering and transforming data sets:
+\code{\link{filter_name}}, \code{\link{trans_formula}}, \code{\link{trans_formula_v}},
+\code{\link{filter_num}}, \code{\link{trans_norm}}, \code{\link{trans_rare}},
+\code{\link{trans_combine}}
 }
