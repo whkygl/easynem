@@ -2,18 +2,43 @@
 % Please edit documentation in R/trans_combine.R
 \name{trans_combine}
 \alias{trans_combine}
-\title{trans_formula}
+\title{Merge multiple columns of easynem's meta}
 \usage{
 trans_combine(data, col)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
 \item{col}{The name of the column to be summed.}
 }
 \value{
-An easynem object.
+An \code{\link{easynem-class}} data.
 }
 \description{
-Sum meta by column.
+The \code{trans_combine()} is used for the special case of merging columns in
+easynem's meta. For example, \code{Cp35\%} (the sum of percentages from \code{Cp3}
+to \code{Cp5}) is often used in nematode community analysis. This function can
+quickly merge \code{Cp3} to \code{Cp5}.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_trans <- nem |> trans_combine(c("3", "4", "5"))
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_trans <- nem |>
+             trans_name(cp_value) |>
+             trans_norm(method = percent) |>
+             trans_combine(c("3", "4", "5"))
+show(nem_trans)
+nem_trans@meta$`3_4_5`
+}
+\seealso{
+Other functions in this package for filtering and transforming data sets:
+\code{\link{filter_name}}, \code{\link{trans_formula}}, \code{\link{trans_formula_v}},
+\code{\link{trans_name}}, \code{\link{filter_num}}, \code{\link{trans_norm}},
+\code{\link{trans_rare}}
 }
