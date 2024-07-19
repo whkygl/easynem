@@ -23,7 +23,7 @@
 #' @return An \code{\link{easynem-class}} data that stores the result of formula
 #' conversion.
 #'
-#' #' @seealso
+#' @seealso
 #' Other functions in this package for filtering and transforming data sets:
 #' \code{\link{filter_name}}, \code{\link{filter_num}}, \code{\link{trans_formula_v}},
 #' \code{\link{trans_name}}, \code{\link{trans_norm}}, \code{\link{trans_rare}},
@@ -49,14 +49,10 @@ trans_formula <- function(data, var, formu){
   colnames(tab)[1] = "SampleID"
   meta = data@meta
   colnames(meta)[1] = "SampleID"
-  if(any(names(tab)[-1] %in% names(meta)[-1])){
-    char_columns <- sapply(meta, is.character)
-    meta = meta[,char_columns]
-    meta = merge(meta, tab, by = "SampleID")
-  } else {
-    meta = merge(meta, tab, by = "SampleID")
-  }
+  tab[var] = meta[var]
   meta = tibble::as_tibble(meta)
+  tab = tibble::as_tibble(tab)
   data@meta = meta
+  data@tab = tab
   return(data)
 }

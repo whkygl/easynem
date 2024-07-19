@@ -16,12 +16,6 @@ trans_formula(data, var, formu)
 \value{
 An \code{\link{easynem-class}} data that stores the result of formula
 conversion.
-
-#' @seealso
-Other functions in this package for filtering and transforming data sets:
-\code{\link{filter_name}}, \code{\link{filter_num}}, \code{\link{trans_formula_v}},
-\code{\link{trans_name}}, \code{\link{trans_norm}}, \code{\link{trans_rare}},
-\code{\link{trans_combine}}
 }
 \description{
 The \code{trans_formula()} is used to convert the formula of easynem meta.
@@ -42,4 +36,10 @@ To facilitate code interpretation, it is recommended to use the pipe symbol
 nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
 nem_trans <- nem |> trans_formula(Mesorhabditis, ~log(x+1))
 show(nem_trans)
+}
+\seealso{
+Other functions in this package for filtering and transforming data sets:
+\code{\link{filter_name}}, \code{\link{filter_num}}, \code{\link{trans_formula_v}},
+\code{\link{trans_name}}, \code{\link{trans_norm}}, \code{\link{trans_rare}},
+\code{\link{trans_combine}}
 }
