@@ -2,22 +2,48 @@
 % Please edit documentation in R/trans_norm.R
 \name{trans_norm}
 \alias{trans_norm}
-\title{trans_norm}
+\title{Normalizing the nematode abundance table}
 \usage{
 trans_norm(data, method, MARGIN = 2, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{method}{Methods used in standardization.}
+\item{method}{Standardization method. For details, refer to the
+\code{\link[vegan]{decostand}} function of the vegan package.}
 
-\item{MARGIN}{The dimension to standardize. 1 for rows, 2 for columns.}
+\item{MARGIN}{Margin, \code{1 = rows}, and \code{2 = columns} of easynem's tab.
+Default \code{MARGIN = 2}.}
 
-\item{...}{Other parameters of the vegan package decostand function.}
+\item{...}{Other parameters of the \code{\link[vegan]{decostand}} function of
+the vegan package.}
 }
 \value{
-An easynem object.
+A normalized \code{\link{easynem-class}} data.
 }
 \description{
-Standardize species numbers to percentages or other.
+The \code{trans_norm()} is an extension of the \code{\link[vegan]{decostand}}
+function of the vegan package for \code{\link{easynem-class}} data, which is
+used to standardize the nematode abundance table to reduce the order of magnitude
+differences of nematodes in each treatment.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_trans <- nem |> trans_norm(method = total)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_trans <- nem |> trans_norm(method = total)
+colSums(nem_trans@tab[,-1])
+nem_trans <- nem |> trans_norm(method = percent)
+colSums(nem_trans@tab[,-1])
+}
+\seealso{
+Other functions in this package for filtering and transforming data sets:
+\code{\link{filter_name}}, \code{\link{trans_formula}}, \code{\link{trans_formula_v}},
+\code{\link{trans_name}}, \code{\link{filter_num}}, \code{\link{trans_rare}},
+\code{\link{trans_combine}}
 }
