@@ -3,7 +3,7 @@
 \docType{class}
 \name{beta-class}
 \alias{beta-class}
-\title{An class to store beta diversity results (Single Factor).}
+\title{An class to store beta diversity results (single factor).}
 \description{
 \code{beta-class} is used to store the results of beta diversity analysis,
 including results for drawing and comparing differences between groups.
@@ -17,7 +17,7 @@ which can then be connected to \code{\link{nem_plot}} to visualize the results.
 \describe{
 \item{\code{meta}}{A data frame storing basic elements for visualization.}
 
-\item{\code{result}}{A data frame of pairwise comparison results.}
+\item{\code{result}}{A character of pairwise comparison results.}
 
 \item{\code{temp}}{A character vector of the difference comparison.}
 }}

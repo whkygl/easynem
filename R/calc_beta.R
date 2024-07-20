@@ -1,19 +1,48 @@
-#' calc_beta
-#' @description Calculate beata diversity and generate results for multiple comparisons between treatments.
-#' @param data easynem type data.
-#' @param type pca, pcoa or nmds.
-#' @param .group The group variable.
-#' @param method The method of calculating the distance matrix.
-#' @param ... Other parameters for cmdscale and vegdist functions.
-#' @return An beta object.
+#' Beta diversity analysis, generating beta-class (single factor)
+#'
+#' The \code{calc_beta()} is used to perform beta diversity analysis and create
+#' \code{\link{beta-class}}. This function is only applicable to single factor
+#' analysis, see \code{\link{calc_beta2}} for a two-factor version of the
+#' function.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_pca <- nem |> calc_beta(pca, Treatments, method = "bray")
+#' ```
+#'
+#' @usage calc_beta(data, type, .group, method, ...)
+#'
+#' @param data An \code{\link{easynem-class}} data.
+#' @param type Types of beta diversity analysis (\code{pca}, \code{pcoa} or \code{nmds}).
+#' @param .group Treatment factors that need to be compared.
+#' @param method Dissimilarity index, partial match to `"manhattan"`, `"euclidean"`,
+#' `"canberra"`, `"clark"`, `"bray"`, `"kulczynski"`, `"jaccard"`, `"gower"`,
+#' `"altGower"`, `"morisita"`, `"horn"`, `"mountford"`, `"raup"`, `"binomial"`,
+#' `"chao"`, `"cao"`, `"mahalanobis"`, `"chisq"`, `"chord"`, `"hellinger"`,
+#' `"aitchison"`, or `"robust.aitchison"`. See \code{\link[vegan]{vegdist}}.
+#' @param ... Other parameters for \code{\link[stats]{cmdscale}}, \code{\link[vegan]{vegdist}}
+#' and \code{\link[vegan]{adonis2}}.
+#'
+#' @return A \code{\link{beta-class}} for storing beta diversity analysis results.
+#'
+#' @seealso
+#' Other functions in this R package for data calculations:
+#' \code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+#' \code{\link{calc_alpha}}, \code{\link{calc_nemindex}}, \code{\link{calc_funguild}},
+#' \code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+#' \code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+#' \code{\link{calc_ef2}}.
+#'
 #' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_pcoa <- nem |> calc_beta(pcoa, Treatments, method = "bray")
+#' show(nem_pcoa)
+#' nem_nmds <- nem |> calc_beta(nmds, Treatments, method = "bray")
+#' show(nem_nmds)
 calc_beta <- function(data, type, .group, method, ...){
-  p_list = c("pairwiseAdonis")
-  for (p in p_list) {
-    if (!requireNamespace(p)) {
-      remotes::install_github(p)
-    }
-  }
     type = deparse(substitute(type))
     .group = deparse(substitute(.group))
     method = deparse(substitute(method))
@@ -45,6 +74,7 @@ calc_beta <- function(data, type, .group, method, ...){
       temp = c(x,y,adonis)
       .beta@temp = temp
       .beta@meta = tibble::as_tibble(pcoa_result)
+      .beta@result = adonis[1]
     } else if (type == 'nmds'){
       utils::capture.output(df_nmds <-  vegan::metaMDS(dist, k = 3))
       stress = df_nmds$stress
@@ -57,6 +87,7 @@ calc_beta <- function(data, type, .group, method, ...){
       adonis = paste('Stress=',round(stress, 3))
       .beta@temp = adonis
       .beta@meta = tibble::as_tibble(nmds_result)
+      .beta@result = adonis[1]
     } else if (type == 'pca'){
       pca = stats::prcomp(otu2, ...)
       formula_str = paste("otu2~", .group)
@@ -74,20 +105,9 @@ calc_beta <- function(data, type, .group, method, ...){
       temp = c(x, y, adonis)
       .beta@temp = temp
       .beta@meta = tibble::as_tibble(pca_result)
+      .beta@result = adonis[1]
     } else{
       stop("type should be one of 'pcoa', 'nmds' and 'pca'")
     }
-  pair_adonis = pairwiseAdonis::pairwise.adonis(x=otu2, factors = meta[[.group]], sim.function = "vegdist",
-                                                sim.method = method, p.adjust = "BH", reduce = NULL, perm = 999)
-  sig = tibble::as_tibble(pair_adonis)
-  sig = dplyr::mutate(sig, sig = dplyr::case_when(
-    p.adjusted >= 0.1 ~ "ns",
-    p.adjusted > 0.05 & p.adjusted < 0.1 ~ ".",
-    p.adjusted > 0.01 & p.adjusted <= 0.05 ~ "*",
-    p.adjusted > 0.001 & p.adjusted <= 0.01 ~ "**",
-    p.adjusted > 0.0001 & p.adjusted <= 0.001 ~ "***",
-    p.adjusted <= 0.0001 ~ "****"
-  ))
-  .beta@result = sig
   return(.beta)
 }
