@@ -1,29 +1,78 @@
-#' nem_plot
+################################################################################
+#' Visualize the results of the calculation
 #'
-#' This is a generic function for visualization.
-#' @param object easynem or other types data.
-#' @param ... Other parameters.
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_beta(pca, Treatments, method = "bray") |> nem_plot()
+#' ```
+#'
+#' @param object \code{\link{beta-class}} or other types data (\code{\link{beta2-class}},
+#' \code{\link{compare-class}}, \code{\link{compare2-class}}, \code{\link{ef-class}},
+#' \code{\link{ef2-class}}, \code{\link{funguild-class}}, \code{\link{funguild2-class}},
+#' \code{\link{mf-class}}, \code{\link{mf2-class}}, \code{\link{ter-class}},
+#' \code{\link{ter2-class}}, etc.).
+#' @param ... Other parameters to be expanded.
+#'
 #' @export
-setGeneric("nem_plot", function(object,...){
+setGeneric("nem_plot", function(object, ...){
   standardGeneric("nem_plot")
 })
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object easynem or other types data.
-#' @param level Used to adjust the size of the confidence ellipse.
-#' @param type Method used to adjust the display of scatter area.
-#' @param ... Other parameters for ggplot2::stat_ellipse and ggalt::geom_encircle functions.
-#' @return An ggplot object.
-#' @rdname beta
-#' @name beta
+################################################################################
+#' Visualization of beta diversity results (single factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{beta-class}}
+#' and is used to visualize the single-factor beta diversity results.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_beta(pca, Treatments, method = "bray") |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{beta-class}} object.
+#' @param level Used to adjust the size of the confidence ellipse. Default
+#' \code{level = 0.6}. See \code{\link[ggplot2]{stat_ellipse}}.
+#' @param type Method used to adjust the display of scatter area. \code{type = 1},
+#' displays as a confidence ellipse; \code{type = 2}, displays as a polygon.
+#' Default \code{type = 2}.
+#' @param ... Other parameters to be expanded.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @rdname nem_plot-methods
 #' @aliases nem_plot,beta-method
 #' @import ggplot2
 #' @import ggalt
 #' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_plot <- nem |>
+#'             calc_beta(pcoa, Treatments, method = "bray") |>
+#'             nem_plot(level = 0)
+#' nem_plot
+#' nem_plot <- nem |>
+#'             calc_beta(nmds, Treatments, method = "bray") |>
+#'             nem_plot(type = 2)
+#' nem_plot
 setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1, ...){
-  my_color <- c("#4f72d2","#E64B35","#4DBBD5","#F2A900","#00A087","#3C5488",
-                "#F39B7F","#0096b0","#DC0000","#c06e26",
-                "#b5426a")
   meta = object@meta
   result = object@result
   temp = object@temp
@@ -33,7 +82,6 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
     group = meta[,2]
     p = ggplot2::ggplot(meta,ggplot2::aes(x=NMDS1,y=NMDS2,color=!!dplyr::sym(colnames(group))))+
       ggplot2::labs(x=colnames(NMDS1),y = colnames(NMDS2), title=temp)+ggplot2::geom_point(size=4)+
-      ggplot2::scale_color_manual(values = my_color)+
       ggplot2::theme(legend.title = ggplot2::element_blank())+
       ggplot2::theme_test() + ggplot2::coord_fixed(1)
     if (level > 0){
@@ -62,7 +110,6 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
         p = ggplot2::ggplot(meta,ggplot2::aes(x=PC1,y=PC2,color=!!dplyr::sym(colnames(group))))
     }
     p = p+ggplot2::labs(x = temp[1], y=temp[2], title=temp[3])+ggplot2::geom_point(size=4)+
-      ggplot2::scale_color_manual(values = my_color)+
       ggplot2::theme(legend.title = ggplot2::element_blank())+
       ggplot2::theme_test() + ggplot2::coord_fixed(1)
     if (level > 0){
@@ -95,9 +142,6 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
 #' @import ggalt
 #' @export
 setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1, ...){
-  my_color <- c("#4f72d2","#E64B35","#4DBBD5","#F2A900","#00A087","#3C5488",
-                "#F39B7F","#0096b0","#DC0000","#c06e26",
-                "#b5426a")
   meta = object@meta
   result = object@result
   temp = object@temp
@@ -109,7 +153,6 @@ setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1
     group3 = meta[,4]
     p = ggplot2::ggplot(meta,ggplot2::aes(x=NMDS1,y=NMDS2,color=!!dplyr::sym(colnames(group1)), shape=!!dplyr::sym(colnames(group2))))+
       ggplot2::labs(x=colnames(NMDS1),y = colnames(NMDS2), title=temp)+ggplot2::geom_point(size=4)+
-      ggplot2::scale_color_manual(values = my_color)+
       ggplot2::theme(legend.title = ggplot2::element_blank())+
       ggplot2::theme_test() + ggplot2::coord_fixed(1)
     if (level > 0){
@@ -142,7 +185,6 @@ setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1
         p = ggplot2::ggplot(meta,ggplot2::aes(x=PC1,y=PC2,color=!!dplyr::sym(colnames(group1)),shape=!!dplyr::sym(colnames(group2))))
     }
     p = p+ggplot2::labs(x = temp[1], y=temp[2], title=temp[3])+ggplot2::geom_point(size=4)+
-      ggplot2::scale_color_manual(values = my_color)+
       ggplot2::theme(legend.title = ggplot2::element_blank())+
       ggplot2::theme_test() + ggplot2::coord_fixed(1)
     if (level > 0){

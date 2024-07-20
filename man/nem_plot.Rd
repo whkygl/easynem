@@ -2,15 +2,31 @@
 % Please edit documentation in R/nem_plot.R
 \name{nem_plot}
 \alias{nem_plot}
-\title{nem_plot}
+\title{Visualize the results of the calculation}
 \usage{
 nem_plot(object, ...)
 }
 \arguments{
-\item{object}{easynem or other types data.}
+\item{object}{\code{\link{beta-class}} or other types data (\code{\link{beta2-class}},
+\code{\link{compare-class}}, \code{\link{compare2-class}}, \code{\link{ef-class}},
+\code{\link{ef2-class}}, \code{\link{funguild-class}}, \code{\link{funguild2-class}},
+\code{\link{mf-class}}, \code{\link{mf2-class}}, \code{\link{ter-class}},
+\code{\link{ter2-class}}, etc.).}
 
-\item{...}{Other parameters.}
+\item{...}{Other parameters to be expanded.}
 }
 \description{
-This is a generic function for visualization.
+The \code{nem_plot()} is used to visualize the calculation results and is a
+generalized function for multiple classes including \code{\link{beta-class}},
+\code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+\code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+\code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+\code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_plot <- nem |> calc_beta(pca, Treatments, method = "bray") |> nem_plot()
+}\if{html}{\out{</div>}}
 }
