@@ -44,7 +44,7 @@ setGeneric("nem_plot", function(object, ...){
 #' \code{level = 0.6}. See \code{\link[ggplot2]{stat_ellipse}}.
 #' @param type Method used to adjust the display of scatter area. \code{type = 1},
 #' displays as a confidence ellipse; \code{type = 2}, displays as a polygon.
-#' Default \code{type = 2}.
+#' Default \code{type = 1}.
 #' @param ... Other parameters to be expanded.
 #'
 #' @return An \code{gg} or \code{ggplot} object.
@@ -128,19 +128,54 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
   }
   p = p + ggplot2::geom_vline(xintercept = 0, linetype = "dashed") + ggplot2::geom_hline(yintercept = 0, linetype = "dashed")
 })
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object easynem or other types data.
-#' @param level Used to adjust the size of the confidence ellipse.
-#' @param type Method used to adjust the display of scatter area.
-#' @param ... Other parameters for ggplot2::stat_ellipse and ggalt::geom_encircle functions.
-#' @return An ggplot object.
-#' @rdname beta2
-#' @name beta2
+################################################################################
+#' Visualization of beta diversity results (two-factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{beta2-class}}
+#' and is used to visualize the two-factor beta diversity results.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_beta2(pca, con_crop, season, method = "bray") |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{beta2-class}} object.
+#' @param level Used to adjust the size of the confidence ellipse. Default
+#' \code{level = 0.6}. See \code{\link[ggplot2]{stat_ellipse}}.
+#' @param type Method used to adjust the display of scatter area. \code{type = 1},
+#' displays as a confidence ellipse; \code{type = 2}, displays as a polygon.
+#' Default \code{type = 1}.
+#' @param ... Other parameters to be expanded.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @rdname nem_plot-methods
 #' @aliases nem_plot,beta2-method
 #' @import ggplot2
 #' @import ggalt
 #' @export
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_plot <- nem |>
+#'             calc_beta2(pcoa, con_crop, season, method = "bray") |>
+#'             nem_plot(level = 0)
+#' nem_plot
+#' nem_plot <- nem |>
+#'             calc_beta2(nmds, con_crop, season, method = "bray") |>
+#'             nem_plot(type = 2)
+#' nem_plot
 setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1, ...){
   meta = object@meta
   result = object@result
@@ -203,6 +238,7 @@ setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1
   }
   p = p + ggplot2::geom_vline(xintercept = 0, linetype = "dashed") + ggplot2::geom_hline(yintercept = 0, linetype = "dashed")
 })
+################################################################################
 #' nem_plot
 #' @description For visualization of nematode community data.
 #' @param object easynem or other types data.

@@ -1,35 +1,51 @@
-#' An S4 class to store beta diversity results.
-#' @slot meta A data frame of meta data.
-#' @slot result A data frame of pairwise comparison results.
-#' @slot temp A character vector of the difference comparison.
-methods::setClass("beta2",
-                  slots = list(
-                    meta = "data.frame",
-                    result = "data.frame",
-                    temp = "character"
-                  ))
-methods::setMethod("show", "beta2", function(object){
-  cat("This is an beta2 object\n")
-  cat("The difference comparison is:\n")
-  print(object@result)
-})
-#' calc_beta2
-#' @description Calculate beata diversity and generate results for multiple comparisons between treatments.
-#' @param data easynem type data.
-#' @param type pca, pcoa or nmds.
-#' @param .group1 The group variable.
-#' @param .group2 The group variable.
-#' @param method The method of calculating the distance matrix.
-#' @param ... Other parameters for cmdscale and vegdist functions.
-#' @return An beta2 object.
+#' Beta diversity analysis, generating beta2-class (two-factor)
+#'
+#' The \code{calc_beta2()} is used to perform beta diversity analysis and create
+#' \code{\link{beta2-class}}. This function is only applicable to two-factor factor
+#' analysis, see \code{\link{calc_beta}} for a single factor version of the
+#' function.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_pca <- nem |> calc_beta2(pca, con_crop, season, method = "bray")
+#' ```
+#'
+#' @usage calc_beta2(data, type, .group1, .group2, method, ...)
+#'
+#' @param data An \code{\link{easynem-class}} data.
+#' @param type Types of beta diversity analysis (\code{pca}, \code{pcoa} or \code{nmds}).
+#' @param .group1 Treatment factors 1 that need to be compared.
+#' @param .group2 Treatment factors 2 that need to be compared.
+#' @param method Dissimilarity index, partial match to `"manhattan"`, `"euclidean"`,
+#' `"canberra"`, `"clark"`, `"bray"`, `"kulczynski"`, `"jaccard"`, `"gower"`,
+#' `"altGower"`, `"morisita"`, `"horn"`, `"mountford"`, `"raup"`, `"binomial"`,
+#' `"chao"`, `"cao"`, `"mahalanobis"`, `"chisq"`, `"chord"`, `"hellinger"`,
+#' `"aitchison"`, or `"robust.aitchison"`. See \code{\link[vegan]{vegdist}}.
+#' @param ... Other parameters for \code{\link[stats]{cmdscale}}, \code{\link[vegan]{vegdist}}
+#' and \code{\link[vegan]{adonis2}}.
+#'
+#' @return A \code{\link{beta2-class}} for storing beta diversity analysis results.
+#'
+#' @seealso
+#' Other functions in this R package for data calculations:
+#' \code{\link{calc_beta}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+#' \code{\link{calc_alpha}}, \code{\link{calc_nemindex}}, \code{\link{calc_funguild}},
+#' \code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+#' \code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+#' \code{\link{calc_ef2}}.
+#'
 #' @export
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_pcoa <- nem |> calc_beta2(pcoa, con_crop, season, method = "bray")
+#' show(nem_pcoa)
+#' nem_nmds <- nem |> calc_beta2(nmds, con_crop, season, method = "bray")
+#' show(nem_nmds)
 calc_beta2 <- function(data, type, .group1, .group2, method, ...){
-  p_list = c("pairwiseAdonis")
-  for (p in p_list) {
-    if (!requireNamespace(p)) {
-      remotes::install_github(p)
-    }
-  }
     type = deparse(substitute(type))
     .group1 = deparse(substitute(.group1))
     .group2 = deparse(substitute(.group2))
@@ -62,6 +78,7 @@ calc_beta2 <- function(data, type, .group1, .group2, method, ...){
       adonis = paste0("Adonis: R=",round(div$R2,3), "; p=",div$`Pr(>F)`)
       temp = c(x,y,adonis)
       .beta@temp = temp
+      .beta@result = adonis[1]
       .beta@meta = tibble::as_tibble(pcoa_result)
     } else if (type == 'nmds'){
       utils::capture.output(df_nmds <-  vegan::metaMDS(dist, k = 3))
@@ -74,6 +91,7 @@ calc_beta2 <- function(data, type, .group1, .group2, method, ...){
       nmds_result = cbind(meta, nmds_points)
       adonis = paste('Stress=',round(stress, 3))
       .beta@temp = adonis
+      .beta@result = adonis[1]
       .beta@meta = tibble::as_tibble(nmds_result)
     } else if (type == 'pca'){
       pca = stats::prcomp(otu2, ...)
@@ -91,21 +109,10 @@ calc_beta2 <- function(data, type, .group1, .group2, method, ...){
       y = paste0("PCA2(",round(summ1$importance[2,2]*100,2),"%)")
       temp = c(x, y, adonis)
       .beta@temp = temp
+      .beta@result = adonis[1]
       .beta@meta = tibble::as_tibble(pca_result)
     } else{
       stop("type should be one of 'pcoa', 'nmds' and 'pca'")
     }
-  pair_adonis = pairwiseAdonis::pairwise.adonis(x=otu2, factors = meta[[".group_all"]], sim.function = "vegdist",
-                                                sim.method = method, p.adjust = "BH", reduce = NULL, perm = 999)
-  sig = tibble::as_tibble(pair_adonis)
-  sig = dplyr::mutate(sig, sig = dplyr::case_when(
-    p.adjusted >= 0.1 ~ "ns",
-    p.adjusted > 0.05 & p.adjusted < 0.1 ~ ".",
-    p.adjusted > 0.01 & p.adjusted <= 0.05 ~ "*",
-    p.adjusted > 0.001 & p.adjusted <= 0.01 ~ "**",
-    p.adjusted > 0.0001 & p.adjusted <= 0.001 ~ "***",
-    p.adjusted <= 0.0001 ~ "****"
-  ))
-  .beta@result = sig
   return(.beta)
 }

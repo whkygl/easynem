@@ -2,26 +2,58 @@
 % Please edit documentation in R/calc_beta2.R
 \name{calc_beta2}
 \alias{calc_beta2}
-\title{calc_beta2}
+\title{Beta diversity analysis, generating beta2-class (two-factor)}
 \usage{
 calc_beta2(data, type, .group1, .group2, method, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{type}{pca, pcoa or nmds.}
+\item{type}{Types of beta diversity analysis (\code{pca}, \code{pcoa} or \code{nmds}).}
 
-\item{.group1}{The group variable.}
+\item{.group1}{Treatment factors 1 that need to be compared.}
 
-\item{.group2}{The group variable.}
+\item{.group2}{Treatment factors 2 that need to be compared.}
 
-\item{method}{The method of calculating the distance matrix.}
+\item{method}{Dissimilarity index, partial match to \code{"manhattan"}, \code{"euclidean"},
+\code{"canberra"}, \code{"clark"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"},
+\code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"},
+\code{"chao"}, \code{"cao"}, \code{"mahalanobis"}, \code{"chisq"}, \code{"chord"}, \code{"hellinger"},
+\code{"aitchison"}, or \code{"robust.aitchison"}. See \code{\link[vegan]{vegdist}}.}
 
-\item{...}{Other parameters for cmdscale and vegdist functions.}
+\item{...}{Other parameters for \code{\link[stats]{cmdscale}}, \code{\link[vegan]{vegdist}}
+and \code{\link[vegan]{adonis2}}.}
 }
 \value{
-An beta2 object.
+A \code{\link{beta2-class}} for storing beta diversity analysis results.
 }
 \description{
-Calculate beata diversity and generate results for multiple comparisons between treatments.
+The \code{calc_beta2()} is used to perform beta diversity analysis and create
+\code{\link{beta2-class}}. This function is only applicable to two-factor factor
+analysis, see \code{\link{calc_beta}} for a single factor version of the
+function.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_pca <- nem |> calc_beta2(pca, con_crop, season, method = "bray")
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
+nem_pcoa <- nem |> calc_beta2(pcoa, con_crop, season, method = "bray")
+show(nem_pcoa)
+nem_nmds <- nem |> calc_beta2(nmds, con_crop, season, method = "bray")
+show(nem_nmds)
+}
+\seealso{
+Other functions in this R package for data calculations:
+\code{\link{calc_beta}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+\code{\link{calc_alpha}}, \code{\link{calc_nemindex}}, \code{\link{calc_funguild}},
+\code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+\code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+\code{\link{calc_ef2}}.
 }
