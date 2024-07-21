@@ -57,7 +57,6 @@ setGeneric("nem_plot", function(object, ...){
 #' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
 #' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
 #'
-#' @rdname nem_plot-methods
 #' @aliases nem_plot,beta-method
 #' @import ggplot2
 #' @import ggalt
@@ -159,7 +158,6 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
 #' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
 #' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
 #'
-#' @rdname nem_plot-methods
 #' @aliases nem_plot,beta2-method
 #' @import ggplot2
 #' @import ggalt

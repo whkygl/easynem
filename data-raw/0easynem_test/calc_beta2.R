@@ -1,7 +1,8 @@
 devtools::install_github("whkygl/easynem")
 library(easynem)
 ?nem_plot
-?`nem_plot,beta-method`
+?`beta2-class`
+?`nem_plot,beta2-method`
 nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
 nem_plot <- nem |>
   calc_beta(pcoa, Treatments, method = "bray") |>

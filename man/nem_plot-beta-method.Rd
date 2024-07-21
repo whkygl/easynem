@@ -2,15 +2,12 @@
 % Please edit documentation in R/nem_plot.R
 \name{nem_plot,beta-method}
 \alias{nem_plot,beta-method}
-\alias{nem_plot,beta2-method}
 \title{Visualization of beta diversity results (single factor)}
 \usage{
 \S4method{nem_plot}{beta}(object, level = 0.6, type = 1, ...)
-
-\S4method{nem_plot}{beta2}(object, level = 0.6, type = 1, ...)
 }
 \arguments{
-\item{object}{A \code{\link{beta2-class}} object.}
+\item{object}{A \code{\link{beta-class}} object.}
 
 \item{level}{Used to adjust the size of the confidence ellipse. Default
 \code{level = 0.6}. See \code{\link[ggplot2]{stat_ellipse}}.}
@@ -23,27 +20,16 @@ Default \code{type = 1}.}
 }
 \value{
 An \code{gg} or \code{ggplot} object.
-
-An \code{gg} or \code{ggplot} object.
 }
 \description{
 The \code{\link{nem_plot}} function is generalized to the \code{\link{beta-class}}
 and is used to visualize the single-factor beta diversity results.
-
-The \code{\link{nem_plot}} function is generalized to the \code{\link{beta2-class}}
-and is used to visualize the two-factor beta diversity results.
 }
 \details{
 To facilitate code interpretation, it is recommended to use the pipe symbol
 \code{\link{|>}} to connect functions:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{nem_plot <- nem |> calc_beta(pca, Treatments, method = "bray") |> nem_plot()
-}\if{html}{\out{</div>}}
-
-To facilitate code interpretation, it is recommended to use the pipe symbol
-\code{\link{|>}} to connect functions:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_plot <- nem |> calc_beta2(pca, con_crop, season, method = "bray") |> nem_plot()
 }\if{html}{\out{</div>}}
 }
 \examples{
@@ -56,26 +42,8 @@ nem_plot <- nem |>
             calc_beta(nmds, Treatments, method = "bray") |>
             nem_plot(type = 2)
 nem_plot
-nem <- read_nem(tab = easynem_example("nemtab1.csv"),
-                tax = easynem_example("nemtax1.csv"),
-                meta = easynem_example("nemmeta1.csv"))
-nem_plot <- nem |>
-            calc_beta2(pcoa, con_crop, season, method = "bray") |>
-            nem_plot(level = 0)
-nem_plot
-nem_plot <- nem |>
-            calc_beta2(nmds, con_crop, season, method = "bray") |>
-            nem_plot(type = 2)
-nem_plot
 }
 \seealso{
-The \code{nem_plot()} is used to visualize the calculation results and is a
-generalized function for multiple classes including \code{\link{beta-class}},
-\code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
-\code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
-\code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
-\code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
-
 The \code{nem_plot()} is used to visualize the calculation results and is a
 generalized function for multiple classes including \code{\link{beta-class}},
 \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
