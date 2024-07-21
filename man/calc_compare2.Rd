@@ -2,26 +2,56 @@
 % Please edit documentation in R/calc_compare2.R
 \name{calc_compare2}
 \alias{calc_compare2}
-\title{calc_compare2}
+\title{Multiple comparisons between treatments (two-factor)}
 \usage{
 calc_compare2(data, .group1, .group2, y, method, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{.group1}{The group variable.}
+\item{.group1}{Grouping variables factor 1 (supports only two groups).}
 
-\item{.group2}{The group variable.}
+\item{.group2}{Grouping variables factor 1 (supports only two groups).}
 
-\item{y}{The dependent variable.}
+\item{y}{Dependent variable (numeric data).}
 
-\item{method}{The method of difference comparison.}
+\item{method}{The method of difference comparison. Such as \code{\link{TTest}},
+\code{\link{TTest2}}, \code{\link{WilcoxTest}}, \code{\link{WilcoxTest2}},
+\code{\link{KruskalTest}}, \code{\link{KruskalTest2}}, \code{\link{LSD}},
+\code{\link{LSD2}}, \code{\link{HSD}}, \code{\link{HSD2}}, etc.}
 
-\item{...}{Other parameters for method functions.}
+\item{...}{Other parameters for \code{\link[stats]{t.test}}.}
 }
 \value{
-An compare2 object.
+An \code{\link{compare2-class}} object.
 }
 \description{
-Differences between groups were compared.
+The \code{calc_compare2} is used for multiple comparisons between different
+treatments and create \code{\link{compare2-class}}. This function is only
+applicable to two-factor analysis, see \code{\link{calc_compare}} for a
+single factor version of the function.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_compare <- nem |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = TTest2)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
+nem_ttest <- nem |>
+              filter_name(meta, con_crop \%in\% c("Y2", "Y11")) |>
+              calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = TTest2)
+nem_ttest
+}
+\seealso{
+Other functions in this R package for data calculations:
+\code{\link{calc_beta}}, \code{\link{calc_beta2}}, \code{\link{calc_compare}},
+\code{\link{calc_alpha}}, \code{\link{calc_nemindex}}, \code{\link{calc_funguild}},
+\code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+\code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+\code{\link{calc_ef2}}.
 }

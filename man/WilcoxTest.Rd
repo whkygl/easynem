@@ -2,22 +2,45 @@
 % Please edit documentation in R/WilcoxTest.R
 \name{WilcoxTest}
 \alias{WilcoxTest}
-\title{WilcoxTest}
+\title{Perform wilcoxon-test on easynem meta-table by treatment (single factor)}
 \usage{
 WilcoxTest(data, .group, y, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{.group}{The group variable.}
+\item{.group}{Grouping variables (supports only two groups).}
 
-\item{y}{Dependent variable.}
+\item{y}{Dependent variable (numeric data).}
 
-\item{...}{Other parameters for WilcoxTest.}
+\item{...}{Other parameters for \code{\link[stats]{wilcox.test}}.}
 }
 \value{
-An compare object.
+An \code{\link{compare-class}} object.
 }
 \description{
-Wilcoxon test was performed for grouped data.
+The \code{WilcoxTest()} is used to perform \code{wilcoxon-test} for grouped data and create
+\code{\link{compare-class}}. This function is only applicable to single factor
+analysis, see \code{\link{WilcoxTest2}} for a two factor version of the function.
+}
+\details{
+Note: The \code{wilcoxon-test} is only applicable to comparisons between two groups
+of data. To facilitate code interpretation, It is recommended to use this
+function in conjunction with the \code{\link{calc_compare}} function:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_compare <- nem |> calc_compare(.group = con_crop, y = pH, method = WilcoxTest)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_test <- nem |>
+              filter_name(meta, Treatments \%in\% c("CK", "C8")) |>
+              calc_compare(.group = Treatments, y = Mesorhabditis, method = WilcoxTest)
+nem_test
+}
+\seealso{
+Other functions related to differential analysis methods: \code{\link{TTest2}},
+\code{\link{TTest}}, \code{\link{WilcoxTest2}}, \code{\link{KruskalTest}},
+\code{\link{KruskalTest2}}, \code{\link{LSD}}, \code{\link{LSD2}}, \code{\link{HSD}},
+\code{\link{HSD2}}.
 }

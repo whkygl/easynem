@@ -2,22 +2,46 @@
 % Please edit documentation in R/HSD.R
 \name{HSD}
 \alias{HSD}
-\title{HSD test for grouped data.}
+\title{Compute Tukey Honest Significant Differences (single factor)}
 \usage{
 HSD(data, .group, y, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{.group}{The group variable.}
+\item{.group}{Grouping variables.}
 
-\item{y}{Dependent variable.}
+\item{y}{Dependent variable (numeric data).}
 
-\item{...}{Other parameters for TukeyHSD.}
+\item{...}{Other parameters for \code{\link[stats]{TukeyHSD}}.}
 }
 \value{
-An compare object.
+An \code{\link{compare-class}} object.
 }
 \description{
-Multiple comparisons of treatments by means of HSD and a grouping of treatments. The level by alpha default is 0.05. Returns p-values adjusted using one of several methods.
+The \code{HSD()} is used to Compute Tukey Honest Significant Differences for
+grouped data and create \code{\link{compare-class}}. This function is only
+applicable to single factor analysis, see \code{\link{HSD2}} for a
+two factor version of the function.
+}
+\details{
+To facilitate code interpretation, It is recommended to use this function in
+conjunction with the \code{\link{calc_compare}} function:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_compare <- nem |> calc_compare(.group = con_crop, y = pH, method = HSD)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_test <- nem |>
+            calc_compare(.group = Treatments,
+              y = Mesorhabditis,
+              method = HSD)
+nem_test
+}
+\seealso{
+Other functions related to differential analysis methods: \code{\link{TTest2}},
+\code{\link{TTest}}, \code{\link{WilcoxTest2}}, \code{\link{WilcoxTest}},
+\code{\link{KruskalTest2}}, \code{\link{KruskalTest}}, \code{\link{LSD2}}, \code{\link{LSD}},
+\code{\link{HSD2}}.
 }

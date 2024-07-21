@@ -2,26 +2,55 @@
 % Please edit documentation in R/KruskalTest2.R
 \name{KruskalTest2}
 \alias{KruskalTest2}
-\title{KruskalTest2}
+\title{Perform Kruskal-Wallis test on easynem meta-table by treatment (two-factor)}
 \usage{
 KruskalTest2(data, .group1, .group2, y, p.adj = "none", ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{.group1}{The group variable.}
+\item{.group1}{Grouping variables factor 1.}
 
-\item{.group2}{The group variable.}
+\item{.group2}{Grouping variables factor 2.}
 
-\item{y}{Dependent variable.}
+\item{y}{Dependent variable (numeric data).}
 
-\item{p.adj}{The method for adjust p value.}
+\item{p.adj}{method for correcting p-values for multiple comparisons. Default \code{p.adj = "none"}.}
 
-\item{...}{Other parameters for KruskalTest2.}
+\item{...}{Other parameters for \code{\link[stats]{kruskal.test}}.}
 }
 \value{
-An compare2 object.
+An \code{\link{compare2-class}} object.
 }
 \description{
-Kruskal-Wallis test was performed for grouped data.
+The \code{KruskalTest2()} is used to perform \code{Kruskal-Wallis} test for
+grouped data and create \code{\link{compare2-class}}. This function is only
+applicable to two-factor analysis, see \code{\link{KruskalTest}} for a
+single factor version of the function.
+}
+\details{
+To facilitate code interpretation, It is recommended to use this function in
+conjunction with the \code{\link{calc_compare2}} function:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_compare <- nem |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = KruskalTest)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
+nem_test <- nem |>
+              calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = KruskalTest2)
+nem_test
+}
+\references{
+R in Action: Data Analysis and Graphics with R, Second Edition by Robert I. Kabacoff,
+published by Manning Publications. 178 South Hill Drive, Westampton, NJ 08060 USA.
+Copyright 2015 by Manning Publications.
+}
+\seealso{
+Other functions related to differential analysis methods: \code{\link{TTest2}},
+\code{\link{TTest}}, \code{\link{WilcoxTest2}}, \code{\link{WilcoxTest}},
+\code{\link{KruskalTest}}, \code{\link{LSD}}, \code{\link{LSD2}}, \code{\link{HSD}},
+\code{\link{HSD2}}.
 }

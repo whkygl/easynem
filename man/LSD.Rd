@@ -2,22 +2,46 @@
 % Please edit documentation in R/LSD.R
 \name{LSD}
 \alias{LSD}
-\title{LSD test for grouped data.}
+\title{Multiple comparisons, "Least significant difference" and Adjust P-values (single factor)}
 \usage{
 LSD(data, .group, y, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{.group}{The group variable.}
+\item{.group}{Grouping variables.}
 
-\item{y}{Dependent variable.}
+\item{y}{Dependent variable (numeric data).}
 
-\item{...}{Other parameters for LSD.test.}
+\item{...}{Other parameters for \code{\link[agricolae]{LSD.test}}.}
 }
 \value{
-An compare object.
+An \code{\link{compare-class}} object.
 }
 \description{
-Multiple comparisons of treatments by means of LSD and a grouping of treatments. The level by alpha default is 0.05. Returns p-values adjusted using one of several methods.
+The \code{LSD()} is used to perform "Least significant difference" for
+grouped data and create \code{\link{compare-class}}. This function is only
+applicable to single factor analysis, see \code{\link{LSD2}} for a
+two factor version of the function.
+}
+\details{
+To facilitate code interpretation, It is recommended to use this function in
+conjunction with the \code{\link{calc_compare}} function:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_compare <- nem |> calc_compare(.group = con_crop, y = pH, method = LSD)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_test <- nem |>
+            calc_compare(.group = Treatments,
+              y = Mesorhabditis,
+              method = LSD)
+nem_test
+}
+\seealso{
+Other functions related to differential analysis methods: \code{\link{TTest2}},
+\code{\link{TTest}}, \code{\link{WilcoxTest2}}, \code{\link{WilcoxTest}},
+\code{\link{KruskalTest2}}, \code{\link{KruskalTest}}, \code{\link{LSD2}}, \code{\link{HSD}},
+\code{\link{HSD2}}.
 }

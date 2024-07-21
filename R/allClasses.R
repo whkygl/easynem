@@ -102,4 +102,69 @@ methods::setMethod("show", "beta2", function(object){
   cat("The result of the difference comparison is\n")
   print(object@result)
 })
+################################################################################
+#' An S4 class to store multiple comparisons results (single factor).
+#'
+#' \code{compare-class} is used to store the results of multiple comparisons results,
+#' including results for drawing and comparing differences between groups.
+#'
+#' Users can construct a \code{compare-class} through \code{\link{calc_compare}},
+#' which can then be connected to \code{\link{nem_plot}} to visualize the results.
+#'
+#' @slot meta A data frame storing basic elements for visualization.
+#' @slot result A data frame of multiple comparisons results.
+#' @slot temp A character vector of the difference comparison.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_compare}}; Class for storing two-factor
+#' multiple comparisons analysis, \code{\link{compare2-class}}; Visualization function,
+#' \code{\link{nem_plot}}.
+#'
+#' @name compare-class
+#' @rdname compare-class
+#' @exportClass compare
+methods::setClass("compare",
+                  slots = list(
+                    meta = "data.frame",
+                    result = "ANY",
+                    temp = "character"
+                  ))
+methods::setMethod("show", "compare", function(object){
+  cat("This is an compare object\n")
+  cat("The difference comparison is:\n")
+  print(object@result)
+})
+################################################################################
+#' An S4 class to store multiple comparisons results (two-factor).
+#'
+#' \code{compare2-class} is used to store the results of multiple comparisons results,
+#' including results for drawing and comparing differences between groups.
+#'
+#' Users can construct a \code{compare2-class} through \code{\link{calc_compare2}},
+#' which can then be connected to \code{\link{nem_plot}} to visualize the results.
+#'
+#' @slot meta A data frame storing basic elements for visualization.
+#' @slot result A data frame of multiple comparisons results.
+#' @slot temp A character vector of the difference comparison.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_compare2}}; Class for storing single factor
+#' multiple comparisons analysis, \code{\link{compare-class}}; Visualization function,
+#' \code{\link{nem_plot}}.
+#'
+#' @name compare2-class
+#' @rdname compare2-class
+#' @exportClass compare2
+methods::setClass("compare2",
+                  slots = list(
+                    meta = "data.frame",
+                    result = "ANY",
+                    temp = "character"
+                  ))
+methods::setMethod("show", "compare2", function(object){
+  cat("This is an compare2 object\n")
+  cat("The difference comparison is:\n")
+  print(object@result)
+})
+################################################################################
 

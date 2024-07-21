@@ -3,12 +3,15 @@ library(easynem)
 ?nem_plot
 ?`beta2-class`
 ?`nem_plot,beta2-method`
-nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+? calc_beta2
+nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
 nem_plot <- nem |>
-  calc_beta(pcoa, Treatments, method = "bray") |>
-  nem_plot(level = 0)
+  calc_beta2(pcoa, con_crop, season, method = "bray") |>
+  nem_plot()
 nem_plot
 nem_plot <- nem |>
-  calc_beta(nmds, Treatments, method = "bray") |>
+  calc_beta2(nmds, con_crop, season, method = "bray") |>
   nem_plot(type = 2)
 nem_plot

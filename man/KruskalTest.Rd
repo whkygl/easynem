@@ -2,36 +2,59 @@
 % Please edit documentation in R/KruskalTest.R
 \name{KruskalTest}
 \alias{KruskalTest}
-\title{KruskalTest}
+\title{Perform Kruskal-Wallis test on easynem meta-table by treatment (single factor)}
 \usage{
-KruskalTest(
-  data,
-  .group,
-  y,
-  exact = FALSE,
-  sort = TRUE,
-  .method = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"),
-  ...
-)
+KruskalTest(data, .group, y, exact=FALSE, sort=TRUE, .method=c("holm",
+"hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"), ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{.group}{The group variable.}
+\item{.group}{Grouping variables.}
 
-\item{y}{Dependent variable.}
+\item{y}{Dependent variable (numeric data).}
 
-\item{exact}{a logical indicating whether an exact p-value should be computed.}
+\item{exact}{logical. If TRUE, calculate exact Wilcoxon tests. Default \code{exact = FALSE}.}
 
-\item{sort}{logical. If sort groups by median dependent variable values.}
+\item{sort}{logical. If TRUE, sort groups by median dependent variable values.
+Default \code{sort = TRUE}.}
 
 \item{.method}{method for correcting p-values for multiple comparisons.}
 
-\item{...}{Other parameters for KruskalTest.}
+\item{...}{Other parameters for \code{\link[stats]{kruskal.test}}.}
 }
 \value{
-An compare object.
+An \code{\link{compare-class}} object.
 }
 \description{
-Kruskal-Wallis test was performed for grouped data.
+The \code{KruskalTest()} is used to perform \code{Kruskal-Wallis} test for
+grouped data and create \code{\link{compare-class}}. This function is only
+applicable to single factor analysis, see \code{\link{KruskalTest2}} for a
+two factor version of the function.
+}
+\details{
+To facilitate code interpretation, It is recommended to use this function in
+conjunction with the \code{\link{calc_compare}} function:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_compare <- nem |> calc_compare(.group = con_crop, y = pH, method = KruskalTest)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_test <- nem |>
+            calc_compare(.group = Treatments,
+              y = Mesorhabditis,
+              method = KruskalTest)
+nem_test
+}
+\references{
+R in Action: Data Analysis and Graphics with R, Second Edition by Robert I. Kabacoff,
+published by Manning Publications. 178 South Hill Drive, Westampton, NJ 08060 USA.
+Copyright 2015 by Manning Publications.
+}
+\seealso{
+Other functions related to differential analysis methods: \code{\link{TTest2}},
+\code{\link{TTest}}, \code{\link{WilcoxTest2}}, \code{\link{WilcoxTest}},
+\code{\link{KruskalTest2}}, \code{\link{LSD}}, \code{\link{LSD2}}, \code{\link{HSD}},
+\code{\link{HSD2}}.
 }

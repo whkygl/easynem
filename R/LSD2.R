@@ -1,12 +1,41 @@
-#' LSD2
-#' @description LSD test was performed for grouped data.
-#' @param data easynem type data.
-#' @param .group1 The group variable.
-#' @param .group2 The group variable.
-#' @param y Dependent variable.
-#' @param ... Other parameters for LSD2.
-#' @return An compare2 object.
+#' Multiple comparisons, "Least significant difference" and Adjust P-values (two-factor)
+#'
+#' The \code{LSD2()} is used to perform "Least significant difference" for
+#' grouped data and create \code{\link{compare2-class}}. This function is only
+#' applicable to two-factor analysis, see \code{\link{LSD}} for a
+#' single factor version of the function.
+#'
+#' To facilitate code interpretation, It is recommended to use this function in
+#' conjunction with the \code{\link{calc_compare2}} function:
+#'
+#' ```
+#' nem_compare <- nem |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = LSD2)
+#' ```
+#'
+#' @usage LSD2(data, .group1, .group2, y, ...)
+#'
+#' @param data An \code{\link{easynem-class}} data.
+#' @param .group1 Grouping variables factor 1.
+#' @param .group2 Grouping variables factor 2.
+#' @param y Dependent variable (numeric data).
+#' @param ... Other parameters for \code{\link[agricolae]{LSD.test}}.
+#'
+#' @return An \code{\link{compare2-class}} object.
+#'
+#' @seealso
+#' Other functions related to differential analysis methods: \code{\link{TTest2}},
+#' \code{\link{TTest}}, \code{\link{WilcoxTest2}}, \code{\link{WilcoxTest}},
+#' \code{\link{KruskalTest2}}, \code{\link{KruskalTest}}, \code{\link{LSD}}, \code{\link{HSD}},
+#' \code{\link{HSD2}}.
+#'
 #' @export
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_test <- nem |>
+#'               calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = LSD2)
+#' nem_test
 LSD2 <- function(data, .group1, .group2, y, ...){
   .compare2 = methods::new("compare2")
   meta = as.data.frame(data@meta)

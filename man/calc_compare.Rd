@@ -2,24 +2,52 @@
 % Please edit documentation in R/calc_compare.R
 \name{calc_compare}
 \alias{calc_compare}
-\title{calc_compare}
+\title{Multiple comparisons between treatments (single factor)}
 \usage{
 calc_compare(data, .group, y, method, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{.group}{The group variable.}
+\item{.group}{Grouping variables (supports only two groups).}
 
-\item{y}{The dependent variable.}
+\item{y}{Dependent variable (numeric data).}
 
-\item{method}{The method of difference comparison.}
+\item{method}{The method of difference comparison. Such as \code{\link{TTest}},
+\code{\link{TTest2}}, \code{\link{WilcoxTest}}, \code{\link{WilcoxTest2}},
+\code{\link{KruskalTest}}, \code{\link{KruskalTest2}}, \code{\link{LSD}},
+\code{\link{LSD2}}, \code{\link{HSD}}, \code{\link{HSD2}}, etc.}
 
-\item{...}{Other parameters for method functions.}
+\item{...}{Other parameters for \code{\link[stats]{t.test}}.}
 }
 \value{
-An compare object.
+An \code{\link{compare-class}} object.
 }
 \description{
-Differences between groups were compared.
+The \code{calc_compare} is used for multiple comparisons between different
+treatments and create \code{\link{compare-class}}. This function is only
+applicable to single factor analysis, see \code{\link{calc_compare2}} for a
+two factor version of the function.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_compare <- nem |> calc_compare(.group = con_crop, y = pH, method = TTest)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_ttest <- nem |>
+              filter_name(meta, Treatments \%in\% c("CK", "C8")) |>
+              calc_compare(.group = Treatments, y = Mesorhabditis, method = TTest)
+nem_ttest
+}
+\seealso{
+Other functions in this R package for data calculations:
+\code{\link{calc_beta}}, \code{\link{calc_beta2}}, \code{\link{calc_compare2}},
+\code{\link{calc_alpha}}, \code{\link{calc_nemindex}}, \code{\link{calc_funguild}},
+\code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+\code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+\code{\link{calc_ef2}}.
 }

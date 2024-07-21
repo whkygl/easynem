@@ -237,20 +237,51 @@ setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1
   p = p + ggplot2::geom_vline(xintercept = 0, linetype = "dashed") + ggplot2::geom_hline(yintercept = 0, linetype = "dashed")
 })
 ################################################################################
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object easynem or other types data.
-#' @param type Drawing style, bar or box.
-#' @param add Add mean and standard error or mean and standard deviation.
-#' @param ... Other parameters for nem_plot functions.
-#' @return An ggplot object.
-#' @rdname compare
-#' @name compare
+#' Visualizing the results of multiple comparisons (single factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{compare-class}}
+#' and is used to visualize the results of single-factor multiple comparisons.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_compare(.group = con_crop, y = pH, method = LSD) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{compare-class}} object.
+#' @param type \code{type = 1}, draws a box plot; \code{type = 2} draws a bar plot.
+#' Default \code{type = 1}.
+#' @param add Add standard deviation or standard error (only used when drawing a
+#' bar plot).
+#' @param ... Other parameters to be expanded.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
 #' @aliases nem_plot,compare-method
 #' @import ggplot2
-#' @import ggalt
-#' @import ggpubr
+#' @import multcompView
 #' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_plot <- nem |> calc_compare(.group = Treatments,
+#'               y = Mesorhabditis,
+#'               method = LSD) |>
+#'             nem_plot()
+#' nem_plot
+#' nem_plot <- nem |> calc_compare(.group = Treatments,
+#'               y = Mesorhabditis,
+#'               method = HSD) |>
+#'             nem_plot(type = 2, add = "mean_se")
+#' nem_plot
 setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...){
   meta = object@meta
   temp = object@temp
@@ -405,7 +436,7 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
     significant = wmc[,4]
     names(significant) = rownames(wmc)
     dif = multcompView::multcompLetters(significant)
-    dif2 = as.data.frame(dif$monospacedLetters)
+    dif2 = as.data.frame(dif$Letters)
     colnames(dif2) <- "label"
     dif2$group <- rownames(dif2)
     if(type == 1){
@@ -440,23 +471,56 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
 }
 p
 })
-
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object easynem or other types data.
-#' @param type1 Drawing style, bar or box.
-#' @param type2 Drawing style, tufted or faceted.
-#' @param add Add mean and standard error or mean and standard deviation.
-#' @param ... Other parameters for nem_plot functions.
-#' @return An ggplot object.
-#' @rdname compare2
-#' @name compare2
+################################################################################
+#' Visualizing the results of multiple comparisons (two-factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{compare2-class}}
+#' and is used to visualize the results of two-factor multiple comparisons.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = LSD) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{compare2-class}} object.
+#' @param type1 \code{type1 = 1}, draws a box plot; \code{type1 = 2}, draws a bar plot.
+#' Default \code{type1 = 1}.
+#' @param type2 \code{type2 = 1}, draw a cluster plot; \code{type2 = 2}, draws faceted plot.
+#' Default \code{type2 = 1}.
+#' @param add Add standard deviation or standard error (only used when drawing a
+#' bar plot).
+#' @param ... Other parameters to be expanded.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
 #' @aliases nem_plot,compare2-method
 #' @import ggplot2
-#' @import ggalt
+#' @import multcompView
 #' @import ggpubr
 #' @importFrom stats sd
 #' @export
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_plot <- nem |> calc_compare2(.group1 = con_crop,
+#'                     .group2 = season, y = pH, method = LSD2) |>
+#'                     nem_plot(type2 = 2)
+#' nem_plot
+#' nem_plot <- nem |> calc_compare2(.group1 = con_crop,
+#'                     .group2 = season, y = pH, method = HSD2) |>
+#'                     nem_plot(type1 = 2, type2 = 2, add = "mean_sd")
+#' nem_plot
 setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 = 1, add, ...){
   meta = object@meta
   meta2 = dplyr::group_by(meta, !!rlang::sym(colnames(meta)[2]), !!rlang::sym(colnames(meta)[3])) |>
@@ -942,7 +1006,6 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
 #' @name funguild
 #' @aliases nem_plot,funguild-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("funguild"), function(object, ...){
   # object = hehe2
@@ -965,7 +1028,6 @@ setMethod("nem_plot", signature("funguild"), function(object, ...){
 #' @name funguild2
 #' @aliases nem_plot,funguild2-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("funguild2"), function(object, ...){
   # object = hehe2
@@ -990,7 +1052,6 @@ setMethod("nem_plot", signature("funguild2"), function(object, ...){
 #' @name mf
 #' @aliases nem_plot,mf-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("mf"), function(object, kei = 1, ksi = 1, ...){
   # object = hehe2
@@ -1041,7 +1102,6 @@ setMethod("nem_plot", signature("mf"), function(object, kei = 1, ksi = 1, ...){
 #' @name mf2
 #' @aliases nem_plot,mf2-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
   # object = hehe2
@@ -1114,7 +1174,6 @@ setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
 #' @name ef
 #' @aliases nem_plot,ef-method
 #' @import ggplot2
-#' @import ggalt
 #' @import reshape2
 #' @import igraph
 #' @import ggraph
@@ -1228,7 +1287,6 @@ setMethod("nem_plot", signature("ef"), function(object){
 #' @name ef2
 #' @aliases nem_plot,ef2-method
 #' @import ggplot2
-#' @import ggalt
 #' @import reshape2
 #' @import igraph
 #' @import ggraph
@@ -1338,7 +1396,6 @@ setMethod("nem_plot", signature("ef2"), function(object){
 #' @name ter
 #' @aliases nem_plot,ter-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("ter"), function(object, type){
   # object = hehe
@@ -1369,7 +1426,6 @@ setMethod("nem_plot", signature("ter"), function(object, type){
 #' @name ter2
 #' @aliases nem_plot,ter2-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("ter2"), function(object, type){
   # object = hehe

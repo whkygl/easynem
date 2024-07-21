@@ -2,24 +2,49 @@
 % Please edit documentation in R/WilcoxTest2.R
 \name{WilcoxTest2}
 \alias{WilcoxTest2}
-\title{WilcoxTest2}
+\title{Perform wilcoxon-test on easynem meta-table by treatment (two-factor)}
 \usage{
 WilcoxTest2(data, .group1, .group2, y, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{.group1}{The group variable.}
+\item{.group1}{Grouping variables factor 1 (supports only two groups).}
 
-\item{.group2}{The group variable.}
+\item{.group2}{Grouping variables factor 2 (supports only two groups).}
 
-\item{y}{Dependent variable.}
+\item{y}{Dependent variable (numeric data).}
 
-\item{...}{Other parameters for WilcoxTest2.}
+\item{...}{Other parameters for \code{\link[stats]{wilcox.test}}.}
 }
 \value{
-An compare2 object.
+An \code{\link{compare2-class}} object.
 }
 \description{
-t test was performed for grouped data.
+The \code{WilcoxTest2()} is used to perform \code{wilcoxon-test} for grouped data and create
+\code{\link{compare2-class}}. This function is only applicable to two-factor
+analysis, see \code{\link{WilcoxTest}} for a single factor version of the function.
+}
+\details{
+Note: The \code{wilcoxon-test} is only applicable to comparisons between two groups
+of data. To facilitate code interpretation, It is recommended to use this
+function in conjunction with the \code{\link{calc_compare}} function:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_compare <- nem |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = WilcoxTest2)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
+nem_test <- nem |>
+              filter_name(meta, con_crop \%in\% c("Y2", "Y11")) |>
+              calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = WilcoxTest2)
+nem_test
+}
+\seealso{
+Other functions related to differential analysis methods: \code{\link{TTest2}},
+\code{\link{TTest}}, \code{\link{WilcoxTest}}, \code{\link{KruskalTest}},
+\code{\link{KruskalTest2}}, \code{\link{LSD}}, \code{\link{LSD2}}, \code{\link{HSD}},
+\code{\link{HSD2}}.
 }

@@ -2,24 +2,48 @@
 % Please edit documentation in R/LSD2.R
 \name{LSD2}
 \alias{LSD2}
-\title{LSD2}
+\title{Multiple comparisons, "Least significant difference" and Adjust P-values (two-factor)}
 \usage{
 LSD2(data, .group1, .group2, y, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{.group1}{The group variable.}
+\item{.group1}{Grouping variables factor 1.}
 
-\item{.group2}{The group variable.}
+\item{.group2}{Grouping variables factor 2.}
 
-\item{y}{Dependent variable.}
+\item{y}{Dependent variable (numeric data).}
 
-\item{...}{Other parameters for LSD2.}
+\item{...}{Other parameters for \code{\link[agricolae]{LSD.test}}.}
 }
 \value{
-An compare2 object.
+An \code{\link{compare2-class}} object.
 }
 \description{
-LSD test was performed for grouped data.
+The \code{LSD2()} is used to perform "Least significant difference" for
+grouped data and create \code{\link{compare2-class}}. This function is only
+applicable to two-factor analysis, see \code{\link{LSD}} for a
+single factor version of the function.
+}
+\details{
+To facilitate code interpretation, It is recommended to use this function in
+conjunction with the \code{\link{calc_compare2}} function:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_compare <- nem |> calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = LSD2)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
+nem_test <- nem |>
+              calc_compare2(.group1 = con_crop, .group2 = season, y = pH, method = LSD2)
+nem_test
+}
+\seealso{
+Other functions related to differential analysis methods: \code{\link{TTest2}},
+\code{\link{TTest}}, \code{\link{WilcoxTest2}}, \code{\link{WilcoxTest}},
+\code{\link{KruskalTest2}}, \code{\link{KruskalTest}}, \code{\link{LSD}}, \code{\link{HSD}},
+\code{\link{HSD2}}.
 }

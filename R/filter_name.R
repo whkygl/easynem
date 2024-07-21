@@ -85,8 +85,8 @@ filter_name <- function(data, target, ...){
   meta = data@meta
   colnames(meta)[1] = "SampleID"
   if(any(names(tab)[-1] %in% names(meta)[-1])){
-    char_columns <- sapply(meta, is.character)
-    meta = meta[,char_columns]
+    dif_columns <- setdiff(names(meta)[-1], names(tab)[-1])
+    meta = meta[,c("SampleID", dif_columns)]
     meta = merge(meta, tab, by = "SampleID")
   } else {
     meta = merge(meta, tab, by = "SampleID")
