@@ -1,20 +1,42 @@
-#' An S4 class to store the ternary analysis results.
-#' @slot result A data frame of the ternary analysis results.
-methods::setClass("ter",
-                  slots = list(
-                    result = "data.frame"
-                  ))
-methods::setMethod("show", "ter", function(object){
-  cat("This is an ter object\n")
-  cat("The ternary analysis results is:\n")
-  print(object@result)
-})
-#' calc_ter
-#' @description Calculate ternary analysis between treatments.
-#' @param data easynem type data.
+#' Trivariate analysis of nematode feeding or cp value (single factor)
+#'
+#' The \code{calc_ter()} function is used to perform ternary analysis on nematode
+#' feeding (Relative biomass of bacteria-feeding nematodes, fungi-feeding nematodes,
+#' and herbivorous nematodes) or cp values (Relative abundance of cp1 nematodes,
+#' cp2 nematodes, and cp3-5 nematodes).
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_ter <- nem |> calc_ter(con_crop)
+#' ```
+#' @usage calc_ter(data, .group)
+#'
+#' @param data An \code{\link{easynem-class}} object.
 #' @param .group The group variable.
-#' @return An ter object.
+#'
+#' @return A \code{\link{ter-class}} object that stores the desired
+#' visualization results.
+#'
+#' @seealso
+#' Other functions in this R package for data calculations:
+#' \code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+#' \code{\link{calc_beta}}, \code{\link{calc_alpha}}, \code{\link{calc_nemindex}},
+#' \code{\link{calc_funguild}}, \code{\link{calc_funguild2}}, \code{\link{calc_mf2}},
+#' \code{\link{calc_mf}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+#' \code{\link{calc_ef2}}.
+#'
+#' @references
+#' * <https://shiny.wur.nl/ninja/>
+#' * Goede, RGM de, T. Bongers, and C. H. Ettema. "Graphical presentation and
+#' interpretation of nematode community structure: cp triangles." (1993): 743-750.
+#'
 #' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_index <- nem |> calc_ter(Treatments)
+#' nem_index
 calc_ter <- function(data, .group){
   # data = bac
   # .group = "con_crop"

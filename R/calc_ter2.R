@@ -1,21 +1,44 @@
-#' An S4 class to store the ternary analysis results.
-#' @slot result A data frame of the ternary analysis results.
-methods::setClass("ter2",
-                  slots = list(
-                    result = "data.frame"
-                  ))
-methods::setMethod("show", "ter2", function(object){
-  cat("This is an ter2 object\n")
-  cat("The ternary analysis results is:\n")
-  print(object@result)
-})
-#' calc_ter2
-#' @description Calculate ternary analysis between treatments.
-#' @param data easynem type data.
-#' @param .group1 The group variable.
-#' @param .group2 The group variable.
-#' @return An ter2 object.
+#' Trivariate analysis of nematode feeding or cp value (two-factor)
+#'
+#' The \code{calc_ter2()} function is used to perform ternary analysis on nematode
+#' feeding (Relative biomass of bacteria-feeding nematodes, fungi-feeding nematodes,
+#' and herbivorous nematodes) or cp values (Relative abundance of cp1 nematodes,
+#' cp2 nematodes, and cp3-5 nematodes).
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_ter <- nem |> calc_ter2(con_crop, season)
+#' ```
+#' @usage calc_ter2(data, .group1, .group2)
+#'
+#' @param data An \code{\link{easynem-class}} object.
+#' @param .group1 The group variable factor 1.
+#' @param .group2 The group variable factor 2.
+#'
+#' @return A \code{\link{ter2-class}} object that stores the desired visualization results.
+#'
+#' @seealso
+#' Other functions in this R package for data calculations:
+#' \code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+#' \code{\link{calc_beta}}, \code{\link{calc_alpha}}, \code{\link{calc_nemindex}},
+#' \code{\link{calc_funguild}}, \code{\link{calc_funguild2}}, \code{\link{calc_mf2}},
+#' \code{\link{calc_mf}}, \code{\link{calc_ter}}, \code{\link{calc_ef}},
+#' \code{\link{calc_ef2}}.
+#'
+#' @references
+#' * <https://shiny.wur.nl/ninja/>
+#' * Goede, RGM de, T. Bongers, and C. H. Ettema. "Graphical presentation and
+#' interpretation of nematode community structure: cp triangles." (1993): 743-750.
+#'
 #' @export
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_index <- nem |> calc_ter2(con_crop, season)
+#' nem_index
 calc_ter2 <- function(data, .group1, .group2){
   # data = bac
   # .group1 = "con_crop"

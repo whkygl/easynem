@@ -3,7 +3,7 @@
 \docType{class}
 \name{beta-class}
 \alias{beta-class}
-\title{An class to store beta diversity results (single factor)}
+\title{A class to store beta diversity results (single factor)}
 \description{
 \code{beta-class} is used to store the results of beta diversity analysis,
 including results for drawing and comparing differences between groups.

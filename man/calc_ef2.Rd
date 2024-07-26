@@ -2,20 +2,91 @@
 % Please edit documentation in R/calc_ef2.R
 \name{calc_ef2}
 \alias{calc_ef2}
-\title{calc_ef2}
+\title{Calculation of energy flow in nematode communities (two-factor)}
 \usage{
 calc_ef2(data, .group1, .group2)
 }
 \arguments{
-\item{data}{nemindex type data.}
+\item{data}{An \code{\link{nemindex-class}} object.}
 
-\item{.group1}{The group variable.}
+\item{.group1}{The group variable factor 1.}
 
-\item{.group2}{The group variable.}
+\item{.group2}{The group variable factor 2.}
 }
 \value{
-An ef2 object.
+An \code{\link{ef2-class}} object that stores the desired visualization results.
+\itemize{
+\item \code{OF}, Energy flow metabolism of omnivorous predatory nematodes.
+\item \code{OM}, Fresh biomass (μg / 100g dry soil) of omnivorous predatory nematodes.
+\item \code{BF}, Energy flow metabolism of bacteria-feeding nematodes.
+\item \code{BM}, Fresh biomass (μg / 100g dry soil) of omnivorous predatory nematodes.
+\item \code{HF}, Energy flow metabolism of herbivorous nematodes.
+\item \code{HM}, Fresh biomass (μg / 100g dry soil) of herbivorous nematodes.
+\item \code{FF}, Energy flow metabolism of fungus-feeding nematodes.
+\item \code{FM}, Fresh biomass (μg / 100g dry soil) of fungus-feeding nematodes.
+\item \code{bp}, Feeding preference of predatory nematodes over bacteria-feeding nematodes.
+\item \code{hp}, Feeding preference of predatory nematodes over herbivorous nematodes.
+\item \code{fp}, Feeding preferences of predatory nematodes over fungivorous nematodes.
+\item \code{fbo}, Energy flow (μg C / 100g dry soil / day) between bacteria-feeding nematodes and omnivorous predatory nematodes.
+\item \code{fho}, Energy flow (μg C / 100g dry soil / day) between herbivorous nematodes and omnivorous predatory nematodes.
+\item \code{ffo}, Energy flow (μg C / 100g dry soil / day) between fungus-feeding nematodes and omnivorous predatory nematodes.
+\item \code{frb}, Energy flow (μg C / 100g dry soil / day) between basal resources and bacteria-feeding nematodes.
+\item \code{frh}, Energy flow (μg C / 100g dry soil / day) between basal resources and herbivorous nematodes.
+\item \code{frf}, Energy flow (μg C / 100g dry soil / day) between basal resources and fungivorous nematodes.
+\item \code{U}, Uniformity (U) of soil nematode energetic structure (unitless, mean ± standard error) was calculated as the
+ratio of the mean of summed energy flux through each energy channel to the standard deviation of these mean values.
+}
 }
 \description{
-Calculate energy flow between treatments.
+The \code{calc_ef2()} function is used to calculate the energy flow of a nematode
+community. For detailed calculation method, see \code{Wan et al. (2022)}: Step 1, the
+fresh biomass of each nematode individuals was calculated based on the measurement
+of body size or using publicly available data. Step 2, nematode metabolism (F) was
+then calculated according to \code{Ferris (2010)} and \code{van den Hoogen et al. (2019)},
+where Nt, Wt and mt are the number of individuals, the fresh weight and the cp class
+of taxon t, respectively. Step 3, a five-node food web topology was constructed and
+the feeding preferences of omnivores-carnivores on other trophic groups was assumed according
+to community density. Step 4, the metabolism of each node was summed by all individual
+metabolism of the respective trophic group. Step 5, we used assimilation efficiencies
+(ea) of 0.25 for herbivores, 0.60 for bacterivores, 0.38 for fungivores and 0.5
+for omnivores-carnivores according to \code{Barnes et al. (2014)} and \code{De Ruiter et al. (1993)}.
+Step 6, energy fluxes between nodes was calculated as follows: \code{Fi = (F + L)/ea},
+where L is the energy loss to higher trophic levels.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_ter <- nem |> nem_index() |> calc_ef2(con_crop, season)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
+nem_index <- nem |> calc_nemindex() |> calc_ef2(con_crop, season)
+nem_index
+}
+\references{
+\itemize{
+\item Wan, Bingbing, et al. "Organic amendments increase the flow uniformity of
+energy across nematode food webs." Soil Biology and Biochemistry 170 (2022): 108695.
+\item Ferris, H., 2010. Form and function: metabolic footprints of nematodes in the soil
+food web. European Journal of Soil Biology 46, 97–104.
+\item Van Den Hoogen, Johan, et al. "Soil nematode abundance and functional group
+composition at a global scale." Nature 572.7768 (2019): 194-198.
+\item Barnes, A.D., Jochum, M., Mumme, S., Haneda, N.F., Farajallah, A., Widarto, T.H.,
+Brose, U., 2014. Consequences of tropical land use for multitrophic biodiversity and
+ecosystem functioning. Nature Communications 5, 1–7.
+\item De Ruiter, P.C., Van Veen, J.A., Moore, J.C., Brussaard, L., Hunt, H.W., 1993. Calculation
+of nitrogen mineralization in soil food webs. Plant and Soil 157, 263–273.
+}
+}
+\seealso{
+Other functions in this R package for data calculations:
+\code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+\code{\link{calc_beta}}, \code{\link{calc_alpha}}, \code{\link{calc_nemindex}},
+\code{\link{calc_funguild}}, \code{\link{calc_funguild2}}, \code{\link{calc_mf2}},
+\code{\link{calc_mf}}, \code{\link{calc_ter2}}, \code{\link{calc_ter}},
+\code{\link{calc_ef}}.
 }

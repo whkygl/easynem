@@ -2,18 +2,152 @@
 % Please edit documentation in R/calc_nemindex.R
 \name{calc_nemindex}
 \alias{calc_nemindex}
-\title{calc_nemindex}
+\title{Calculate multiple nematode ecological indices and generate nemindex class}
 \usage{
-calc_nemindex(data, ...)
+calc_nemindex(data)
 }
 \arguments{
-\item{data}{easynem type data.}
-
-\item{...}{Other parameters for calc_nemindex.}
+\item{data}{An \code{\link{easynem-class}} data.}
 }
 \value{
-An nemindex object.
+A \code{\link{nemindex-class}} for storing nematode ecological indices
+analysis results.
+\itemize{
+\item \code{MI}, Maturity Index. Indicates environmental disturbance resulting from
+perturbations (range, 1-5). Low values (<2) indicate an early (primary or secondary)
+successional stage or a temporary level of increased nutrient availability.
+Values close to 2 indicate a high level of disturbance with low soil food web
+structure, while intermediate values (2.5–3) indicate some soil food web maturity.
+High values (>3) indicate a well-structured and complex soil food web likely with
+connectivity and energy flow between trophic levels.
+\item \code{sigMI}, Sigma Maturity Index (∑MI). Indicates environmental disturbance
+resulting from perturbations in non-agricultural soils (range, 1-5). Low values (<2)
+indicate a high level of nutrient availability and minimal plant-parasitic pressure,
+while values close to 2 indicate a high level of disturbance with low soil food web
+structure. Intermediate values (2.5–3) indicate some soil food web maturity.
+High values (>3), in turn, indicate a well-structured and complex soil food web
+likely with connectivity and energy flow between trophic levels, which might include
+larger plant-parasitic nematodes. This index is less sensitive to enrichment in
+agricultural soils.
+\item \code{sigMI25}, Sigma Maturity Index 2-5 (∑MI25). computes the MI for all
+nematodes in the c-p2-5 range (Neher & Campbell, 1996). The index recognizes
+that the higher c-p value plant-feeding species also provide information of
+environmental stress but bears some of the burden of the ΣMI in situations of
+nutrient enrichment.
+\item \code{MI25}, Maturity Index 2–5. Indicates Environmental disturbance resulting
+from perturbations unrelated to nutrient enrichment in agricultural fields (range, 2-5).
+Low values (close to 2) indicate substantial disturbance resulting from perturbations
+unrelated to nutrient enrichment. High values (>3) indicate greater maturity with
+minimal or no effect resulting from perturbations.
+\item \code{PPI}, Plant-Parasitic Index. Indicates Assemblage composition of plant-parasitic
+nematodes (range, 2-5). Low values (close to 2) indicate plant-parasitic nematode
+assemblages dominated by small and medium-sized ectoparasites that feed on single
+plant cells. Higher values indicate assemblages dominated by medium and large (semi-)
+endoparasitic (e.g., Meloidogyne and Heterodera spp.) or ectoparasitic virus transmitting
+nematodes (e.g., Xiphinema and Longidorus spp.).
+\item \code{PPI_MI}, PPI/MI. The PPI/MI ratio is lower under nutrient poor conditions
+than under nutrient rich conditions. It is a sensitive indicator of enrichment
+in agroecosystems (Bongers & Korthals, 1995; Bongers et al., 1997).
+\item \code{WI}, Wasilewska Index. Wasilewska Index is calculated by dividing the
+sum of bacteria-feeding nematodes and fungi-feeding nematodes by the number of
+herbivorous nematodes. This index is used to indicate the impact of nematode communities
+on crop production. The smaller the index, the greater the negative impact of nematode
+communities on crop production.
+\item \code{NCR}, Nematode Channel Ratio. The Nematode Channel Ratio (NCR) is a parameter
+used in soil ecology to assess the balance between bacterial and fungal energy
+channels in the soil food web. This ratio is calculated by comparing the abundance
+of bacterial-feeding nematodes to fungal-feeding nematodes. High NCR: Indicates
+a bacterial-dominated energy channel. This is often found in soils with frequent
+disturbance or high inputs of easily decomposable organic matter. Low NCR: Indicates
+a fungal-dominated energy channel. This is commonly found in more stable, less
+disturbed soils, such as forests or natural grasslands, where organic matter
+decomposition is slower and more complex.
+\item \code{CI}, Channel Index. Indicates predominant decomposition pathway of organic matter (range, 0-100).
+Lower values (<50) indicate increasing decomposition dominance by bacteria, while
+higher values (>50) indicate increasing decomposition dominance by fungi. Bacterial
+dominance indicates the presence of rapidly decomposed organic matter, while fungal
+dominated decomposition indicates the slow breakdown of more complex organic matter.
+The focus on opportunistic bacterial and fungal feeders makes this a highly responsive
+index, which can be used to detect alternating decomposition pathways over time.
+\item \code{EI}, Enrichment Index. Indicates food availability and nutrient enrichment
+(range, 0-100). Low (0–30), intermediate (30–60), and high (60–100) values indicate
+equivalent levels of food availability (e.g., labile organic carbon) and nutrient enrichment.
+\item \code{SI}, Structure Index. Indicates Soil food web structure and complexity,
+as well as disturbance due to environmental (e.g., salinity and drought) or
+anthropogenic (e.g. tillage, mining, and chemical pollution) causalities (range, 0-100).
+Low (0–30), intermediate (30–60), and high (60–100) values indicate equivalent levels
+of soil food web complexity. Lower values are indicative of perturbed soil food webs,
+while higher values indicate a structured soil food web.
+\item \code{BI}, Basal Index. Indicates food web structure and complexity (range, 0-100).
+Low (0–30), intermediate (30–60), and high (60–100) values indicate equivalent
+levels of soil perturbation. Therefore, higher values (>50) are indicative of
+a depleted and damaged soil food web.
+\item \code{TotalBiomass}, Total biomass of nematode community.
+\item \code{MetabolicFootprint}, Metabolic Footprints. Indicates magnitude of
+ecosystem functions and services fulfilled by nematode community (range, 0-infinite).
+Higher metabolic footprint values are indicative of greater carbon channelling
+and therefore an increased contribution to the fulfilment of soil ecosystem
+functions and services. This can be considered per trophic group (e.g. bacterivore
+footprint), or per component of the nematode community that indicate enrichment
+(enrichment footprint) and structure (structure footprint).
+\item \code{EnrichmentFootprint}, Enrichment Footprint.
+\item \code{StructureFootprint}, Structure Footprint.
+\item \code{HerbivoreFootprint}, Herbivore Footprint.
+\item \code{FungivoreFootprint}, Fungivore Footprint
+\item \code{BacterivoreFootprint}, Bacterivore Footprint.
+\item \code{PrOmFootprint}, Metabolic footprint of an omnivorous predatory nematode.
+\item \code{Numbers}, Number of nematodes.
+\item \code{CAssimilated}, Carbon assimilated by nematodes.
+\item \code{CRespired}, Carbon consumed by nematode respiration.
+}
 }
 \description{
-nematode index calculation for the tab.
+The \code{calc_nemindex()} is used to Calculate multiple nematode ecological
+indices and generate \code{\link{nemindex-class}}. The ecological indexes that
+can be calculated by this function include \code{MI}, \code{sigMI}, \code{sigMI25},
+\code{MI25}, \code{PPI}, \code{WI}, \code{NCR}, \code{CI}, \code{BI}, \code{SI},
+\code{EI}, etc.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_index <- nem |> calc_nemindex()
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_index <- nem |> calc_nemindex()
+show(nem_index)
+}
+\references{
+\itemize{
+\item \url{https://shiny.wur.nl/ninja/}
+\item \url{http://nemaplex.ucdavis.edu/Ecology/Indices_of_ecosystem_condition.html}
+\item Du Preez G, Daneel M, De Goede R, et al. Nematode-based indices in soil ecology:
+Application, utility, and future directions. Soil Biology and Biochemistry,
+2022, 169: 108640.
+\item Bongers T. The maturity index: an ecological measure of environmental
+disturbance based on nematode species composition. Oecologia, 1990, 83: 14-19.
+\item Bongers T, Goede R G N, Korthals G W, et al. Proposed changes of cp classification
+for nematodes. 1995.
+\item Ferris, H. O. W. A. R. D., and Tom Bongers. "Indices developed specifically
+for analysis of nematode assemblages." Nematodes as environmental indicators.
+Wallingford UK: CABI, 2009. 124-145.
+\item Goede, RGM de, T. Bongers, and C. H. Ettema. "Graphical presentation and
+interpretation of nematode community structure: cp triangles." (1993): 743-750.
+\item Ferris, Howard, Tom Bongers, and Ron GM de Goede. "A framework for soil food
+web diagnostics: extension of the nematode faunal analysis concept." Applied
+soil ecology 18.1 (2001): 13-29.
+\item Ferris, Howard. "Form and function: metabolic footprints of nematodes in the
+soil food web." European Journal of Soil Biology 46.2 (2010): 97-104.
+}
+}
+\seealso{
+Other functions in this R package for data calculations:
+\code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+\code{\link{calc_beta}}, \code{\link{calc_alpha}}, \code{\link{calc_funguild}},
+\code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+\code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+\code{\link{calc_ef2}}.
 }

@@ -2,18 +2,42 @@
 % Please edit documentation in R/calc_alpha.R
 \name{calc_alpha}
 \alias{calc_alpha}
-\title{calc_alpha}
+\title{Alpha diversity analysis, generating alpha-class}
 \usage{
 calc_alpha(data, ...)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} data.}
 
-\item{...}{Other parameters for calc_alpha.}
+\item{...}{Other parameters for \code{\link[vegan]{diversity}}, \code{\link[vegan]{simpson.unb}},
+\code{\link[vegan]{fisher.alpha}}, \code{\link[vegan]{specnumber}}, and \code{\link[vegan]{estimateR}}.}
 }
 \value{
-An alpha object.
+A \code{\link{alpha-class}} for storing alpha diversity analysis results.
 }
 \description{
-Alpha diversity calculation for the tab.
+The \code{calc_alpha()} is used to perform alpha diversity analysis and create
+\code{\link{alpha-class}}. This function can be used to calculate various alpha
+diversity indices such as \code{Chao1}, \code{ACE}, \code{Shannon}, \code{Simpson},
+etc.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_alpha <- nem |> calc_alpha()
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_alpha <- nem |> calc_alpha()
+show(nem_alpha)
+}
+\seealso{
+Other functions in this R package for data calculations:
+\code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+\code{\link{calc_beta}}, \code{\link{calc_nemindex}}, \code{\link{calc_funguild}},
+\code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+\code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+\code{\link{calc_ef2}}.
 }

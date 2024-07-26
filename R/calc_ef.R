@@ -1,20 +1,79 @@
-#' An S4 class to store energy flow results.
-#' @slot result A data frame of energy flow results.
-methods::setClass("ef",
-                  slots = list(
-                    result = "data.frame"
-                  ))
-methods::setMethod("show", "ef", function(object){
-  cat("This is an ef object\n")
-  cat("The energy flow results is:\n")
-  print(object@result)
-})
-#' calc_ef
-#' @description Calculate energy flow between treatments.
-#' @param data nemindex type data.
+#' Calculation of energy flow in nematode communities (single factor)
+#'
+#' The \code{calc_ef()} function is used to calculate the energy flow of a nematode
+#' community. For detailed calculation method, see \code{Wan et al. (2022)}: Step 1, the
+#' fresh biomass of each nematode individuals was calculated based on the measurement
+#' of body size or using publicly available data. Step 2, nematode metabolism (F) was
+#' then calculated according to \code{Ferris (2010)} and \code{van den Hoogen et al. (2019)},
+#' where Nt, Wt and mt are the number of individuals, the fresh weight and the cp class
+#' of taxon t, respectively. Step 3, a five-node food web topology was constructed and
+#' the feeding preferences of omnivores-carnivores on other trophic groups was assumed according
+#' to community density. Step 4, the metabolism of each node was summed by all individual
+#' metabolism of the respective trophic group. Step 5, we used assimilation efficiencies
+#' (ea) of 0.25 for herbivores, 0.60 for bacterivores, 0.38 for fungivores and 0.5
+#' for omnivores-carnivores according to \code{Barnes et al. (2014)} and \code{De Ruiter et al. (1993)}.
+#' Step 6, energy fluxes between nodes was calculated as follows: \code{Fi = (F + L)/ea},
+#' where L is the energy loss to higher trophic levels.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_ter <- nem |> nem_index() |> calc_ef(con_crop)
+#' ```
+#'
+#' @usage calc_ef(data, .group)
+#'
+#' @param data An \code{\link{nemindex-class}} object.
 #' @param .group The group variable.
-#' @return An ef object.
+#'
+#' @return An \code{\link{ef-class}} object that stores the desired visualization results.
+#' * \code{OF}, Energy flow metabolism of omnivorous predatory nematodes.
+#' * \code{OM}, Fresh biomass (μg / 100g dry soil) of omnivorous predatory nematodes.
+#' * \code{BF}, Energy flow metabolism of bacteria-feeding nematodes.
+#' * \code{BM}, Fresh biomass (μg / 100g dry soil) of omnivorous predatory nematodes.
+#' * \code{HF}, Energy flow metabolism of herbivorous nematodes.
+#' * \code{HM}, Fresh biomass (μg / 100g dry soil) of herbivorous nematodes.
+#' * \code{FF}, Energy flow metabolism of fungus-feeding nematodes.
+#' * \code{FM}, Fresh biomass (μg / 100g dry soil) of fungus-feeding nematodes.
+#' * \code{bp}, Feeding preference of predatory nematodes over bacteria-feeding nematodes.
+#' * \code{hp}, Feeding preference of predatory nematodes over herbivorous nematodes.
+#' * \code{fp}, Feeding preferences of predatory nematodes over fungivorous nematodes.
+#' * \code{fbo}, Energy flow (μg C / 100g dry soil / day) between bacteria-feeding nematodes and omnivorous predatory nematodes.
+#' * \code{fho}, Energy flow (μg C / 100g dry soil / day) between herbivorous nematodes and omnivorous predatory nematodes.
+#' * \code{ffo}, Energy flow (μg C / 100g dry soil / day) between fungus-feeding nematodes and omnivorous predatory nematodes.
+#' * \code{frb}, Energy flow (μg C / 100g dry soil / day) between basal resources and bacteria-feeding nematodes.
+#' * \code{frh}, Energy flow (μg C / 100g dry soil / day) between basal resources and herbivorous nematodes.
+#' * \code{frf}, Energy flow (μg C / 100g dry soil / day) between basal resources and fungivorous nematodes.
+#' * \code{U}, Uniformity (U) of soil nematode energetic structure (unitless, mean ± standard error) was calculated as the
+#' ratio of the mean of summed energy flux through each energy channel to the standard deviation of these mean values.
+#'
+#' @seealso
+#' Other functions in this R package for data calculations:
+#' \code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+#' \code{\link{calc_beta}}, \code{\link{calc_alpha}}, \code{\link{calc_nemindex}},
+#' \code{\link{calc_funguild}}, \code{\link{calc_funguild2}}, \code{\link{calc_mf2}},
+#' \code{\link{calc_mf}}, \code{\link{calc_ter2}}, \code{\link{calc_ter}},
+#' \code{\link{calc_ef2}}.
+#'
+#' @references
+#' * Wan, Bingbing, et al. "Organic amendments increase the flow uniformity of
+#' energy across nematode food webs." Soil Biology and Biochemistry 170 (2022): 108695.
+#' * Ferris, H., 2010. Form and function: metabolic footprints of nematodes in the soil
+#' food web. European Journal of Soil Biology 46, 97–104.
+#' * Van Den Hoogen, Johan, et al. "Soil nematode abundance and functional group
+#' composition at a global scale." Nature 572.7768 (2019): 194-198.
+#' * Barnes, A.D., Jochum, M., Mumme, S., Haneda, N.F., Farajallah, A., Widarto, T.H.,
+#' Brose, U., 2014. Consequences of tropical land use for multitrophic biodiversity and
+#' ecosystem functioning. Nature Communications 5, 1–7.
+#' * De Ruiter, P.C., Van Veen, J.A., Moore, J.C., Brussaard, L., Hunt, H.W., 1993. Calculation
+#' of nitrogen mineralization in soil food webs. Plant and Soil 157, 263–273.
+#'
 #' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_index <- nem |> calc_nemindex() |> calc_ef(Treatments)
+#' nem_index
 calc_ef <- function(data, .group){
   # data = hehe
   # .group = "con_crop"
@@ -88,5 +147,8 @@ calc_ef <- function(data, .group){
   alltab2 = merge(meta, alltab2, by = "SampleID")
   alltab2 = tibble::as_tibble(alltab2)
   .ef@result = alltab2
+  .ef@tab = data@tab
+  .ef@tax = data@tax
+  .ef@meta = merge(data@meta, alltab2[,-2], by = "SampleID")
   return(.ef)
 }

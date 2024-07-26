@@ -2,18 +2,49 @@
 % Please edit documentation in R/calc_ter.R
 \name{calc_ter}
 \alias{calc_ter}
-\title{calc_ter}
+\title{Trivariate analysis of nematode feeding or cp value (single factor)}
 \usage{
 calc_ter(data, .group)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} object.}
 
 \item{.group}{The group variable.}
 }
 \value{
-An ter object.
+A \code{\link{ter-class}} object that stores the desired
+visualization results.
 }
 \description{
-Calculate ternary analysis between treatments.
+The \code{calc_ter()} function is used to perform ternary analysis on nematode
+feeding (Relative biomass of bacteria-feeding nematodes, fungi-feeding nematodes,
+and herbivorous nematodes) or cp values (Relative abundance of cp1 nematodes,
+cp2 nematodes, and cp3-5 nematodes).
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_ter <- nem |> calc_ter(con_crop)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_index <- nem |> calc_ter(Treatments)
+nem_index
+}
+\references{
+\itemize{
+\item \url{https://shiny.wur.nl/ninja/}
+\item Goede, RGM de, T. Bongers, and C. H. Ettema. "Graphical presentation and
+interpretation of nematode community structure: cp triangles." (1993): 743-750.
+}
+}
+\seealso{
+Other functions in this R package for data calculations:
+\code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+\code{\link{calc_beta}}, \code{\link{calc_alpha}}, \code{\link{calc_nemindex}},
+\code{\link{calc_funguild}}, \code{\link{calc_funguild2}}, \code{\link{calc_mf2}},
+\code{\link{calc_mf}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+\code{\link{calc_ef2}}.
 }

@@ -1,8 +1,8 @@
 devtools::install_github("whkygl/easynem")
 library(easynem)
-bac <- read_nem(tab = easynem_example("nemotu.csv"), 
-                tax = easynem_example("nemtax.csv"), 
-                meta = easynem_example("meta.csv"))
+bac <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
 methods::setClass("easynem",
                   slots = list(
                     tab = "data.frame",
@@ -89,11 +89,11 @@ calc_nemindex <- function(data, ...){
     alltab$GenavgCRs = 0.273 * (alltab$GenavgMass ^ 0.75)
     alltab$GenavgCPr = 0.1 * alltab$GenavgMass / alltab$CP
     alltab$GenavgMFP = alltab$GenavgCRs + alltab$GenavgCPr
-    alltab = alltab |> dplyr::mutate(GenavgEFP = ifelse(GenavgEFP != 0, GenavgMFP, GenavgEFP), 
-                                     GenavgSFP = ifelse(GenavgSFP != 0, GenavgMFP, GenavgSFP), 
-                                     GenavgHFP = ifelse(GenavgHFP != 0, GenavgMFP, GenavgHFP), 
-                                     GenavgFFP = ifelse(GenavgFFP != 0, GenavgMFP, GenavgFFP), 
-                                     GenavgBFP = ifelse(GenavgBFP != 0, GenavgMFP, GenavgBFP), 
+    alltab = alltab |> dplyr::mutate(GenavgEFP = ifelse(GenavgEFP != 0, GenavgMFP, GenavgEFP),
+                                     GenavgSFP = ifelse(GenavgSFP != 0, GenavgMFP, GenavgSFP),
+                                     GenavgHFP = ifelse(GenavgHFP != 0, GenavgMFP, GenavgHFP),
+                                     GenavgFFP = ifelse(GenavgFFP != 0, GenavgMFP, GenavgFFP),
+                                     GenavgBFP = ifelse(GenavgBFP != 0, GenavgMFP, GenavgBFP),
                                      GenavgPFP = ifelse(GenavgPFP != 0, GenavgMFP, GenavgPFP))
     tballtab = alltab[ ,c("OTUID",colnames(otutab)[-1])]
     cpralltab = tballtab
@@ -108,7 +108,7 @@ calc_nemindex <- function(data, ...){
     p1mfalltab = tballtab
     Numbers = tballtab
     # alltab$GenAvgMass = ifelse(is.na(alltab$GenAvgMass), alltab$GenavgMass, alltab$GenAvgMass)
-    # tballtab[ ,-1] = tballtab[ ,-1] * alltab$GenAvgMass 
+    # tballtab[ ,-1] = tballtab[ ,-1] * alltab$GenAvgMass
     tballtab[ ,-1] = tballtab[ ,-1] * alltab$GenavgMass
     cpralltab[ ,-1] = cpralltab[ ,-1] * alltab$GenavgCPr
     cpsalltab[ ,-1] = cpsalltab[ ,-1] * alltab$GenavgCRs
@@ -165,10 +165,10 @@ calc_nemindex <- function(data, ...){
     fbhalltab = fbhalltab |> dplyr::group_by_at(1) |> dplyr::summarise_all(sum)
     bfpoalltab = bfpoalltab |> dplyr::group_by_at(1) |> dplyr::summarise_all(sum)
     #对数据框进行比例换算
-    alltab = alltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x))) 
-    halltab = halltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x))) 
-    sigalltab = sigalltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x))) 
-    sigalltab25 = sigalltab25 |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x))) 
+    alltab = alltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
+    halltab = halltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
+    sigalltab = sigalltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
+    sigalltab25 = sigalltab25 |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
     alltab25 = alltab25 |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
     #提取第一列中的数字项
     Cp = gsub("[^0-9]", "", alltab[,1])

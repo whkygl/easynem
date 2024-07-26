@@ -13,32 +13,150 @@ methods::setMethod("show", "easynem", function(object){
   cat("The metadata is:\n")
   print(object@meta)
 })
-#' nemindex Class
+#' Calculate multiple nematode ecological indices and generate nemindex class
 #'
-#' This class represents an extension of the \code{easynem} class.
+#' The \code{calc_nemindex()} is used to Calculate multiple nematode ecological
+#' indices and generate \code{\link{nemindex-class}}. The ecological indexes that
+#' can be calculated by this function include \code{MI}, \code{sigMI}, \code{sigMI25},
+#' \code{MI25}, \code{PPI}, \code{WI}, \code{NCR}, \code{CI}, \code{BI}, \code{SI},
+#' \code{EI}, etc.
 #'
-#' @slot result The calculation results of storage nemindex.
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_index <- nem |> calc_nemindex()
+#' ```
+#'
+#' @usage calc_nemindex(data)
+#'
+#' @param data An \code{\link{easynem-class}} data.
+#'
+#' @return
+#' A \code{\link{nemindex-class}} for storing nematode ecological indices
+#' analysis results.
+#' * \code{MI}, Maturity Index. Indicates environmental disturbance resulting from
+#' perturbations (range, 1-5). Low values (<2) indicate an early (primary or secondary)
+#' successional stage or a temporary level of increased nutrient availability.
+#' Values close to 2 indicate a high level of disturbance with low soil food web
+#' structure, while intermediate values (2.5–3) indicate some soil food web maturity.
+#' High values (>3) indicate a well-structured and complex soil food web likely with
+#' connectivity and energy flow between trophic levels.
+#' * \code{sigMI}, Sigma Maturity Index (∑MI). Indicates environmental disturbance
+#' resulting from perturbations in non-agricultural soils (range, 1-5). Low values (<2)
+#' indicate a high level of nutrient availability and minimal plant-parasitic pressure,
+#' while values close to 2 indicate a high level of disturbance with low soil food web
+#' structure. Intermediate values (2.5–3) indicate some soil food web maturity.
+#' High values (>3), in turn, indicate a well-structured and complex soil food web
+#' likely with connectivity and energy flow between trophic levels, which might include
+#' larger plant-parasitic nematodes. This index is less sensitive to enrichment in
+#' agricultural soils.
+#' * \code{sigMI25}, Sigma Maturity Index 2-5 (∑MI25). computes the MI for all
+#' nematodes in the c-p2-5 range (Neher & Campbell, 1996). The index recognizes
+#' that the higher c-p value plant-feeding species also provide information of
+#' environmental stress but bears some of the burden of the ΣMI in situations of
+#' nutrient enrichment.
+#' * \code{MI25}, Maturity Index 2–5. Indicates Environmental disturbance resulting
+#' from perturbations unrelated to nutrient enrichment in agricultural fields (range, 2-5).
+#' Low values (close to 2) indicate substantial disturbance resulting from perturbations
+#' unrelated to nutrient enrichment. High values (>3) indicate greater maturity with
+#' minimal or no effect resulting from perturbations.
+#' * \code{PPI}, Plant-Parasitic Index. Indicates Assemblage composition of plant-parasitic
+#' nematodes (range, 2-5). Low values (close to 2) indicate plant-parasitic nematode
+#' assemblages dominated by small and medium-sized ectoparasites that feed on single
+#' plant cells. Higher values indicate assemblages dominated by medium and large (semi-)
+#' endoparasitic (e.g., Meloidogyne and Heterodera spp.) or ectoparasitic virus transmitting
+#' nematodes (e.g., Xiphinema and Longidorus spp.).
+#' * \code{PPI_MI}, PPI/MI. The PPI/MI ratio is lower under nutrient poor conditions
+#' than under nutrient rich conditions. It is a sensitive indicator of enrichment
+#' in agroecosystems (Bongers & Korthals, 1995; Bongers et al., 1997).
+#' * \code{WI}, Wasilewska Index. Wasilewska Index is calculated by dividing the
+#' sum of bacteria-feeding nematodes and fungi-feeding nematodes by the number of
+#' herbivorous nematodes. This index is used to indicate the impact of nematode communities
+#' on crop production. The smaller the index, the greater the negative impact of nematode
+#' communities on crop production.
+#' * \code{NCR}, Nematode Channel Ratio. The Nematode Channel Ratio (NCR) is a parameter
+#' used in soil ecology to assess the balance between bacterial and fungal energy
+#' channels in the soil food web. This ratio is calculated by comparing the abundance
+#' of bacterial-feeding nematodes to fungal-feeding nematodes. High NCR: Indicates
+#' a bacterial-dominated energy channel. This is often found in soils with frequent
+#' disturbance or high inputs of easily decomposable organic matter. Low NCR: Indicates
+#' a fungal-dominated energy channel. This is commonly found in more stable, less
+#' disturbed soils, such as forests or natural grasslands, where organic matter
+#' decomposition is slower and more complex.
+#' * \code{CI}, Channel Index. Indicates predominant decomposition pathway of organic matter (range, 0-100).
+#' Lower values (<50) indicate increasing decomposition dominance by bacteria, while
+#' higher values (>50) indicate increasing decomposition dominance by fungi. Bacterial
+#' dominance indicates the presence of rapidly decomposed organic matter, while fungal
+#' dominated decomposition indicates the slow breakdown of more complex organic matter.
+#' The focus on opportunistic bacterial and fungal feeders makes this a highly responsive
+#' index, which can be used to detect alternating decomposition pathways over time.
+#' * \code{EI}, Enrichment Index. Indicates food availability and nutrient enrichment
+#' (range, 0-100). Low (0–30), intermediate (30–60), and high (60–100) values indicate
+#' equivalent levels of food availability (e.g., labile organic carbon) and nutrient enrichment.
+#' * \code{SI}, Structure Index. Indicates Soil food web structure and complexity,
+#' as well as disturbance due to environmental (e.g., salinity and drought) or
+#' anthropogenic (e.g. tillage, mining, and chemical pollution) causalities (range, 0-100).
+#' Low (0–30), intermediate (30–60), and high (60–100) values indicate equivalent levels
+#' of soil food web complexity. Lower values are indicative of perturbed soil food webs,
+#' while higher values indicate a structured soil food web.
+#' * \code{BI}, Basal Index. Indicates food web structure and complexity (range, 0-100).
+#' Low (0–30), intermediate (30–60), and high (60–100) values indicate equivalent
+#' levels of soil perturbation. Therefore, higher values (>50) are indicative of
+#' a depleted and damaged soil food web.
+#' * \code{TotalBiomass}, Total biomass of nematode community.
+#' * \code{MetabolicFootprint}, Metabolic Footprints. Indicates magnitude of
+#' ecosystem functions and services fulfilled by nematode community (range, 0-infinite).
+#' Higher metabolic footprint values are indicative of greater carbon channelling
+#' and therefore an increased contribution to the fulfilment of soil ecosystem
+#' functions and services. This can be considered per trophic group (e.g. bacterivore
+#' footprint), or per component of the nematode community that indicate enrichment
+#' (enrichment footprint) and structure (structure footprint).
+#' * \code{EnrichmentFootprint}, Enrichment Footprint.
+#' * \code{StructureFootprint}, Structure Footprint.
+#' * \code{HerbivoreFootprint}, Herbivore Footprint.
+#' * \code{FungivoreFootprint}, Fungivore Footprint
+#' * \code{BacterivoreFootprint}, Bacterivore Footprint.
+#' * \code{PrOmFootprint}, Metabolic footprint of an omnivorous predatory nematode.
+#' * \code{Numbers}, Number of nematodes.
+#' * \code{CAssimilated}, Carbon assimilated by nematodes.
+#' * \code{CRespired}, Carbon consumed by nematode respiration.
+#'
+#' @seealso
+#' Other functions in this R package for data calculations:
+#' \code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+#' \code{\link{calc_beta}}, \code{\link{calc_alpha}}, \code{\link{calc_funguild}},
+#' \code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+#' \code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+#' \code{\link{calc_ef2}}.
+#'
+#' @references
+#' * <https://shiny.wur.nl/ninja/>
+#' * <http://nemaplex.ucdavis.edu/Ecology/Indices_of_ecosystem_condition.html>
+#' * Du Preez G, Daneel M, De Goede R, et al. Nematode-based indices in soil ecology:
+#' Application, utility, and future directions. Soil Biology and Biochemistry,
+#' 2022, 169: 108640.
+#' * Bongers T. The maturity index: an ecological measure of environmental
+#' disturbance based on nematode species composition. Oecologia, 1990, 83: 14-19.
+#' * Bongers T, Goede R G N, Korthals G W, et al. Proposed changes of cp classification
+#' for nematodes. 1995.
+#' * Ferris, H. O. W. A. R. D., and Tom Bongers. "Indices developed specifically
+#' for analysis of nematode assemblages." Nematodes as environmental indicators.
+#' Wallingford UK: CABI, 2009. 124-145.
+#' * Goede, RGM de, T. Bongers, and C. H. Ettema. "Graphical presentation and
+#' interpretation of nematode community structure: cp triangles." (1993): 743-750.
+#' * Ferris, Howard, Tom Bongers, and Ron GM de Goede. "A framework for soil food
+#' web diagnostics: extension of the nematode faunal analysis concept." Applied
+#' soil ecology 18.1 (2001): 13-29.
+#' * Ferris, Howard. "Form and function: metabolic footprints of nematodes in the
+#' soil food web." European Journal of Soil Biology 46.2 (2010): 97-104.
+#'
 #' @export
-methods::setClass(
-  "nemindex",
-  contains = "easynem",
-  methods::representation(result = "data.frame")
-)
-methods::setMethod(
-  "show",
-  "nemindex",
-  function(object) {
-    cat("The nematode index of each treatment result is:\n")
-    print(object@result)
-  }
-)
-#' calc_nemindex
-#' @description nematode index calculation for the tab.
-#' @param data easynem type data.
-#' @param ... Other parameters for calc_nemindex.
-#' @return An nemindex object.
-#' @export
-calc_nemindex <- function(data, ...){
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_index <- nem |> calc_nemindex()
+#' show(nem_index)
+calc_nemindex <- function(data){
   index = methods::new("nemindex")
   index@meta = data@meta
   index@tax = data@tax
@@ -46,8 +164,10 @@ calc_nemindex <- function(data, ...){
   result1 = index@tax
   results = data@meta[, sapply(data@meta, is.character)]
   otutab = index@tab
-  taxonomy = index@tax[,1:8]
-  nemdbgenus = index@tax[,c(1,9:34)]
+  columns_to_select <- c("OTUID", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+  taxonomy = index@tax |> dplyr::select(dplyr::any_of(columns_to_select))
+  namenemdbgenus = c("OTUID", setdiff(colnames(index@tax), colnames(taxonomy)))
+  nemdbgenus = index@tax[,namenemdbgenus]
   nemdbgenus$FeedingGroup <- paste0("F", nemdbgenus$feeding)
   names(nemdbgenus)[names(nemdbgenus) == "cp_value"] <- "CP"
   nemdbgenus$Cp <- paste0("Cp", nemdbgenus$CP)
@@ -61,7 +181,7 @@ calc_nemindex <- function(data, ...){
       feeding == 6 ~ "e",
       feeding == 7 ~ "d",
       feeding == 8 ~ "o",
-      TRUE ~ NA_character_  
+      TRUE ~ NA_character_
     ))
   nemdbgenus$FunctionalGuild <- paste0(nemdbgenus$Feeding, nemdbgenus$CP)
   nemdbgenus <- nemdbgenus |>
@@ -74,7 +194,7 @@ calc_nemindex <- function(data, ...){
       feeding == 6 ~ "EucaryoteFeeders",
       feeding == 7 ~ "AnimalParasites",
       feeding == 8 ~ "Omnivores",
-      TRUE ~ NA_character_  
+      TRUE ~ NA_character_
     ))
   index1 <- function(otutab,taxonomy){
     alltab = merge(otutab, taxonomy, by = "OTUID", all.y = TRUE) |>
@@ -82,11 +202,11 @@ calc_nemindex <- function(data, ...){
     alltab$GenavgCRs = 0.273 * (alltab$GenavgMass ^ 0.75)
     alltab$GenavgCPr = 0.1 * alltab$GenavgMass / alltab$CP
     alltab$GenavgMFP = alltab$GenavgCRs + alltab$GenavgCPr
-    alltab = alltab |> dplyr::mutate(GenavgEFP = ifelse(GenavgEFP != 0, GenavgMFP, GenavgEFP), 
-                                     GenavgSFP = ifelse(GenavgSFP != 0, GenavgMFP, GenavgSFP), 
-                                     GenavgHFP = ifelse(GenavgHFP != 0, GenavgMFP, GenavgHFP), 
-                                     GenavgFFP = ifelse(GenavgFFP != 0, GenavgMFP, GenavgFFP), 
-                                     GenavgBFP = ifelse(GenavgBFP != 0, GenavgMFP, GenavgBFP), 
+    alltab = alltab |> dplyr::mutate(GenavgEFP = ifelse(GenavgEFP != 0, GenavgMFP, GenavgEFP),
+                                     GenavgSFP = ifelse(GenavgSFP != 0, GenavgMFP, GenavgSFP),
+                                     GenavgHFP = ifelse(GenavgHFP != 0, GenavgMFP, GenavgHFP),
+                                     GenavgFFP = ifelse(GenavgFFP != 0, GenavgMFP, GenavgFFP),
+                                     GenavgBFP = ifelse(GenavgBFP != 0, GenavgMFP, GenavgBFP),
                                      GenavgPFP = ifelse(GenavgPFP != 0, GenavgMFP, GenavgPFP))
     tballtab = alltab[ ,c("OTUID",colnames(otutab)[-1])]
     cpralltab = tballtab
@@ -149,10 +269,10 @@ calc_nemindex <- function(data, ...){
     alltab25 = alltab25 |> dplyr::group_by_at(1) |> dplyr::summarise_all(sum)
     fbhalltab = fbhalltab |> dplyr::group_by_at(1) |> dplyr::summarise_all(sum)
     bfpoalltab = bfpoalltab |> dplyr::group_by_at(1) |> dplyr::summarise_all(sum)
-    alltab = alltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x))) 
-    halltab = halltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x))) 
-    sigalltab = sigalltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x))) 
-    sigalltab25 = sigalltab25 |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x))) 
+    alltab = alltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
+    halltab = halltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
+    sigalltab = sigalltab |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
+    sigalltab25 = sigalltab25 |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
     alltab25 = alltab25 |> dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~.x/sum(.x)))
     Cp = gsub("[^0-9]", "", alltab[,1])
     hCp = gsub("[^0-9]", "", halltab[,1])

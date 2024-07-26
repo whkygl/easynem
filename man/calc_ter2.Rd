@@ -2,20 +2,52 @@
 % Please edit documentation in R/calc_ter2.R
 \name{calc_ter2}
 \alias{calc_ter2}
-\title{calc_ter2}
+\title{Trivariate analysis of nematode feeding or cp value (two-factor)}
 \usage{
 calc_ter2(data, .group1, .group2)
 }
 \arguments{
-\item{data}{easynem type data.}
+\item{data}{An \code{\link{easynem-class}} object.}
 
-\item{.group1}{The group variable.}
+\item{.group1}{The group variable factor 1.}
 
-\item{.group2}{The group variable.}
+\item{.group2}{The group variable factor 2.}
 }
 \value{
-An ter2 object.
+A \code{\link{ter2-class}} object that stores the desired visualization results.
 }
 \description{
-Calculate ternary analysis between treatments.
+The \code{calc_ter2()} function is used to perform ternary analysis on nematode
+feeding (Relative biomass of bacteria-feeding nematodes, fungi-feeding nematodes,
+and herbivorous nematodes) or cp values (Relative abundance of cp1 nematodes,
+cp2 nematodes, and cp3-5 nematodes).
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_ter <- nem |> calc_ter2(con_crop, season)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
+nem_index <- nem |> calc_ter2(con_crop, season)
+nem_index
+}
+\references{
+\itemize{
+\item \url{https://shiny.wur.nl/ninja/}
+\item Goede, RGM de, T. Bongers, and C. H. Ettema. "Graphical presentation and
+interpretation of nematode community structure: cp triangles." (1993): 743-750.
+}
+}
+\seealso{
+Other functions in this R package for data calculations:
+\code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+\code{\link{calc_beta}}, \code{\link{calc_alpha}}, \code{\link{calc_nemindex}},
+\code{\link{calc_funguild}}, \code{\link{calc_funguild2}}, \code{\link{calc_mf2}},
+\code{\link{calc_mf}}, \code{\link{calc_ter}}, \code{\link{calc_ef}},
+\code{\link{calc_ef2}}.
 }

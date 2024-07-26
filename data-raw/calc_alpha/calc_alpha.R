@@ -1,8 +1,8 @@
 # devtools::install_github("whkygl/easynem")
 library(easynem)
-bac <- read_nem(tab = easynem_example("bacotu.csv"), 
-                tax = easynem_example("bactax.csv"), 
-                meta = easynem_example("meta.csv"))
+bac <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
 methods::setClass(
   "alpha",
   contains = "easynem",
@@ -57,6 +57,6 @@ calc_alpha <- function(data, ...){
   return(alpha)
 }
 
-hehe <- calc_compare2(alpha, con_crop, season, pH, method = HSD2)
+hehe <- calc_compare2(bac, con_crop, season, pH, method = HSD2)
 hehe <- alpha |> filter_name(meta, con_crop %in% c("Y2","Y11"))
 hehe <- bac |> calc_alpha()

@@ -37,7 +37,7 @@ methods::setMethod("show", "easynem", function(object){
   print(object@meta)
 })
 ################################################################################
-#' An class to store beta diversity results (single factor)
+#' A class to store beta diversity results (single factor)
 #'
 #' \code{beta-class} is used to store the results of beta diversity analysis,
 #' including results for drawing and comparing differences between groups.
@@ -70,7 +70,7 @@ methods::setMethod("show", "beta", function(object){
   print(object@result)
 })
 ################################################################################
-#' An class to store beta diversity results (two-factor)
+#' A class to store beta diversity results (two-factor)
 #'
 #' \code{beta2-class} is used to store the results of beta diversity analysis,
 #' including results for drawing and comparing differences between groups.
@@ -103,7 +103,7 @@ methods::setMethod("show", "beta2", function(object){
   print(object@result)
 })
 ################################################################################
-#' An S4 class to store multiple comparisons results (single factor).
+#' A S4 class to store multiple comparisons results (single factor).
 #'
 #' \code{compare-class} is used to store the results of multiple comparisons results,
 #' including results for drawing and comparing differences between groups.
@@ -135,7 +135,7 @@ methods::setMethod("show", "compare", function(object){
   print(object@result)
 })
 ################################################################################
-#' An S4 class to store multiple comparisons results (two-factor).
+#' A S4 class to store multiple comparisons results (two-factor).
 #'
 #' \code{compare2-class} is used to store the results of multiple comparisons results,
 #' including results for drawing and comparing differences between groups.
@@ -167,4 +167,239 @@ methods::setMethod("show", "compare2", function(object){
   print(object@result)
 })
 ################################################################################
-
+#' Class for storing alpha diversity calculation results
+#'
+#' The \code{alpha-class} is an extension of the \code{\link{easynem-class}} to store
+#' the results of alpha diversity calculations.
+#'
+#' @slot result The calculation results of storage alpha diversity.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_alpha}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name alpha-class
+#' @rdname alpha-class
+#' @exportClass alpha
+methods::setClass(
+  "alpha",
+  contains = "easynem",
+  methods::representation(result = "data.frame")
+)
+methods::setMethod(
+  "show",
+  "alpha",
+  function(object) {
+    cat("The alpha diversity of each treatment result is:\n")
+    print(object@result)
+  }
+)
+################################################################################
+#' Class for storing nematode ecological index calculation results
+#'
+#' The \code{nemindex-class} is an extension of the \code{\link{easynem-class}} to store
+#' the results of nematode ecological index calculations.
+#'
+#' @slot result The calculation results of storage nematode ecological index.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_nemindex}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name nemindex-class
+#' @rdname nemindex-class
+#' @exportClass nemindex
+methods::setClass(
+  "nemindex",
+  contains = "easynem",
+  methods::representation(result = "data.frame")
+)
+methods::setMethod(
+  "show",
+  "nemindex",
+  function(object) {
+    cat("The nematode index of each treatment result is:\n")
+    print(object@result)
+  }
+)
+################################################################################
+#' Class for storing computational results of nematode functional guild analysis (single factor)
+#'
+#' The \code{funguild-class} is used to store the results of nematode functional guild analysis.
+#'
+#' @slot result A data frame of storing computational results of nematode
+#' functional guild analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_funguild}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name funguild-class
+#' @rdname funguild-class
+#' @exportClass funguild
+methods::setClass("funguild",
+                  slots = list(
+                    result = "data.frame"
+                  ))
+methods::setMethod("show", "funguild", function(object){
+  cat("This is a funguild object\n")
+  cat("The functional guilds of the nematode communities in each treatment were:\n")
+  print(object@result)
+})
+################################################################################
+#' Class for storing computational results of nematode functional guild analysis (two-factor)
+#'
+#' The \code{funguild2-class} is used to store the results of nematode functional guild analysis.
+#'
+#' @slot result A data frame of storing computational results of nematode
+#' functional guild analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_funguild2}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name funguild2-class
+#' @rdname funguild2-class
+#' @exportClass funguild2
+methods::setClass("funguild2",
+                  slots = list(
+                    result = "data.frame"
+                  ))
+methods::setMethod("show", "funguild2", function(object){
+  cat("This is a funguild2 object\n")
+  cat("The functional guilds of the nematode communities in each treatment were:\n")
+  print(object@result)
+})
+################################################################################
+#' A S4 class to store Metabolic footprints results (single factor)
+#'
+#' The \code{mf-class} is used to store the results of nematode metabolic footprints analysis.
+#'
+#' @slot result A data frame for storing the results of metabolic footprinting analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_mf}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name mf-class
+#' @rdname mf-class
+#' @exportClass mf
+methods::setClass("mf",
+                  slots = list(
+                    result = "data.frame"
+                  ))
+methods::setMethod("show", "mf", function(object){
+  cat("This is an mf object\n")
+  cat("The metabolic footprints of the nematode communities in each treatment were:\n")
+  print(object@result)
+})
+################################################################################
+#' A S4 class to store Metabolic footprints results (two-factor)
+#'
+#' The \code{mf2-class} is used to store the results of nematode metabolic footprints analysis.
+#'
+#' @slot result  A data frame for storing the results of metabolic footprinting analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_mf2}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name mf2-class
+#' @rdname mf2-class
+#' @exportClass mf2
+methods::setClass("mf2",
+                  slots = list(
+                    result = "data.frame"
+                  ))
+methods::setMethod("show", "mf2", function(object){
+  cat("This is an mf2 object\n")
+  cat("The metabolic footprints of the nematode communities in each treatment were:\n")
+  print(object@result)
+})
+################################################################################
+#' A S4 class to store energy flow results (single factor)
+#'
+#' The \code{ef-class} is an extension of the \code{\link{easynem-class}} to store
+#' the results of nematode energy flow analysis.
+#'
+#' @slot result A data frame for storing the results of energy flow analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_ef}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name ef-class
+#' @rdname ef-class
+#' @exportClass ef
+methods::setClass(
+  "ef",
+  contains = "easynem",
+  methods::representation(result = "data.frame")
+  )
+methods::setMethod("show", "ef", function(object){
+  cat("This is an ef object\n")
+  cat("The energy flow results is:\n")
+  print(object@result)
+})
+################################################################################
+#' A S4 class to store energy flow results (two-factor)
+#'
+#' The \code{ef2-class} is an extension of the \code{\link{easynem-class}} to store
+#' the results of nematode energy flow analysis.
+#'
+#' @slot result A data frame for storing the results of energy flow analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_ef2}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name ef2-class
+#' @rdname ef2-class
+#' @exportClass ef2
+methods::setClass(
+  "ef2",
+  contains = "easynem",
+  methods::representation(result = "data.frame")
+)
+methods::setMethod("show", "ef2", function(object){
+  cat("This is an ef object\n")
+  cat("The energy flow results is:\n")
+  print(object@result)
+})
+################################################################################
+#' A S4 class to store the ternary analysis results (single factor)
+#'
+#' The \code{ter-class} is used to store the results of nematode ternary analysis.
+#'
+#' @slot result A data frame for storing the results of ternary analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_ter}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name ter-class
+#' @rdname ter-class
+#' @exportClass ter
+methods::setClass("ter",
+                  slots = list(
+                    result = "data.frame"
+                  ))
+methods::setMethod("show", "ter", function(object){
+  cat("This is an ter object\n")
+  cat("The ternary analysis results is:\n")
+  print(object@result)
+})
+################################################################################
+#' A S4 class to store the ternary analysis results (two-factor)
+#'
+#' The \code{ter2-class} is used to store the results of nematode ternary analysis.
+#'
+#' @slot result A data frame for storing the results of ternary analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_ter2}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name ter2-class
+#' @rdname ter2-class
+#' @exportClass ter2
+methods::setClass("ter2",
+                  slots = list(
+                    result = "data.frame"
+                  ))
+methods::setMethod("show", "ter2", function(object){
+  cat("This is an ter2 object\n")
+  cat("The ternary analysis results is:\n")
+  print(object@result)
+})
+################################################################################

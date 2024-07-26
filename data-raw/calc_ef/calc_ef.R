@@ -1,8 +1,8 @@
 devtools::install_github("whkygl/easynem")
 library(easynem)
-bac <- read_nem(tab = easynem_example("nemotu.csv"), 
-                tax = easynem_example("nemtax.csv"), 
-                meta = easynem_example("meta.csv"))
+bac <- read_nem(tab = easynem_example("nemtab1.csv"),
+                tax = easynem_example("nemtax1.csv"),
+                meta = easynem_example("nemmeta1.csv"))
 hehe <- calc_nemindex(bac)
 #' An S4 class to store energy flow results.
 #' @slot result A data frame of energy flow results.

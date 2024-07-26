@@ -2,18 +2,48 @@
 % Please edit documentation in R/calc_funguild.R
 \name{calc_funguild}
 \alias{calc_funguild}
-\title{calc_funguild}
+\title{Nematode food web analysis (single factor)}
 \usage{
 calc_funguild(data, .group)
 }
 \arguments{
-\item{data}{nemindex type data.}
+\item{data}{A \code{\link{nemindex-class}} object.}
 
 \item{.group}{The group variable.}
 }
 \value{
-An funguild object.
+A \code{\link{funguild-class}} object that stores the desired
+visualization results.
 }
 \description{
-Calculate calc_funguild between treatments.
+The \code{calc_funguild()} is used for nematode food web analysis and generate
+\code{\link{funguild-class}}.
+}
+\details{
+To facilitate code interpretation, it is recommended to use the pipe symbol
+\code{\link{|>}} to connect functions:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nem_fun <- nem |> calc_funguild(con_crop)
+}\if{html}{\out{</div>}}
+}
+\examples{
+nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+nem_index <- nem |> calc_nemindex() |> calc_funguild(Treatments)
+nem_index
+}
+\references{
+\itemize{
+\item \url{https://shiny.wur.nl/ninja/}
+\item Ferris, Howard, Tom Bongers, and Ron GM de Goede. "A framework for soil food
+web diagnostics: extension of the nematode faunal analysis concept." Applied
+soil ecology 18.1 (2001): 13-29.
+}
+}
+\seealso{
+Other functions in this R package for data calculations:
+\code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+\code{\link{calc_beta}}, \code{\link{calc_alpha}}, \code{\link{calc_nemindex}},
+\code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+\code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+\code{\link{calc_ef2}}.
 }

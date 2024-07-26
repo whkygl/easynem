@@ -3,7 +3,7 @@
 \docType{class}
 \name{compare2-class}
 \alias{compare2-class}
-\title{An S4 class to store multiple comparisons results (two-factor).}
+\title{A S4 class to store multiple comparisons results (two-factor).}
 \description{
 \code{compare2-class} is used to store the results of multiple comparisons results,
 including results for drawing and comparing differences between groups.

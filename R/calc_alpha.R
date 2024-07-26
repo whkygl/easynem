@@ -13,31 +13,41 @@ methods::setMethod("show", "easynem", function(object){
   cat("The metadata is:\n")
   print(object@meta)
 })
-#' Alpha Class
+#' Alpha diversity analysis, generating alpha-class
 #'
-#' This class represents an extension of the \code{easynem} class.
+#' The \code{calc_alpha()} is used to perform alpha diversity analysis and create
+#' \code{\link{alpha-class}}. This function can be used to calculate various alpha
+#' diversity indices such as \code{Chao1}, \code{ACE}, \code{Shannon}, \code{Simpson},
+#' etc.
 #'
-#' @slot result The calculation results of storage alpha diversity.
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_alpha <- nem |> calc_alpha()
+#' ```
+#'
+#' @usage calc_alpha(data, ...)
+#'
+#' @param data An \code{\link{easynem-class}} data.
+#' @param ... Other parameters for \code{\link[vegan]{diversity}}, \code{\link[vegan]{simpson.unb}},
+#' \code{\link[vegan]{fisher.alpha}}, \code{\link[vegan]{specnumber}}, and \code{\link[vegan]{estimateR}}.
+#'
+#' @return A \code{\link{alpha-class}} for storing alpha diversity analysis results.
+#'
+#' @seealso
+#' Other functions in this R package for data calculations:
+#' \code{\link{calc_beta2}}, \code{\link{calc_compare}}, \code{\link{calc_compare2}},
+#' \code{\link{calc_beta}}, \code{\link{calc_nemindex}}, \code{\link{calc_funguild}},
+#' \code{\link{calc_funguild2}}, \code{\link{calc_mf}}, \code{\link{calc_mf2}},
+#' \code{\link{calc_ter}}, \code{\link{calc_ter2}}, \code{\link{calc_ef}},
+#' \code{\link{calc_ef2}}.
+#'
 #' @export
-methods::setClass(
-  "alpha",
-  contains = "easynem",
-  methods::representation(result = "data.frame")
-)
-methods::setMethod(
-  "show",
-  "alpha",
-  function(object) {
-    cat("The alpha diversity of each treatment result is:\n")
-    print(object@result)
-  }
-)
-#' calc_alpha
-#' @description Alpha diversity calculation for the tab.
-#' @param data easynem type data.
-#' @param ... Other parameters for calc_alpha.
-#' @return An alpha object.
-#' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_alpha <- nem |> calc_alpha()
+#' show(nem_alpha)
 calc_alpha <- function(data, ...){
   # data = bac
   alpha = methods::new("alpha")
