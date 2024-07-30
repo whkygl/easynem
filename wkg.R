@@ -31,7 +31,7 @@ use_package("igraph")
 use_r("nem_trans")
 use_package("tibble")
 use_package("vegan")
-use_r("trans_norm")
+use_r("calc_lm")
 use_r("trans_rare")
 use_r("trans_formula")
 use_r("trans_name")
@@ -62,13 +62,13 @@ hehe=nem_plot(nmds, type = 2)
 hehe
 hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = TTest)
 hehe
-hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = TTest, alternative = "less") |> 
+hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = TTest, alternative = "less") |>
   nem_plot() + scale_x_discrete(limits = c("Y2", "Y11"))
 hehe
-hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = TTest, alternative = "less") |> 
+hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = TTest, alternative = "less") |>
   nem_plot(type =2) + scale_x_discrete(limits = c("Y11", "Y2"))
 hehe
-hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = WilcoxTest)|> 
+hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = WilcoxTest)|>
   nem_plot(type =2, add = "mean_sd") + scale_x_discrete(limits = c("Y2", "Y11"))
 hehe
 hehe = bac |> filter_name(meta, con_crop %in% c("Y2","Y11")) |> calc_compare(.group = con_crop, y = pH, method = KruskalTest)
@@ -76,10 +76,10 @@ hehe
 hehe = bac |> calc_compare(.group = con_crop, y = pH, method = KruskalTest, .method = "fdr")
 hehe
 use_r("globals.R")
-hehe = bac |> calc_compare(.group = con_crop, y = pH, method = KruskalTest) |> 
+hehe = bac |> calc_compare(.group = con_crop, y = pH, method = KruskalTest) |>
   nem_plot(type =2, add = "mean_se")
 hehe
-hehe = bac |> calc_compare(.group = con_crop, y = pH, method = KruskalTest) |> 
+hehe = bac |> calc_compare(.group = con_crop, y = pH, method = KruskalTest) |>
   nem_plot() + scale_x_discrete(limits = c("Y2", "Y5", "Y8", "Y11"))
 hehe
 use_r("trans_combine")
@@ -120,8 +120,8 @@ library(devtools)
 document()
 check()
 load_all()
-bac <- read_nem(tab = easynem_example("nemotu.csv"), 
-                tax = easynem_example("nemtax.csv"), 
+bac <- read_nem(tab = easynem_example("nemotu.csv"),
+                tax = easynem_example("nemtax.csv"),
                 meta = easynem_example("meta.csv"))
 hehe <- calc_compare2(bac, con_crop, season, pH, method = LSD2)
 hehe
@@ -140,8 +140,8 @@ use_r("calc_ter")
 use_package("ggtern", type = "suggests")
 hehe <- bac |> calc_alpha()
 use_r("calc_nemindex")
-bac <- read_nem(tab = easynem_example("nemotu.csv"), 
-                tax = easynem_example("nemtax.csv"), 
+bac <- read_nem(tab = easynem_example("nemotu.csv"),
+                tax = easynem_example("nemtax.csv"),
                 meta = easynem_example("meta.csv"))
 hehe <- calc_nemindex(bac) |> calc_funguild(con_crop) |> nem_plot()
 hehe <- calc_nemindex(bac) |> calc_funguild2(con_crop, season) |> nem_plot()
@@ -154,8 +154,8 @@ hehe <- calc_nemindex(bac) |> calc_mf2(season, con_crop) |> nem_plot()
 hehe
 hehe <- bac |> calc_nemindex() |> calc_ef(con_crop)
 hehe
-bac <- read_nem(tab = easynem_example("nemotu.csv"), 
-                tax = easynem_example("nemtax.csv"), 
+bac <- read_nem(tab = easynem_example("nemotu.csv"),
+                tax = easynem_example("nemtax.csv"),
                 meta = easynem_example("meta.csv"))
 hehe <- bac |> calc_nemindex() |> calc_ef2(con_crop, season) |> nem_plot()
 hehe <- bac |> calc_nemindex() |> calc_ef(con_crop) |> nem_plot()

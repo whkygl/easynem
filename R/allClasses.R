@@ -403,3 +403,51 @@ methods::setMethod("show", "ter2", function(object){
   print(object@result)
 })
 ################################################################################
+#' A S4 class to store the linear regression analysis results (single factor)
+#'
+#' The \code{lme-class} is used to store the results of linear regression analysis.
+#'
+#' @slot meta Stores the data frame for plotting.
+#' @slot result A data frame for storing the results of linear regression analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_lm}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name lme-class
+#' @rdname lme-class
+#' @exportClass lme
+methods::setClass("lme",
+                  slots = list(
+                    meta = "data.frame",
+                    result = "ANY"
+                  ))
+methods::setMethod("show", "lme", function(object){
+  cat("This is an lme object\n")
+  cat("The Linear regression analysis results is:\n")
+  print(object@result)
+})
+################################################################################
+#' A S4 class to store the linear regression analysis results (two-factor)
+#'
+#' The \code{lme2-class} is used to store the results of linear regression analysis.
+#'
+#' @slot meta Stores the data frame for plotting
+#' @slot result A data frame for storing the results of linear regression analysis.
+#'
+#' @seealso
+#' The constructor, \code{\link{calc_lm2}}; Visualization function, \code{\link{nem_plot}}.
+#'
+#' @name lme2-class
+#' @rdname lme2-class
+#' @exportClass lme2
+methods::setClass("lme2",
+                  slots = list(
+                    meta = "data.frame",
+                    result = "ANY"
+                  ))
+methods::setMethod("show", "lme2", function(object){
+  cat("This is an lme2 object\n")
+  cat("The Linear regression analysis results is:\n")
+  print(object@result)
+})
+################################################################################
