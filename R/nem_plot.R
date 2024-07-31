@@ -996,64 +996,155 @@ setMethod("nem_plot", signature("compare2"), function(object, type1 = 1, type2 =
   }
   p
 })
-
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object funguild or other types data.
-#' @param ... Other parameters for ggplot2 functions.
-#' @return An ggplot object.
-#' @rdname funguild
-#' @name funguild
+################################################################################
+#' Visualizing nematode functional guild data (single factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{funguild-class}}
+#' and is used to visualize the nematode functional guild data.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_nemindex() |> calc_funguild(Treatments) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{funguild-class}} object.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
 #' @aliases nem_plot,funguild-method
 #' @import ggplot2
 #' @export
-setMethod("nem_plot", signature("funguild"), function(object, ...){
-  # object = hehe2
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_plot <- nem |>
+#'             calc_nemindex() |>
+#'             calc_funguild(Treatments) |>
+#'             nem_plot()
+#' nem_plot
+setMethod("nem_plot", signature("funguild"), function(object){
+  # object = nem
   meta = object@result
   meta2 = stats::na.omit(meta)
   p = ggplot2::ggplot(meta2, ggplot2::aes(x = !!rlang::sym("SI"), y = !!rlang::sym("EI"), color = !!rlang::sym(names(meta2)[2]))) +
     ggplot2::geom_hline(yintercept = 50) +
     ggplot2::geom_vline(xintercept = 50) +
+    ggplot2::ylim(0, 100) +
+    ggplot2::xlim(0, 100) +
     ggplot2::geom_point() + ggplot2::theme_test() +
     ggplot2::ylab("Enrichment Index") +
     ggplot2::xlab("Structure Index")
   p
 })
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object funguild2 or other types data.
-#' @param ... Other parameters for ggplot2 functions.
-#' @return An ggplot object.
-#' @rdname funguild2
-#' @name funguild2
+################################################################################
+#' Visualizing nematode functional guild data (two-factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{funguild2-class}}
+#' and is used to visualize the nematode functional guild data.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_nemindex() |> calc_funguild2(con_crop, season) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{funguild2-class}} object.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
 #' @aliases nem_plot,funguild2-method
 #' @import ggplot2
 #' @export
-setMethod("nem_plot", signature("funguild2"), function(object, ...){
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_plot <- nem |>
+#'             calc_nemindex() |>
+#'             calc_funguild2(con_crop, season) |>
+#'             nem_plot()
+#' nem_plot
+setMethod("nem_plot", signature("funguild2"), function(object){
   # object = hehe2
   meta = object@result
   meta2 = stats::na.omit(meta)
-  p = ggplot2::ggplot(meta2, ggplot2::aes(x = !!rlang::sym("SI"), y = !!rlang::sym("EI"), color = !!rlang::sym(names(meta2)[2]), shape = !!rlang::sym(names(meta2)[3]))) +
+  p = ggplot2::ggplot(meta2, ggplot2::aes(x = !!rlang::sym("SI"), y = !!rlang::sym("EI"),
+                                          color = !!rlang::sym(names(meta2)[2]),
+                                          shape = !!rlang::sym(names(meta2)[3]))) +
     ggplot2::geom_hline(yintercept = 50) +
     ggplot2::geom_vline(xintercept = 50) +
+    ggplot2::ylim(0, 100) +
+    ggplot2::xlim(0, 100) +
     ggplot2::geom_point() + ggplot2::theme_test() +
     ggplot2::ylab("Enrichment Index") +
     ggplot2::xlab("Structure Index")
   p
 })
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object mf or other types data.
-#' @param kei Adjust the proportion of the vertical axis of the graph.
-#' @param ksi Adjust the proportion of the abscissa of the graph.
-#' @param ... Other parameters for ggplot2 functions.
-#' @return An ggplot object.
-#' @rdname mf
-#' @name mf
+################################################################################
+#' Visualizing the metabolic footprint of nematode communities (single factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{mf-class}}
+#' and is used to visualize the metabolic footprint of nematode communities. Metabolic
+#' footprints quantify the amplitude of Carbon utilisation by different food web
+#' components. The point in the middle of a rhombus represents the intersection
+#' of EI and SI and length of vertical and horizontal axes of the rhombus corresponds
+#' to the footprints of enrichment and structure components respectively.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_nemindex() |> calc_mf(Treatments) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{mf-class}} object.
+#' @param kei Adjust the width of the diamond, default \code{kei = 1}.
+#' @param ksi Adjust the length of the diamond, default \code{ksi = 1}.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @references
+#' * <https://shiny.wur.nl/ninja/>
+#' * Ferris, Howard. "Form and function: metabolic footprints of nematodes in the
+#' soil food web." European Journal of Soil Biology 46.2 (2010): 97-104.
+#'
 #' @aliases nem_plot,mf-method
 #' @import ggplot2
 #' @export
-setMethod("nem_plot", signature("mf"), function(object, kei = 1, ksi = 1, ...){
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_plot <- nem |>
+#'             calc_nemindex() |>
+#'             calc_mf(Treatments) |>
+#'             nem_plot(kei = 30, ksi = 20)
+#' nem_plot
+setMethod("nem_plot", signature("mf"), function(object, kei = 1, ksi = 1){
   # object = hehe2
   # kei = 3
   # ksi = 3
@@ -1091,19 +1182,55 @@ setMethod("nem_plot", signature("mf"), function(object, kei = 1, ksi = 1, ...){
     ggplot2::geom_hline(yintercept = c(0, 50, 100)) + ggplot2::geom_vline(xintercept = c(0, 50, 100)) + ggplot2::geom_polygon(data = zoutputsub, ggplot2::aes(x = meansi, y = meanei, fill = !!rlang::sym(names(zoutput)[1])), alpha = 0.2)
   p
 })
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object mf or other types data.
-#' @param kei Adjust the proportion of the vertical axis of the graph.
-#' @param ksi Adjust the proportion of the abscissa of the graph.
-#' @param ... Other parameters for ggplot2 functions.
-#' @return An ggplot object.
-#' @rdname mf2
-#' @name mf2
+################################################################################
+#' Visualizing the metabolic footprint of nematode communities (two-factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{mf2-class}}
+#' and is used to visualize the metabolic footprint of nematode communities. Metabolic
+#' footprints quantify the amplitude of Carbon utilisation by different food web
+#' components. The point in the middle of a rhombus represents the intersection
+#' of EI and SI and length of vertical and horizontal axes of the rhombus corresponds
+#' to the footprints of enrichment and structure components respectively.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_nemindex() |> calc_mf2(con_crop, season) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{mf2-class}} object.
+#' @param kei Adjust the width of the diamond, default \code{kei = 1}.
+#' @param ksi Adjust the length of the diamond, default \code{ksi = 1}.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @references
+#' * <https://shiny.wur.nl/ninja/>
+#' * Ferris, Howard. "Form and function: metabolic footprints of nematodes in the
+#' soil food web." European Journal of Soil Biology 46.2 (2010): 97-104.
+#'
 #' @aliases nem_plot,mf2-method
 #' @import ggplot2
 #' @export
-setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_plot <- nem |>
+#'             calc_nemindex() |>
+#'             calc_mf2(con_crop, season) |>
+#'             nem_plot(kei = 35, ksi = 35)
+#' nem_plot
+setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1){
   # object = hehe2
   # kei = 3
   # ksi = 3
@@ -1165,19 +1292,61 @@ setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
     ggplot2::geom_hline(yintercept = c(0, 50, 100)) + ggplot2::geom_vline(xintercept = c(0, 50, 100)) + ggplot2::geom_polygon(data = zoutputsub, ggplot2::aes(x = meansi, y = meanei, fill = !!rlang::sym(names(zoutput)[1])), alpha = 0.2)
   p
 })
-
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object ef or other types data.
-#' @return An ggplot object.
-#' @rdname ef
-#' @name ef
+################################################################################
+#' Visualizing the energy structure of nematode communities (single factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{ef-class}}
+#' and is used to visualize the energy structure of nematode communities. a five-node
+#' food web was constructed with bacterivores, fungivores and herbivores receiving
+#' energy from basal resources (R), omnivores-carnivores receiving energy from other
+#' nodes. Numbers along the lines represented energy flux (μg C / 100 g dry soil / day).
+#' The size of nodes corresponds to the fresh biomass (μg / 100 g dry soil).
+#' Uniformity (U) of soil nematode energetic structure (unitless, mean ± standard error)
+#' was calculated as the ratio of the mean of summed energy flux through each
+#' energy channel to the standard deviation of these mean values.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_nemindex() |> calc_ef(Treatments) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{ef-class}} object.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @references
+#' * Wan, Bingbing, et al. "Organic amendments increase the flow uniformity of
+#' energy across nematode food webs." Soil Biology and Biochemistry 170 (2022): 108695.
+#' * Ferris, H., 2010. Form and function: metabolic footprints of nematodes in the soil
+#' food web. European Journal of Soil Biology 46, 97–104.
+#' * Van Den Hoogen, Johan, et al. "Soil nematode abundance and functional group
+#' composition at a global scale." Nature 572.7768 (2019): 194-198.
+#' * Barnes, A.D., Jochum, M., Mumme, S., Haneda, N.F., Farajallah, A., Widarto, T.H.,
+#' Brose, U., 2014. Consequences of tropical land use for multitrophic biodiversity and
+#' ecosystem functioning. Nature Communications 5, 1–7.
+#' * De Ruiter, P.C., Van Veen, J.A., Moore, J.C., Brussaard, L., Hunt, H.W., 1993. Calculation
+#' of nitrogen mineralization in soil food webs. Plant and Soil 157, 263–273.
+#'
 #' @aliases nem_plot,ef-method
 #' @import ggplot2
-#' @import reshape2
-#' @import igraph
-#' @import ggraph
 #' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_plot <- nem |>
+#'             calc_nemindex() |>
+#'             calc_ef(Treatments) |>
+#'             nem_plot()
+#' nem_plot
 setMethod("nem_plot", signature("ef"), function(object){
   # object = hehe
   result = object@result
@@ -1278,19 +1447,66 @@ setMethod("nem_plot", signature("ef"), function(object){
     ggplot2::facet_wrap(formu, scales = "free")
   p3
 })
-
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object ef2 or other types data.
-#' @return An ggplot object.
-#' @rdname ef2
-#' @name ef2
+################################################################################
+#' Visualizing the energy structure of nematode communities (two-factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{ef2-class}}
+#' and is used to visualize the energy structure of nematode communities. a five-node
+#' food web was constructed with bacterivores, fungivores and herbivores receiving
+#' energy from basal resources (R), omnivores-carnivores receiving energy from other
+#' nodes. Numbers along the lines represented energy flux (μg C / 100 g dry soil / day).
+#' The size of nodes corresponds to the fresh biomass (μg / 100 g dry soil).
+#' Uniformity (U) of soil nematode energetic structure (unitless, mean ± standard error)
+#' was calculated as the ratio of the mean of summed energy flux through each
+#' energy channel to the standard deviation of these mean values.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_nemindex() |> calc_ef2(con_crop, season) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{ef2-class}} object.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @references
+#' * Wan, Bingbing, et al. "Organic amendments increase the flow uniformity of
+#' energy across nematode food webs." Soil Biology and Biochemistry 170 (2022): 108695.
+#' * Ferris, H., 2010. Form and function: metabolic footprints of nematodes in the soil
+#' food web. European Journal of Soil Biology 46, 97–104.
+#' * Van Den Hoogen, Johan, et al. "Soil nematode abundance and functional group
+#' composition at a global scale." Nature 572.7768 (2019): 194-198.
+#' * Barnes, A.D., Jochum, M., Mumme, S., Haneda, N.F., Farajallah, A., Widarto, T.H.,
+#' Brose, U., 2014. Consequences of tropical land use for multitrophic biodiversity and
+#' ecosystem functioning. Nature Communications 5, 1–7.
+#' * De Ruiter, P.C., Van Veen, J.A., Moore, J.C., Brussaard, L., Hunt, H.W., 1993. Calculation
+#' of nitrogen mineralization in soil food webs. Plant and Soil 157, 263–273.
+#'
 #' @aliases nem_plot,ef2-method
 #' @import ggplot2
-#' @import reshape2
 #' @import igraph
 #' @import ggraph
+#' @import reshape2
 #' @export
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_plot <- nem |>
+#'             calc_nemindex() |>
+#'             calc_ef2(con_crop, season) |>
+#'             nem_plot()
+#' nem_plot
 setMethod("nem_plot", signature("ef2"), function(object){
   # object = hehe
   result = object@result
@@ -1387,16 +1603,55 @@ setMethod("nem_plot", signature("ef2"), function(object){
     ggplot2::facet_grid(formu, scales = "free")
   p3
 })
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object ter or other types data.
-#' @param type Select the ternary graph type, cp or feeding.
-#' @return An ggplot object.
-#' @rdname ter
-#' @name ter
+################################################################################
+#' Visualizing the results of the ternary analysis (single factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{ter-class}}
+#' and is used to visualize the results of the ternary analysis. This function
+#' visualizes the distribution of nematode communities using the relative abundance
+#' of nematodes of \code{cp1}, \code{cp2}, and \code{cp3-5} or the relative biomass
+#' of herbivorous nematodes, bacterivorous nematodes, and fungivorous nematodes
+#' as the three axes of a ternary plot.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_ter(Treatments) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{ter-class}} object.
+#' @param type Visualize the nematodes by their \code{feeding} habits or by their \code{cp} values.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @references
+#' * <https://shiny.wur.nl/ninja/>
+#' * Goede, RGM de, T. Bongers, and C. H. Ettema. "Graphical presentation and
+#' interpretation of nematode community structure: cp triangles." (1993): 743-750.
+#'
 #' @aliases nem_plot,ter-method
 #' @import ggplot2
 #' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_plot <- nem |>
+#'             calc_ter(Treatments) |>
+#'             nem_plot(type = feeding)
+#' nem_plot
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_plot <- nem |>
+#'             calc_ter(Treatments) |>
+#'             nem_plot(type = cp)
+#' nem_plot
 setMethod("nem_plot", signature("ter"), function(object, type){
   # object = hehe
   type = deparse(substitute(type))
@@ -1417,16 +1672,56 @@ setMethod("nem_plot", signature("ter"), function(object, type){
   }
   p4
 })
-#' nem_plot
-#' @description For visualization of nematode community data.
-#' @param object ter2 or other types data.
-#' @param type Select the ternary graph type, cp or feeding.
-#' @return An ggplot object.
-#' @rdname ter2
-#' @name ter2
+################################################################################
+#' Visualizing the results of the ternary analysis (two-factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{ter2-class}}
+#' and is used to visualize the results of the ternary analysis. This function
+#' visualizes the distribution of nematode communities using the relative abundance
+#' of nematodes of \code{cp1}, \code{cp2}, and \code{cp3-5} or the relative biomass
+#' of herbivorous nematodes, bacterivorous nematodes, and fungivorous nematodes
+#' as the three axes of a ternary plot.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_ter2(con_crop, season) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{ter2-class}} object.
+#' @param type Visualize the nematodes by their \code{feeding} habits or by their \code{cp} values.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @references
+#' * <https://shiny.wur.nl/ninja/>
+#' * Goede, RGM de, T. Bongers, and C. H. Ettema. "Graphical presentation and
+#' interpretation of nematode community structure: cp triangles." (1993): 743-750.
+#'
 #' @aliases nem_plot,ter2-method
 #' @import ggplot2
 #' @export
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_plot <- nem |>
+#'             calc_ter2(con_crop, season) |>
+#'             nem_plot(type = feeding)
+#' nem_plot
+#' nem_plot <- nem |>
+#'             calc_ter2(con_crop, season) |>
+#'             nem_plot(type = cp)
+#' nem_plot
 setMethod("nem_plot", signature("ter2"), function(object, type){
   # object = hehe
   type = deparse(substitute(type))
@@ -1447,3 +1742,100 @@ setMethod("nem_plot", signature("ter2"), function(object, type){
   }
   p4
 })
+################################################################################
+#' Visualizing the results of linear regression (single factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{lme-class}}
+#' and is used to visualize the results of linear regression.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_lm(Treatments, Chao1, TotalBiomass) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{lme-class}} object.
+#' @param ... Other parameters of \code{\link{stat_cor}} function.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @aliases nem_plot,lme-method
+#' @import ggplot2
+#' @export
+#' @examples
+#' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
+#' nem_plot <- nem |>
+#'             calc_alpha() |>
+#'             calc_nemindex() |>
+#'             calc_lm(group = Treatments,
+#'                     x = Chao1,
+#'                     y = TotalBiomass) |>
+#'             nem_plot()
+#' nem_plot
+setMethod("nem_plot", signature("lme"), function(object, ...){
+  # object = nem_index
+  meta = object@meta
+  p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[3]), y = !!rlang::sym(names(meta)[4])))+
+    ggplot2::geom_point(ggplot2::aes(colour = !!rlang::sym(names(meta)[2])))+
+    ggplot2::geom_smooth(method = "lm")+
+    ggpubr::stat_cor(...)+
+    ggplot2::theme_test() +
+    ggplot2::theme(text = ggplot2::element_text(colour='black'), axis.text=ggplot2::element_text(colour='black'))
+  return(p)
+})
+################################################################################
+#' Visualizing the results of linear regression (two-factor)
+#'
+#' The \code{\link{nem_plot}} function is generalized to the \code{\link{lme2-class}}
+#' and is used to visualize the results of linear regression.
+#'
+#' To facilitate code interpretation, it is recommended to use the pipe symbol
+#' [`|>`] to connect functions:
+#'
+#' ```
+#' nem_plot <- nem |> calc_lm2(con_crop, season, x = SOC, y = pH) |> nem_plot()
+#' ```
+#'
+#' @param object A \code{\link{lme2-class}} object.
+#' @param ... Other parameters of \code{\link{stat_cor}} function.
+#'
+#' @return An \code{gg} or \code{ggplot} object.
+#'
+#' @seealso
+#' The \code{nem_plot()} is used to visualize the calculation results and is a
+#' generalized function for multiple classes including \code{\link{beta-class}},
+#' \code{\link{beta2-class}}, \code{\link{compare-class}}, \code{\link{compare2-class}},
+#' \code{\link{ef-class}}, \code{\link{ef2-class}}, \code{\link{funguild-class}},
+#' \code{\link{funguild2-class}}, \code{\link{mf-class}}, \code{\link{mf2-class}},
+#' \code{\link{ter-class}}, \code{\link{ter2-class}}, etc.
+#'
+#' @aliases nem_plot,lme2-method
+#' @import ggplot2
+#' @export
+#' @examples
+#' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
+#'                 tax = easynem_example("nemtax1.csv"),
+#'                 meta = easynem_example("nemmeta1.csv"))
+#' nem_lm <- nem |> calc_lm2(con_crop, season, x = pH, y = Fe) |> nem_plot()
+#' nem_lm
+setMethod("nem_plot", signature("lme2"), function(object, ...){
+  # object = nem_lm
+  meta = object@meta
+  p = ggplot2::ggplot(meta, ggplot2::aes(x = !!rlang::sym(names(meta)[4]), y = !!rlang::sym(names(meta)[5])))+
+    ggplot2::geom_point(ggplot2::aes(colour = !!rlang::sym(names(meta)[3]), shape = !!rlang::sym(names(meta)[2])))+
+    ggplot2::geom_smooth(method = "lm", ggplot2::aes(colour = !!rlang::sym(names(meta)[3]), fill = !!rlang::sym(names(meta)[3])), alpha = 0.1)+
+    ggpubr::stat_cor(ggplot2::aes(colour = !!rlang::sym(names(meta)[3])), ...)+
+    ggplot2::theme_test() +
+    ggplot2::theme(text = ggplot2::element_text(colour='black'), axis.text=ggplot2::element_text(colour='black'))
+  return(p)
+})
+################################################################################
