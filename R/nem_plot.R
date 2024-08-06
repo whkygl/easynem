@@ -405,7 +405,7 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
       all$mean = all[[colnames(meta)[3]]]
       p = p + ggplot2::geom_text(data = all, ggplot2::aes(x = group, y = max, label = groups), vjust = -0.5)
     } else if (type == 2){
-      if (add == "mean_se"){
+      if (add == "mean_sd"){
         p = ggpubr::ggbarplot(meta, x = colnames(meta)[2], y = colnames(meta)[3], fill = colnames(meta)[2], width = 0.5, add = "mean") +
           ggplot2::xlab(NULL)+
           ggplot2::theme_test() +
@@ -416,7 +416,7 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
         all$mean = all[[colnames(meta)[3]]]
         p = p + ggplot2::geom_errorbar(data = all, ggplot2::aes(x = group, y = mean, ymin = mean-se, ymax =mean+se), width = .2) +
           ggplot2::geom_text(data = all, ggplot2::aes(x = group, y = mean + se, label = groups), vjust = -0.5)
-      } else if (add == "mean_sd") {
+      } else if (add == "mean_se") {
         p = ggpubr::ggbarplot(meta, x = colnames(meta)[2], y = colnames(meta)[3], fill = colnames(meta)[2], width = 0.5, add = "mean") +
           ggplot2::xlab(NULL)+
           ggplot2::theme_test() +
