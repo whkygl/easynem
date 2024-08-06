@@ -410,7 +410,6 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
       } else if (add == "mean_sd") {
         meta2 = dplyr::group_by(meta, !!rlang::sym(colnames(meta)[2])) |> dplyr::summarise(mean = mean(!!rlang::sym(colnames(meta)[3])), er = stats::sd(!!rlang::sym(colnames(meta)[3])))
       }
-      if (add == "mean_se"){
         p = ggpubr::ggbarplot(meta, x = colnames(meta)[2], y = colnames(meta)[3], fill = colnames(meta)[2], width = 0.5, add = "mean") +
           ggplot2::xlab(NULL)+
           ggplot2::theme_test() +
@@ -420,18 +419,6 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
         all$mean = all[[colnames(meta)[3]]]
         p = p + ggplot2::geom_errorbar(data = all, ggplot2::aes(x = group, y = mean, ymin = mean-er, ymax =mean+er), width = .2) +
           ggplot2::geom_text(data = all, ggplot2::aes(x = group, y = mean + er, label = groups), vjust = -0.5)
-      } else if (add == "mean_sd") {
-        p = ggpubr::ggbarplot(meta, x = colnames(meta)[2], y = colnames(meta)[3], fill = colnames(meta)[2], width = 0.5, add = "mean") +
-          ggplot2::xlab(NULL)+
-          ggplot2::theme_test() +
-          ggplot2::geom_jitter(ggplot2::aes(fill = !!rlang::sym(colnames(meta)[2])), shape = 21, width = 1/length(unique(meta[,2]))) +
-          ggplot2::scale_fill_discrete(guide = "none")
-        meta2 = dplyr::group_by(meta, !!rlang::sym(colnames(meta)[2])) |> dplyr::summarise(max = max(.data[[colnames(meta)[3]]]))
-        all = merge(meta_all, meta2, by.x = "group", by.y = colnames(meta)[2])
-        all$mean = all[[colnames(meta)[3]]]
-        p = p + ggplot2::geom_errorbar(data = all, ggplot2::aes(x = group, y = mean, ymin = mean-er, ymax =mean+er), width = .2) +
-          ggplot2::geom_text(data = all, ggplot2::aes(x = group, y = mean + er, label = groups), vjust = -0.5)
-      }
     }
   } else if (temp == "HSD") {
     value = meta[,3]
