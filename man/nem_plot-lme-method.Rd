@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{A \code{\link{lme-class}} object.}
 
-\item{...}{Other parameters of \code{\link{stat_cor}} function.}
+\item{...}{Other parameters of \code{\link[ggpubr]{stat_cor}} function.}
 }
 \value{
 An \code{gg} or \code{ggplot} object.

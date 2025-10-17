@@ -41,7 +41,6 @@ hehe2 <- calc_mf(hehe, con_crop)
 #' @name mf
 #' @aliases nem_plot,mf-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("mf"), function(object, kei, ksi, ...){
   # object = hehe2

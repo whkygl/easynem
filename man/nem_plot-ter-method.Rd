@@ -4,12 +4,18 @@
 \alias{nem_plot,ter-method}
 \title{Visualizing the results of the ternary analysis (single factor)}
 \usage{
-\S4method{nem_plot}{ter}(object, type)
+\S4method{nem_plot}{ter}(object, type, point_size = 1, legend_cex = 0.9, ...)
 }
 \arguments{
 \item{object}{A \code{\link{ter-class}} object.}
 
 \item{type}{Visualize the nematodes by their \code{feeding} habits or by their \code{cp} values.}
+
+\item{point_size}{Size of the points. Default is 1.}
+
+\item{legend_cex}{Size of the legend text. Default is 0.9}
+
+\item{...}{Additional parameters passed to \code{Ternary::TernaryPlot()}.}
 }
 \value{
 An \code{gg} or \code{ggplot} object.

@@ -46,7 +46,6 @@ hehe2 <- calc_mf2(hehe, con_crop, season)
 #' @name mf2
 #' @aliases nem_plot,mf2-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("mf2"), function(object, kei = 1, ksi = 1, ...){
   # object = hehe2

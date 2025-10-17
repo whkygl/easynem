@@ -22,7 +22,7 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1)
       if (type == 1){
         p = p+ggplot2::stat_ellipse(level=level)
       } else if(type == 2){
-        p = p+ggalt::geom_encircle(aes(fill=!!sym(colnames(group))), alpha = 0.1, show.legend = F)
+        p = p+geom_encircle(aes(fill=!!sym(colnames(group))), alpha = 0.1, show.legend = F)
       } else {
         stop("Type value must be 1 or 2.")
       }
@@ -48,7 +48,7 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1)
       if (type == 1){
         p = p+ggplot2::stat_ellipse(level=level)
       } else if(type == 2){
-        p = p+ggalt::geom_encircle(aes(fill=!!sym(colnames(group))), alpha = 0.1, show.legend = F)
+        p = p+geom_encircle(aes(fill=!!sym(colnames(group))), alpha = 0.1, show.legend = F)
       } else {
         stop("Type value must be 1 or 2.")
       }

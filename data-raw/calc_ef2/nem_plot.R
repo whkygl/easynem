@@ -6,7 +6,6 @@
 #' @name ef2
 #' @aliases nem_plot,ef2-method
 #' @import ggplot2
-#' @import ggalt
 #' @import igraph
 #' @import ggraph
 #' @export

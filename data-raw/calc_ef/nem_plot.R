@@ -7,7 +7,6 @@
 #' @aliases nem_plot,ef-method
 #' @import ggplot2
 #' @import reshape2
-#' @import ggalt
 #' @import igraph
 #' @import ggraph
 #' @export

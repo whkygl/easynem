@@ -44,7 +44,6 @@ hehe2 <- calc_funguild2(hehe, con_crop, season)
 #' @name funguild2
 #' @aliases nem_plot,funguild2-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("funguild2"), function(object, ...){
   # object = hehe2

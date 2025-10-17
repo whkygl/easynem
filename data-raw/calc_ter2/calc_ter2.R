@@ -83,7 +83,6 @@ hehe = bac |> calc_ter2(con_crop, season)
 #' @name ter2
 #' @aliases nem_plot,ter2-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("ter2"), function(object, type){
   # object = hehe

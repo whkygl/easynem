@@ -80,7 +80,6 @@ hehe = bac |> calc_ter(con_crop)
 #' @name ter
 #' @aliases nem_plot,ter-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 setMethod("nem_plot", signature("ter"), function(object, type){
   # object = hehe

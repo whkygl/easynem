@@ -59,7 +59,6 @@ setGeneric("nem_plot", function(object, ...){
 #'
 #' @aliases nem_plot,beta-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 #' @examples
 #' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
@@ -87,7 +86,7 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
       if (type == 1){
         p = p+ggplot2::stat_ellipse(level=level)
       } else if(type == 2){
-        p = p+ggalt::geom_encircle(ggplot2::aes(fill=!!dplyr::sym(colnames(group))), alpha = 0.1, show.legend = F)
+        p = p+geom_encircle(ggplot2::aes(fill=!!dplyr::sym(colnames(group))), alpha = 0.1, show.legend = F)
       } else {
         stop("Type value must be 1 or 2.")
       }
@@ -115,7 +114,7 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
       if (type == 1){
         p = p+ggplot2::stat_ellipse(level=level)
       } else if(type == 2){
-        p = p+ggalt::geom_encircle(ggplot2::aes(fill=!!dplyr::sym(colnames(group))), alpha = 0.1, show.legend = F)
+        p = p+geom_encircle(ggplot2::aes(fill=!!dplyr::sym(colnames(group))), alpha = 0.1, show.legend = F)
       } else {
         stop("Type value must be 1 or 2.")
       }
@@ -160,7 +159,6 @@ setMethod("nem_plot", signature("beta"), function(object, level = 0.6, type = 1,
 #'
 #' @aliases nem_plot,beta2-method
 #' @import ggplot2
-#' @import ggalt
 #' @export
 #' @examples
 #' nem <- read_nem(tab = easynem_example("nemtab1.csv"),
@@ -192,7 +190,7 @@ setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1
       if (type == 1){
         p = p+ggplot2::stat_ellipse(level=level)
       } else if(type == 2){
-        p = p+ggalt::geom_encircle(ggplot2::aes(fill=!!dplyr::sym(colnames(group3))), alpha = 0.1, show.legend = F)
+        p = p+geom_encircle(ggplot2::aes(fill=!!dplyr::sym(colnames(group3))), alpha = 0.1, show.legend = F)
       } else {
         stop("Type value must be 1 or 2.")
       }
@@ -224,7 +222,7 @@ setMethod("nem_plot", signature("beta2"), function(object, level = 0.6, type = 1
       if (type == 1){
         p = p+ggplot2::stat_ellipse(level=level)
       } else if(type == 2){
-        p = p+ggalt::geom_encircle(ggplot2::aes(fill=!!dplyr::sym(colnames(group3))), alpha = 0.1, show.legend = F)
+        p = p+geom_encircle(ggplot2::aes(fill=!!dplyr::sym(colnames(group3))), alpha = 0.1, show.legend = F)
       } else {
         stop("Type value must be 1 or 2.")
       }
@@ -1428,12 +1426,12 @@ setMethod("nem_plot", signature("ef"), function(object){
   ), ncol = 2, byrow = TRUE)
   formu = stats::as.formula(paste0("~", names(result4)[1]))
   p3 = ggraph::ggraph(graph, layout = layout_matrix) +
-    ggraph::geom_edge_fan(ggplot2::aes(colour = to1, width = Energy_flow, label = Energy_flow), family = NA, show.legend = FALSE) +
+    ggraph::geom_edge_fan(ggplot2::aes(colour = to1, width = Energy_flow, label = Energy_flow), family = "sans", show.legend = FALSE) +
     ggraph::scale_edge_width(range=c(0.5, 4)) +
-    ggplot2::geom_text(ggplot2::aes(x = 2, y = 0.5, label = U),family = NA, data = nodes)+
+    ggplot2::geom_text(ggplot2::aes(x = 2, y = 0.5, label = U),family = "sans", data = nodes)+
     ggraph::geom_node_point(ggplot2::aes(colour = Feeding, size = Fresh_biomass)) +
     ggraph::geom_node_text(aes(label = label), repel = TRUE) +
-    ggraph::theme_graph(foreground = 'steelblue', fg_text_colour = 'white', base_family = NA) +
+    ggraph::theme_graph(foreground = 'steelblue', fg_text_colour = 'white', base_family = "sans") +
     ggplot2::scale_size(range = c(5,13)) +
     ggplot2::facet_wrap(formu, scales = "free")
   p3
@@ -1584,12 +1582,12 @@ setMethod("nem_plot", signature("ef2"), function(object){
   ), ncol = 2, byrow = TRUE)
   formu = stats::as.formula(paste0(names(result4)[2], "~", names(result4)[1]))
   p3 = ggraph::ggraph(graph, layout = layout_matrix) +
-    ggraph::geom_edge_fan(ggplot2::aes(colour = to1, width = Energy_flow, label = Energy_flow), family = NA, show.legend = FALSE) +
+    ggraph::geom_edge_fan(ggplot2::aes(colour = to1, width = Energy_flow, label = Energy_flow), family = "sans", show.legend = FALSE) +
     ggraph::scale_edge_width(range=c(0.5, 4)) +
-    ggplot2::geom_text(ggplot2::aes(x = 2, y = 0.5, label = U),family = NA, data = nodes)+
+    ggplot2::geom_text(ggplot2::aes(x = 2, y = 0.5, label = U),family = "sans", data = nodes)+
     ggraph::geom_node_point(ggplot2::aes(colour = Feeding, size = Fresh_biomass)) +
     ggraph::geom_node_text(ggplot2::aes(label = label), repel = TRUE) +
-    ggraph::theme_graph(foreground = 'steelblue', fg_text_colour = 'white', base_family = NA) +
+    ggraph::theme_graph(foreground = 'steelblue', fg_text_colour = 'white', base_family = "sans") +
     ggplot2::scale_size(range = c(5,13)) +
     ggplot2::facet_grid(formu, scales = "free")
   p3
@@ -1613,6 +1611,9 @@ setMethod("nem_plot", signature("ef2"), function(object){
 #'
 #' @param object A \code{\link{ter-class}} object.
 #' @param type Visualize the nematodes by their \code{feeding} habits or by their \code{cp} values.
+#' @param point_size Size of the points. Default is 1.
+#' @param legend_cex Size of the legend text. Default is 0.9
+#' @param ... Additional parameters passed to \code{Ternary::TernaryPlot()}.
 #'
 #' @return An \code{gg} or \code{ggplot} object.
 #'
@@ -1643,26 +1644,82 @@ setMethod("nem_plot", signature("ef2"), function(object){
 #'             calc_ter(Treatments) |>
 #'             nem_plot(type = cp)
 #' nem_plot
-setMethod("nem_plot", signature("ter"), function(object, type){
-  # object = hehe
+setMethod("nem_plot", signature("ter"), function(object, type, point_size = 1, legend_cex = 0.9, ...){
+  # object = nem_index
   type = deparse(substitute(type))
-  if (type == "cp"){
   result = object@result
-  base = ggtern::ggtern(data=result,ggplot2::aes(x=`cp1% (Enrichment)`,y=`cp3-5% (Stability)`,z=`cp2% (Stress)`))
-  p3 = base +
-    ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]))) +
-    ggtern::theme_rgbw()
-  p4 = p3 + ggplot2::labs(x = "cp1%\n(Enrichment)", y = "cp3-5%\n(Stability)", z = "cp2%\n(Stress)")
+  result = as.data.frame(result)
+  color_factor <- factor(result[[names(result)[2]]])
+  color_levels <- levels(color_factor)
+  color_palette <- grDevices::hcl.colors(length(color_levels), palette = "viridis")
+  color_map <- stats::setNames(color_palette, color_levels)
+  point_colors <- color_map[color_factor]
+  # opar <- par(no.readonly = TRUE)
+  # on.exit(par(opar)) 
+  # par(mar = c(1, 1, 1, 1))
+  if (type == "cp"){
+    Ternary::TernaryPlot(
+    alab = "cp1%\n(Enrichment)",
+    blab = "cp3-5%\n(Stability)",
+    clab = "cp2%\n(Stress)",
+    ...
+  )
+  Ternary::TernaryPoints(
+    coordinates = result[, c("cp1% (Enrichment)", "cp3-5% (Stability)", "cp2% (Stress)")],
+    col = point_colors,
+    # pch = point_shapes,
+    cex = point_size
+  )
+  graphics::legend(
+    "topleft",
+    legend = names(color_map),
+    col = color_map,
+    pch = 16,
+    pt.cex = 1,
+    bty = "n",
+    cex = legend_cex
+  )
+  recorded_plot <- grDevices::recordPlot()
+  return(recorded_plot)
+#   base = ggtern::ggtern(data=result,ggplot2::aes(x=`cp1% (Enrichment)`,y=`cp3-5% (Stability)`,z=`cp2% (Stress)`))
+#   p3 = base +
+#     ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]), shape = !!rlang::sym(names(result)[3]))) +
+#     ggtern::theme_rgbw()
+#   p4 = p3 + ggplot2::labs(x = "cp1%\n(Enrichment)", y = "cp3-5%\n(Stability)", z = "cp2%\n(Stress)")
   } else if (type == "feeding") {
-    result = object@result
-    base = ggtern::ggtern(data=result,ggplot2::aes(x=`Herbivorous nematodes%`,y=`Bacteria-feeding nematodes%`,z=`Fungus-feeding nematodes%`))
-    p3 = base +
-      ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]))) +
-      ggtern::theme_rgbw()
-    p4 = p3 + ggplot2::labs(x = "Herbivorous%", y = "Bacteria%", z = "Fungus%")
+     Ternary::TernaryPlot(
+    alab = "Herbivorous%",
+    blab = "Bacteria%",
+    clab = "Fungus%",
+    ...
+  )
+  Ternary::TernaryPoints(
+    coordinates = result[, c("Herbivorous nematodes%", "Bacteria-feeding nematodes%", "Fungus-feeding nematodes%")],
+    col = point_colors,
+    # pch = point_shapes,
+    cex = point_size
+  )
+  graphics::legend(
+    "topleft",
+    legend = names(color_map),
+    col = color_map,
+    pch = 16,
+    pt.cex = 1,
+    bty = "n",
+    cex = legend_cex
+  )
+  recorded_plot <- grDevices::recordPlot()
+  return(recorded_plot)
+    # result = object@result
+    # base = ggtern::ggtern(data=result,ggplot2::aes(x=`Herbivorous nematodes%`,y=`Bacteria-feeding nematodes%`,z=`Fungus-feeding nematodes%`))
+    # p3 = base +
+    #   ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]), shape = !!rlang::sym(names(result)[3]))) +
+    #   ggtern::theme_rgbw()
+    # p4 = p3 + ggplot2::labs(x = "Herbivorous%", y = "Bacteria%", z = "Fungus%")
   }
-  p4
+#   p4
 })
+
 ################################################################################
 #' Visualizing the results of the ternary analysis (two-factor)
 #'
@@ -1682,6 +1739,9 @@ setMethod("nem_plot", signature("ter"), function(object, type){
 #'
 #' @param object A \code{\link{ter2-class}} object.
 #' @param type Visualize the nematodes by their \code{feeding} habits or by their \code{cp} values.
+#' @param point_size Size of the points. Default is 1.
+#' @param legend_cex Size of the legend text. Default is 0.9
+#' @param ... Additional parameters passed to \code{Ternary::TernaryPlot()}.
 #'
 #' @return An \code{gg} or \code{ggplot} object.
 #'
@@ -1713,25 +1773,103 @@ setMethod("nem_plot", signature("ter"), function(object, type){
 #'             calc_ter2(con_crop, season) |>
 #'             nem_plot(type = cp)
 #' nem_plot
-setMethod("nem_plot", signature("ter2"), function(object, type){
-  # object = hehe
+setMethod("nem_plot", signature("ter2"), function(object, type, point_size = 1, legend_cex = 0.9, ...){
+  # object = nem_index
   type = deparse(substitute(type))
-  if (type == "cp"){
   result = object@result
-  base = ggtern::ggtern(data=result,ggplot2::aes(x=`cp1% (Enrichment)`,y=`cp3-5% (Stability)`,z=`cp2% (Stress)`))
-  p3 = base +
-    ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]), shape = !!rlang::sym(names(result)[3]))) +
-    ggtern::theme_rgbw()
-  p4 = p3 + ggplot2::labs(x = "cp1%\n(Enrichment)", y = "cp3-5%\n(Stability)", z = "cp2%\n(Stress)")
+  result = as.data.frame(result)
+  color_factor <- factor(result[[names(result)[2]]])
+  color_levels <- levels(color_factor)
+  color_palette <- grDevices::hcl.colors(length(color_levels), palette = "viridis")
+  color_map <- stats::setNames(color_palette, color_levels)
+  point_colors <- color_map[color_factor]
+  shape_factor <- factor(result[[names(result)[3]]])
+  shape_levels <- levels(shape_factor)
+  shape_palette <- c(16, 17, 15, 18, 3, 4, 8, 0, 1, 2, 5, 6)[1:length(shape_levels)]
+  shape_map <- stats::setNames(shape_palette, shape_levels)
+  point_shapes <- shape_map[shape_factor]
+  # opar <- par(no.readonly = TRUE)
+  # on.exit(par(opar)) 
+  # par(mar = c(1, 1, 1, 1))
+  if (type == "cp"){
+    Ternary::TernaryPlot(
+    alab = "cp1%\n(Enrichment)",
+    blab = "cp3-5%\n(Stability)",
+    clab = "cp2%\n(Stress)",
+    ...
+  )
+  Ternary::TernaryPoints(
+    coordinates = result[, c("cp1% (Enrichment)", "cp3-5% (Stability)", "cp2% (Stress)")],
+    col = point_colors,
+    pch = point_shapes,
+    cex = point_size
+  )
+  graphics::legend(
+    "topleft",
+    legend = names(color_map),
+    col = color_map,
+    pch = 16,
+    pt.cex = 1,
+    bty = "n",
+    cex = legend_cex
+  )
+   graphics::legend(
+    "topright",
+    legend = names(shape_map),
+    pch = shape_map,
+    col = "black",
+    pt.cex = 1,
+    bty = "n",
+    cex = legend_cex
+  )
+  recorded_plot <- grDevices::recordPlot()
+  return(recorded_plot)
+#   base = ggtern::ggtern(data=result,ggplot2::aes(x=`cp1% (Enrichment)`,y=`cp3-5% (Stability)`,z=`cp2% (Stress)`))
+#   p3 = base +
+#     ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]), shape = !!rlang::sym(names(result)[3]))) +
+#     ggtern::theme_rgbw()
+#   p4 = p3 + ggplot2::labs(x = "cp1%\n(Enrichment)", y = "cp3-5%\n(Stability)", z = "cp2%\n(Stress)")
   } else if (type == "feeding") {
-    result = object@result
-    base = ggtern::ggtern(data=result,ggplot2::aes(x=`Herbivorous nematodes%`,y=`Bacteria-feeding nematodes%`,z=`Fungus-feeding nematodes%`))
-    p3 = base +
-      ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]), shape = !!rlang::sym(names(result)[3]))) +
-      ggtern::theme_rgbw()
-    p4 = p3 + ggplot2::labs(x = "Herbivorous%", y = "Bacteria%", z = "Fungus%")
+     Ternary::TernaryPlot(
+    alab = "Herbivorous%",
+    blab = "Bacteria%",
+    clab = "Fungus%",
+    ...
+  )
+  Ternary::TernaryPoints(
+    coordinates = result[, c("Herbivorous nematodes%", "Bacteria-feeding nematodes%", "Fungus-feeding nematodes%")],
+    col = point_colors,
+    pch = point_shapes,
+    cex = point_size
+  )
+  graphics::legend(
+    "topleft",
+    legend = names(color_map),
+    col = color_map,
+    pch = 16,
+    pt.cex = 1,
+    bty = "n",
+    cex = legend_cex
+  )
+   graphics::legend(
+    "topright",
+    legend = names(shape_map),
+    pch = shape_map,
+    col = "black",
+    pt.cex = 1,
+    bty = "n",
+    cex = legend_cex
+  )
+  recorded_plot <- grDevices::recordPlot()
+  return(recorded_plot)
+    # result = object@result
+    # base = ggtern::ggtern(data=result,ggplot2::aes(x=`Herbivorous nematodes%`,y=`Bacteria-feeding nematodes%`,z=`Fungus-feeding nematodes%`))
+    # p3 = base +
+    #   ggplot2::geom_point(ggplot2::aes(color=!!rlang::sym(names(result)[2]), shape = !!rlang::sym(names(result)[3]))) +
+    #   ggtern::theme_rgbw()
+    # p4 = p3 + ggplot2::labs(x = "Herbivorous%", y = "Bacteria%", z = "Fungus%")
   }
-  p4
+#   p4
 })
 ################################################################################
 #' Visualizing the results of linear regression (single factor)
@@ -1747,7 +1885,7 @@ setMethod("nem_plot", signature("ter2"), function(object, type){
 #' ```
 #'
 #' @param object A \code{\link{lme-class}} object.
-#' @param ... Other parameters of \code{\link{stat_cor}} function.
+#' @param ... Other parameters of \code{\link[ggpubr]{stat_cor}} function.
 #'
 #' @return An \code{gg} or \code{ggplot} object.
 #'
@@ -1797,7 +1935,7 @@ setMethod("nem_plot", signature("lme"), function(object, ...){
 #' ```
 #'
 #' @param object A \code{\link{lme2-class}} object.
-#' @param ... Other parameters of \code{\link{stat_cor}} function.
+#' @param ... Other parameters of \code{\link[ggpubr]{stat_cor}} function.
 #'
 #' @return An \code{gg} or \code{ggplot} object.
 #'
