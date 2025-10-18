@@ -3,6 +3,7 @@ nem <- read_nem(tab = easynem_example("nemtab1.csv"), tax = easynem_example("nem
 nem_index <- nem %>% calc_ter2(con_crop, season)
 usethis::use_build_ignore("photo")
 library(devtools)
+usethis::use_testthat()
 check()
 devtools::install_github("whkygl/easynem", force = TRUE)
 library(devtools)
