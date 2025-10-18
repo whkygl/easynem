@@ -1,4 +1,12 @@
 rm(list = ls())
+# 安装 goodpractice
+install.packages("goodpractice")
+devtools::build()
+usethis::use_cran_comments()
+# 启动交互式发布流程
+devtools::release()
+# 运行检查
+goodpractice::gp()
 nem <- read_nem(tab = easynem_example("nemtab1.csv"), tax = easynem_example("nemtax1.csv"), meta = easynem_example("nemmeta1.csv"))
 nem_index <- nem %>% calc_ter2(con_crop, season)
 usethis::use_build_ignore("photo")

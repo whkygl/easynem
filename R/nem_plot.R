@@ -1632,6 +1632,7 @@ setMethod("nem_plot", signature("ef2"), function(object){
 #'
 #' @aliases nem_plot,ter-method
 #' @import ggplot2
+#' @import Ternary
 #' @export
 #' @examples
 #' nem <- read_nem2(tab = nemtab, tax = nemtax, meta = nemmeta)
@@ -1760,6 +1761,7 @@ setMethod("nem_plot", signature("ter"), function(object, type, point_size = 1, l
 #'
 #' @aliases nem_plot,ter2-method
 #' @import ggplot2
+#' @import Ternary
 #' @export
 #' @examples
 #' nem <- read_nem(tab = easynem_example("nemtab1.csv"),

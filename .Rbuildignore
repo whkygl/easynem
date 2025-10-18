@@ -4,3 +4,4 @@
 ^wkg\.R$
 ^data-raw$
 ^photo$
+^cran-comments\.md$
