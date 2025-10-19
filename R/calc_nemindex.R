@@ -42,7 +42,7 @@ methods::setMethod("show", "easynem", function(object){
 #' structure, while intermediate values (2.5–3) indicate some soil food web maturity.
 #' High values (>3) indicate a well-structured and complex soil food web likely with
 #' connectivity and energy flow between trophic levels.
-#' * \code{sigMI}, Sigma Maturity Index (∑MI). Indicates environmental disturbance
+#' * \code{sigMI}, Sigma Maturity Index (SigmaMI). Indicates environmental disturbance
 #' resulting from perturbations in non-agricultural soils (range, 1-5). Low values (<2)
 #' indicate a high level of nutrient availability and minimal plant-parasitic pressure,
 #' while values close to 2 indicate a high level of disturbance with low soil food web
@@ -51,10 +51,10 @@ methods::setMethod("show", "easynem", function(object){
 #' likely with connectivity and energy flow between trophic levels, which might include
 #' larger plant-parasitic nematodes. This index is less sensitive to enrichment in
 #' agricultural soils.
-#' * \code{sigMI25}, Sigma Maturity Index 2-5 (∑MI25). computes the MI for all
+#' * \code{sigMI25}, Sigma Maturity Index 2-5 (SigmaMI25). computes the MI for all
 #' nematodes in the c-p2-5 range (Neher & Campbell, 1996). The index recognizes
 #' that the higher c-p value plant-feeding species also provide information of
-#' environmental stress but bears some of the burden of the ΣMI in situations of
+#' environmental stress but bears some of the burden of the SigmaMI in situations of
 #' nutrient enrichment.
 #' * \code{MI25}, Maturity Index 2–5. Indicates Environmental disturbance resulting
 #' from perturbations unrelated to nutrient enrichment in agricultural fields (range, 2-5).

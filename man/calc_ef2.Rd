@@ -17,22 +17,22 @@ calc_ef2(data, .group1, .group2)
 An \code{\link{ef2-class}} object that stores the desired visualization results.
 \itemize{
 \item \code{OF}, Energy flow metabolism of omnivorous predatory nematodes.
-\item \code{OM}, Fresh biomass (μg / 100g dry soil) of omnivorous predatory nematodes.
+\item \code{OM}, Fresh biomass (ug / 100g dry soil) of omnivorous predatory nematodes.
 \item \code{BF}, Energy flow metabolism of bacteria-feeding nematodes.
-\item \code{BM}, Fresh biomass (μg / 100g dry soil) of omnivorous predatory nematodes.
+\item \code{BM}, Fresh biomass (ug / 100g dry soil) of omnivorous predatory nematodes.
 \item \code{HF}, Energy flow metabolism of herbivorous nematodes.
-\item \code{HM}, Fresh biomass (μg / 100g dry soil) of herbivorous nematodes.
+\item \code{HM}, Fresh biomass (ug / 100g dry soil) of herbivorous nematodes.
 \item \code{FF}, Energy flow metabolism of fungus-feeding nematodes.
-\item \code{FM}, Fresh biomass (μg / 100g dry soil) of fungus-feeding nematodes.
+\item \code{FM}, Fresh biomass (ug / 100g dry soil) of fungus-feeding nematodes.
 \item \code{bp}, Feeding preference of predatory nematodes over bacteria-feeding nematodes.
 \item \code{hp}, Feeding preference of predatory nematodes over herbivorous nematodes.
 \item \code{fp}, Feeding preferences of predatory nematodes over fungivorous nematodes.
-\item \code{fbo}, Energy flow (μg C / 100g dry soil / day) between bacteria-feeding nematodes and omnivorous predatory nematodes.
-\item \code{fho}, Energy flow (μg C / 100g dry soil / day) between herbivorous nematodes and omnivorous predatory nematodes.
-\item \code{ffo}, Energy flow (μg C / 100g dry soil / day) between fungus-feeding nematodes and omnivorous predatory nematodes.
-\item \code{frb}, Energy flow (μg C / 100g dry soil / day) between basal resources and bacteria-feeding nematodes.
-\item \code{frh}, Energy flow (μg C / 100g dry soil / day) between basal resources and herbivorous nematodes.
-\item \code{frf}, Energy flow (μg C / 100g dry soil / day) between basal resources and fungivorous nematodes.
+\item \code{fbo}, Energy flow (ug C / 100g dry soil / day) between bacteria-feeding nematodes and omnivorous predatory nematodes.
+\item \code{fho}, Energy flow (ug C / 100g dry soil / day) between herbivorous nematodes and omnivorous predatory nematodes.
+\item \code{ffo}, Energy flow (ug C / 100g dry soil / day) between fungus-feeding nematodes and omnivorous predatory nematodes.
+\item \code{frb}, Energy flow (ug C / 100g dry soil / day) between basal resources and bacteria-feeding nematodes.
+\item \code{frh}, Energy flow (ug C / 100g dry soil / day) between basal resources and herbivorous nematodes.
+\item \code{frf}, Energy flow (ug C / 100g dry soil / day) between basal resources and fungivorous nematodes.
 \item \code{U}, Uniformity (U) of soil nematode energetic structure (unitless, mean ± standard error) was calculated as the
 ratio of the mean of summed energy flux through each energy channel to the standard deviation of these mean values.
 }

@@ -17,8 +17,8 @@ The \code{\link{nem_plot}} function is generalized to the \code{\link{ef-class}}
 and is used to visualize the energy structure of nematode communities. a five-node
 food web was constructed with bacterivores, fungivores and herbivores receiving
 energy from basal resources (R), omnivores-carnivores receiving energy from other
-nodes. Numbers along the lines represented energy flux (μg C / 100 g dry soil / day).
-The size of nodes corresponds to the fresh biomass (μg / 100 g dry soil).
+nodes. Numbers along the lines represented energy flux (ug C / 100 g dry soil / day).
+The size of nodes corresponds to the fresh biomass (ug / 100 g dry soil).
 Uniformity (U) of soil nematode energetic structure (unitless, mean ± standard error)
 was calculated as the ratio of the mean of summed energy flux through each
 energy channel to the standard deviation of these mean values.

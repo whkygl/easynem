@@ -1,6 +1,6 @@
 Package: easynem
-Title: An R package for nematode community analysis
-Version: 1.0.0.9000
+Title: An R Package for Nematode Community Analysis
+Version: 1.0.0
 Authors@R: 
     person("Wang", "Kunguang", , "whkygl@163.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7384-5002"))
@@ -36,11 +36,11 @@ Imports:
     tidyr,
     utils,
     vegan
-Remotes:
-    github::pmartinezarbizu/pairwiseAdonis/pairwiseAdonis
 Depends: 
     R (>= 2.10)
 LazyData: true
 Suggests: 
+    spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Language: en-US
