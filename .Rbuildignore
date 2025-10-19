@@ -5,3 +5,4 @@
 ^data-raw$
 ^photo$
 ^cran-comments\.md$
+^\.github$
