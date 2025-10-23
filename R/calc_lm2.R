@@ -66,7 +66,7 @@ calc_lm2 <- function(data, group1, group2, x, y, ...){
     dplyr::do({
       model <- stats::lm(formu, data = .)
       result <- summary(model)
-      results_list[[as.character(unique(.[[group2]]))]] <<- result
+      results_list[[as.character(unique(.[[group2]]))]] <- result
       data.frame()
     })
   .lm@result = results_list

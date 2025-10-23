@@ -15,6 +15,11 @@ nem_plot(object, ...)
 
 \item{...}{Other parameters to be expanded.}
 }
+\value{
+A plot object. Typically a \code{ggplot} object for most classes,
+or a \code{recordedplot} object for \code{\link{ter-class}} and
+\code{\link{ter2-class}} ternary plots.
+}
 \description{
 The \code{nem_plot()} is used to visualize the calculation results and is a
 generalized function for multiple classes including \code{\link{beta-class}},

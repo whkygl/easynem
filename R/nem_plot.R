@@ -22,6 +22,10 @@
 #' \code{\link{ter2-class}}, etc.).
 #' @param ... Other parameters to be expanded.
 #'
+#' @return A plot object. Typically a \code{ggplot} object for most classes,
+#' or a \code{recordedplot} object for \code{\link{ter-class}} and
+#' \code{\link{ter2-class}} ternary plots.
+#'
 #' @export
 setGeneric("nem_plot", function(object, ...){
   standardGeneric("nem_plot")
@@ -1615,7 +1619,7 @@ setMethod("nem_plot", signature("ef2"), function(object){
 #' @param legend_cex Size of the legend text. Default is 0.9
 #' @param ... Additional parameters passed to \code{Ternary::TernaryPlot()}.
 #'
-#' @return An \code{gg} or \code{ggplot} object.
+#' @return A \code{recordedplot} object from \code{Ternary::TernaryPlot}.
 #'
 #' @seealso
 #' The \code{nem_plot()} is used to visualize the calculation results and is a
@@ -1744,7 +1748,7 @@ setMethod("nem_plot", signature("ter"), function(object, type, point_size = 1, l
 #' @param legend_cex Size of the legend text. Default is 0.9
 #' @param ... Additional parameters passed to \code{Ternary::TernaryPlot()}.
 #'
-#' @return An \code{gg} or \code{ggplot} object.
+#' @return A \code{recordedplot} object from \code{Ternary::TernaryPlot}.
 #'
 #' @seealso
 #' The \code{nem_plot()} is used to visualize the calculation results and is a

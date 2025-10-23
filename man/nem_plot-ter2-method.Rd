@@ -18,7 +18,7 @@
 \item{...}{Additional parameters passed to \code{Ternary::TernaryPlot()}.}
 }
 \value{
-An \code{gg} or \code{ggplot} object.
+A \code{recordedplot} object from \code{Ternary::TernaryPlot}.
 }
 \description{
 The \code{\link{nem_plot}} function is generalized to the \code{\link{ter2-class}}
