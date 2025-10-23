@@ -60,15 +60,11 @@ calc_lm2 <- function(data, group1, group2, x, y, ...){
   meta = tibble::as_tibble(data@meta)
   meta = meta[,c(names(meta)[1], group1, group2, x, y)]
   formu <- stats::as.formula(paste0(y, " ~ ", x))
-  results_list <- list()
-  meta |>
-    group_by(!!rlang::sym(group2)) |>
-    dplyr::do({
-      model <- stats::lm(formu, data = .)
-      result <- summary(model)
-      results_list[[as.character(unique(.[[group2]]))]] <- result
-      data.frame()
-    })
+  data_split <- split(meta, meta[[group2]])
+  results_list <- lapply(data_split, function(sub_data) {
+    model <- stats::lm(formu, data = sub_data, ...)
+    summary(model)
+  })
   .lm@result = results_list
   .lm@meta = tibble::as_tibble(meta)
   return(.lm)
