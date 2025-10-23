@@ -1,6 +1,6 @@
 Package: easynem
 Title: Nematode Community Analysis
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     person("Wang", "Kunguang", , "whkygl@163.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7384-5002"))
