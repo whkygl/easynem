@@ -351,10 +351,10 @@ setMethod("nem_plot", signature("compare"), function(object, type = 1, add, ...)
     group = meta[,2]
     wmc = object@result$wmc
     wmc = dplyr::select(dplyr::select(dplyr::mutate(wmc, names = paste(Group.1, Group.2, sep = "-")), names, everything()), -Group.1, -Group.2)
-    significant = wmc[,3]
-    names(significant) = wmc$names
+    significant = as.data.frame(wmc)[,3]
+    names(significant) = as.data.frame(wmc)$names
     dif = multcompView::multcompLetters(significant)
-    dif2 = as.data.frame(dif$monospacedLetters)
+    dif2 = as.data.frame(dif$Letters)
     colnames(dif2) <- "label"
     dif2$label <- gsub(" ", "", dif2$label)
     dif2$group <- row.names(dif2)
