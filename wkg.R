@@ -1,4 +1,5 @@
 rm(list = ls())
+usethis::use_github_release()
 # 安装 goodpractice
 install.packages("goodpractice")
 devtools::build()
